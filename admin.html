@@ -10,35 +10,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
+        /* ===== MISMOS ESTILOS QUE ANTES ===== */
         :root {
             --sidebar-width: 260px;
             --sidebar-mobile-width: 80vw;
-
             --primary: #0a0a0a;
             --primary-light: #1a1a1a;
             --red: #cc0000;
             --red-hover: #ff1e1e;
-            --red-suave: #fde8e8;
-
             --success: #10b981;
             --success-light: #ecfdf5;
             --danger: #ef4444;
             --danger-light: #fef2f2;
             --warning: #f59e0b;
             --warning-light: #fffbeb;
-
             --bg-color: #0d0d0d;
             --card-bg: #1a1a1a;
             --text-main: #e5e5e5;
             --text-muted: #888888;
             --border: rgba(255,255,255,0.08);
-
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 18px;
             --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.3);
             --shadow: 0 10px 25px -6px rgba(0,0,0,0.5);
-
             --touch-target: 44px;
         }
 
@@ -106,15 +101,8 @@
             flex-shrink: 0;
         }
 
-        .sidebar-brand .brand-red {
-            color: var(--red);
-        }
-
-        .sidebar-brand span {
-            color: #666;
-            font-weight: 400;
-            font-size: 11px;
-        }
+        .sidebar-brand .brand-red { color: var(--red); }
+        .sidebar-brand span { color: #666; font-weight: 400; font-size: 11px; }
 
         .sidebar-menu {
             padding: 12px 10px;
@@ -154,9 +142,7 @@
             touch-action: manipulation;
         }
 
-        .sidebar-btn-cat:active {
-            transform: scale(0.97);
-        }
+        .sidebar-btn-cat:active { transform: scale(0.97); }
 
         .sidebar-btn-cat .cat-ico {
             width: 28px;
@@ -171,10 +157,7 @@
             transition: all 0.2s ease;
         }
 
-        .sidebar-btn-cat:hover {
-            background: rgba(255,255,255,0.05);
-            color: white;
-        }
+        .sidebar-btn-cat:hover { background: rgba(255,255,255,0.05); color: white; }
 
         .sidebar-btn-cat.active {
             background: linear-gradient(135deg, var(--red), #990000);
@@ -206,11 +189,7 @@
             touch-action: manipulation;
         }
 
-        .btn-logout-side:hover {
-            background: var(--danger);
-            color: white;
-            border-color: var(--danger);
-        }
+        .btn-logout-side:hover { background: var(--danger); color: white; border-color: var(--danger); }
 
         .sidebar-overlay {
             display: none;
@@ -255,11 +234,8 @@
             font-size: 13px;
         }
 
-        .header-title .highlight {
-            color: var(--red);
-        }
+        .header-title .highlight { color: var(--red); }
 
-        /* === TARJETAS DE ESTADISTICAS === */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -353,11 +329,7 @@
         }
 
         .search-box input::placeholder { color: #666; }
-
-        .search-box input:focus {
-            border-color: var(--red);
-            box-shadow: 0 0 0 3px rgba(204,0,0,0.15);
-        }
+        .search-box input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,0,0,0.15); }
 
         .search-box::before {
             content: "🔍";
@@ -394,7 +366,6 @@
         .btn-actualizar:active { transform: scale(0.96); }
         .btn-actualizar:hover { border-color: var(--red); color: var(--red); }
 
-        /* === GRID DE TARJETAS === */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -423,12 +394,7 @@
         }
 
         .product-card:active { transform: scale(0.98); }
-
-        .product-card:hover {
-            border-color: rgba(204,0,0,0.3);
-            box-shadow: var(--shadow);
-            transform: translateY(-2px);
-        }
+        .product-card:hover { border-color: rgba(204,0,0,0.3); box-shadow: var(--shadow); transform: translateY(-2px); }
 
         .product-card-img-wrap {
             position: relative;
@@ -538,7 +504,6 @@
         .btn-delete { background: rgba(239,68,68,0.15); color: var(--danger); border-color: rgba(239,68,68,0.2); }
         .btn-delete:hover { background: var(--danger); color: white; }
 
-        /* === MODAL === */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -661,7 +626,6 @@
         }
 
         select option { background: #1a1a1a; }
-
         textarea { resize: vertical; height: 70px; }
 
         .dropzone-box {
@@ -816,9 +780,7 @@
         /* === LOGIN === */
         #loginScreen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background:
-                radial-gradient(circle at 25% 15%, rgba(204,0,0,0.2), transparent 55%),
-                linear-gradient(160deg, #0a0a0a, #050505);
+            background: radial-gradient(circle at 25% 15%, rgba(204,0,0,0.2), transparent 55%), linear-gradient(160deg, #0a0a0a, #050505);
             display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 16px;
         }
         .login-card {
@@ -844,10 +806,7 @@
             background: #111; color: white; font-size: 15px;
             -webkit-appearance: none;
         }
-        .login-card input:focus {
-            border-color: var(--red);
-            box-shadow: 0 0 0 3px rgba(204,0,0,0.15);
-        }
+        .login-card input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,0,0,0.15); }
         .btn-login-action {
             background: linear-gradient(135deg, var(--red), #990000);
             color: white;
@@ -868,7 +827,6 @@
         .btn-login-action:hover { transform: translateY(-1px); }
         .login-error { color: var(--danger); font-size: 13px; margin-top: 10px; display: none; font-weight: 500; }
 
-        /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
             .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
@@ -877,52 +835,33 @@
 
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
-
-            aside {
-                transform: translateX(-100%);
-                width: var(--sidebar-mobile-width);
-                max-width: 320px;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.3);
-            }
-
+            aside { transform: translateX(-100%); width: var(--sidebar-mobile-width); max-width: 320px; box-shadow: 4px 0 20px rgba(0,0,0,0.3); }
             aside.open { transform: translateX(0); }
             .sidebar-overlay.open { display: block; }
-
-            main {
-                margin-left: 0;
-                width: 100%;
-                padding: 16px 14px 30px;
-                padding-top: 68px;
-            }
-
+            main { margin-left: 0; width: 100%; padding: 16px 14px 30px; padding-top: 68px; }
             header { margin-top: 0; }
             .header-title h1 { font-size: 19px; }
             .header-title p { font-size: 12px; }
-
             .stats-bar { grid-template-columns: 1fr 1fr; gap: 8px; }
             .stat-card { padding: 10px 12px; min-height: 56px; }
             .stat-ico { width: 34px; height: 34px; font-size: 14px; }
             .stat-info b { font-size: 17px; }
-
             .action-bar { flex-direction: column; align-items: stretch; gap: 8px; }
             .btn-primary-action { justify-content: center; width: 100%; }
             .search-box { min-width: unset; width: 100%; }
             .contador-resultados { text-align: center; }
             .btn-actualizar { width: 100%; justify-content: center; }
-
             .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
             .product-card-img-wrap { height: 120px; }
             .product-card-body { padding: 10px 10px 12px; }
             .product-card-body h3 { font-size: 12.5px; }
             .btn-action { font-size: 10.5px; padding: 7px 4px; min-height: 32px; }
-
             .modal-card { max-height: 98vh; margin: 8px; border-radius: var(--radius-md); }
             .modal-header { padding: 14px 16px; }
             .modal-header h3 { font-size: 15px; }
             .modal-body { padding: 14px 16px; }
             .modal-footer { padding: 12px 16px; flex-direction: column-reverse; }
             .modal-footer button { width: 100%; justify-content: center; }
-
             .preview-url-text { max-width: 100px; }
         }
 
@@ -958,11 +897,9 @@
 </head>
 <body>
 
-<!-- ===== BOTÓN MENÚ MÓVIL ===== -->
 <button class="mobile-menu-btn" onclick="toggleMenuMobil()" aria-label="Abrir menú">☰</button>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenuMobil()"></div>
 
-<!-- ===== LOGIN ===== -->
 <div id="loginScreen">
     <div class="login-card">
         <div class="login-logo">REYES <span>PERFORMANCE</span></div>
@@ -974,7 +911,6 @@
     </div>
 </div>
 
-<!-- ===== SIDEBAR ===== -->
 <aside id="appSidebar">
     <div class="sidebar-brand">
         <span class="brand-red">REYES</span> PERFORMANCE
@@ -1049,7 +985,6 @@
     </div>
 </aside>
 
-<!-- ===== MAIN ===== -->
 <main>
     <header>
         <div class="header-title">
@@ -1058,7 +993,6 @@
         </div>
     </header>
 
-    <!-- ===== ESTADÍSTICAS ===== -->
     <div class="stats-bar">
         <div class="stat-card total">
             <div class="stat-ico"><i class="fas fa-boxes"></i></div>
@@ -1078,7 +1012,6 @@
         </div>
     </div>
 
-    <!-- ===== ACCIONES ===== -->
     <div class="action-bar">
         <button class="btn-primary-action" onclick="abrirModalNuevo()">
             <i class="fas fa-plus"></i> Nuevo Producto
@@ -1092,7 +1025,6 @@
         <span class="contador-resultados" id="contadorResultados"></span>
     </div>
 
-    <!-- ===== LISTA DE PRODUCTOS ===== -->
     <div class="products-grid" id="listaProductos">
         <p style="text-align: center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1;">
             <i class="fas fa-spinner fa-spin"></i> Cargando productos...
@@ -1100,7 +1032,6 @@
     </div>
 </main>
 
-<!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="modalProducto">
     <div class="modal-card">
         <div class="modal-header">
@@ -1150,6 +1081,7 @@
             <select id="inputCondicion">
                 <option value="nuevo">Nuevo</option>
                 <option value="usado">Usado</option>
+                <option value="agotado">Agotado</option>
             </select>
 
             <label>Descripción</label>
@@ -1189,7 +1121,6 @@
     </div>
 </div>
 
-<!-- ===== JAVASCRIPT ===== -->
 <script>
     // ============================================
     // CONFIGURACIÓN DE SUPABASE
@@ -1259,11 +1190,11 @@
     }
 
     // ============================================
-    // CRUD DE PRODUCTOS
+    // CRUD DE PRODUCTOS (TABLA CORRECTA: "products")
     // ============================================
     async function cargarProductos() {
         const { data, error } = await supabaseClient
-            .from('productos')
+            .from('products')   // ← TABLA CORRECTA
             .select('*')
             .order('id', { ascending: false });
 
@@ -1279,9 +1210,9 @@
 
     function actualizarEstadisticas() {
         const total = productosGlobales.length;
-        const nuevos = productosGlobales.filter(p => (p.condicion || 'nuevo') === 'nuevo').length;
-        const usados = productosGlobales.filter(p => p.condicion === 'usado').length;
-        const agotados = productosGlobales.filter(p => p.condicion === 'agotado').length;
+        const nuevos = productosGlobales.filter(p => (p.condition || 'nuevo') === 'nuevo').length;
+        const usados = productosGlobales.filter(p => p.condition === 'usado').length;
+        const agotados = productosGlobales.filter(p => p.condition === 'agotado').length;
 
         document.getElementById('statTotal').textContent = total;
         document.getElementById('statNuevo').textContent = nuevos;
@@ -1300,13 +1231,14 @@
     function filtrarPorBusqueda() {
         const textoBusqueda = document.getElementById('inputBuscador').value.toLowerCase().trim();
         let filtrados = productosGlobales.filter(p =>
-            categoriaActual === 'Todas' || p.categoria === categoriaActual
+            categoriaActual === 'Todas' || p.category === categoriaActual
         );
 
         if (textoBusqueda !== '') {
             filtrados = filtrados.filter(p =>
-                (p.titulo && p.titulo.toLowerCase().includes(textoBusqueda)) ||
-                (p.modelo && p.modelo.toLowerCase().includes(textoBusqueda)) ||
+                (p.name && p.name.toLowerCase().includes(textoBusqueda)) ||
+                (p.model && p.model.toLowerCase().includes(textoBusqueda)) ||
+                (p.car_model && p.car_model.toLowerCase().includes(textoBusqueda)) ||
                 (p.id && p.id.toString().includes(textoBusqueda))
             );
         }
@@ -1316,7 +1248,7 @@
 
     function mostrarProductosFiltrados() {
         const filtrados = productosGlobales.filter(p =>
-            categoriaActual === 'Todas' || p.categoria === categoriaActual
+            categoriaActual === 'Todas' || p.category === categoriaActual
         );
         renderizarLista(filtrados);
     }
@@ -1341,24 +1273,29 @@
 
         let html = '';
         lista.forEach(prod => {
-            const primeraImg = (prod.imagenes && prod.imagenes.length > 0) ?
-                prod.imagenes[0] :
+            const primeraImg = (prod.images && prod.images.length > 0) ?
+                prod.images[0] :
                 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%231a1a1a"/%3E%3Ctext x="150" y="110" font-family="Arial" font-size="18" fill="%23666" text-anchor="middle"%3ESin imagen%3C/text%3E%3C/svg%3E';
 
-            const badgeClass = prod.condicion === 'nuevo' ? 'nuevo' : 'usado';
-            const badgeLabel = prod.condicion === 'nuevo' ? 'Nuevo' : 'Usado';
+            const badgeClass = prod.condition === 'nuevo' ? 'nuevo' : (prod.condition === 'usado' ? 'usado' : '');
+            const badgeLabel = prod.condition === 'nuevo' ? 'Nuevo' : (prod.condition === 'usado' ? 'Usado' : 'Agotado');
+
+            const displayName = prod.name || 'Sin título';
+            const displayModel = prod.model || prod.car_model || '';
+            const displayYear = prod.year || '';
+            const displayCategory = prod.category || 'Sin categoría';
 
             html += `
                 <div class="product-card">
                     <div class="product-card-img-wrap">
                         <span class="card-id-badge">#${prod.id}</span>
-                        <span class="badge ${badgeClass}">${badgeLabel}</span>
+                        ${badgeClass ? `<span class="badge ${badgeClass}">${badgeLabel}</span>` : ''}
                         <img src="${primeraImg}" class="product-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,%253Csvg xmlns=%2522http://www.w3.org/2000/svg%2522 width=%2522300%2522 height=%2522200%2522 viewBox=%25220 0 300 200%2522%253E%253Crect width=%2522300%2522 height=%2522200%2522 fill=%2522%25231a1a1a%2522/%253E%253Ctext x=%2522150%2522 y=%2522110%2522 font-family=%2522Arial%2522 font-size=%252218%2522 fill=%2522%2523666%2522 text-anchor=%2522middle%2522%253ESin imagen%253C/text%253E%253C/svg%253E'">
                     </div>
                     <div class="product-card-body">
-                        <h3>${prod.titulo || 'Sin título'}</h3>
-                        <span class="card-categoria">${prod.categoria || 'Sin categoría'} ${prod.modelo ? '· ' + prod.modelo : ''} ${prod.year ? '· ' + prod.year : ''}</span>
-                        <div class="card-precio">$${prod.precio ? Number(prod.precio).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'}</div>
+                        <h3>${displayName}</h3>
+                        <span class="card-categoria">${displayCategory} ${displayModel ? '· ' + displayModel : ''} ${displayYear ? '· ' + displayYear : ''}</span>
+                        <div class="card-precio">$${prod.price ? Number(prod.price).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'}</div>
                         <div class="card-actions">
                             <button class="btn-action btn-edit" onclick="abrirModalEditar(${prod.id})"><i class="fas fa-edit"></i> Editar</button>
                             <button class="btn-action btn-delete" onclick="eliminarProducto(${prod.id})"><i class="fas fa-trash"></i> Eliminar</button>
@@ -1395,14 +1332,14 @@
 
         document.getElementById('modalTitulo').innerHTML = '<span class="highlight">Editar</span> Producto';
         document.getElementById('productoIdOriginal').value = prod.id;
-        document.getElementById('inputTitulo').value = prod.titulo || '';
-        document.getElementById('inputModelo').value = prod.modelo || '';
+        document.getElementById('inputTitulo').value = prod.name || '';
+        document.getElementById('inputModelo').value = prod.model || prod.car_model || '';
         document.getElementById('inputYear').value = prod.year || '';
-        document.getElementById('inputCategoria').value = prod.categoria || 'defensa-frontal';
-        document.getElementById('inputCondicion').value = prod.condicion || 'nuevo';
-        document.getElementById('inputDescripcion').value = prod.descripcion || '';
-        document.getElementById('inputPrecio').value = prod.precio || '';
-        imagenesActuales = prod.imagenes ? [...prod.imagenes] : [];
+        document.getElementById('inputCategoria').value = prod.category || 'defensa-frontal';
+        document.getElementById('inputCondicion').value = prod.condition || 'nuevo';
+        document.getElementById('inputDescripcion').value = prod.description || '';
+        document.getElementById('inputPrecio').value = prod.price || '';
+        imagenesActuales = prod.images ? [...prod.images] : [];
         renderizarPreviews();
         document.getElementById('modalProducto').style.display = 'flex';
     }
@@ -1436,7 +1373,6 @@
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            const extension = file.name.split('.').pop();
             const nombreBase = file.name.replace(/\.[^/.]+$/, '');
             const ruta = `${Date.now()}_${i}_${nombreBase}.webp`;
 
@@ -1523,48 +1459,48 @@
     }
 
     // ============================================
-    // GUARDAR PRODUCTO
+    // GUARDAR PRODUCTO (TABLA "products")
     // ============================================
     async function guardarProducto() {
         const idOriginal = document.getElementById('productoIdOriginal').value;
-        const titulo = document.getElementById('inputTitulo').value.trim();
-        const modelo = document.getElementById('inputModelo').value.trim();
+        const name = document.getElementById('inputTitulo').value.trim();
+        const model = document.getElementById('inputModelo').value.trim();
         const year = document.getElementById('inputYear').value.trim();
-        const categoria = document.getElementById('inputCategoria').value;
-        const condicion = document.getElementById('inputCondicion').value;
-        const descripcion = document.getElementById('inputDescripcion').value.trim();
-        const precio = parseFloat(document.getElementById('inputPrecio').value) || 0;
+        const category = document.getElementById('inputCategoria').value;
+        const condition = document.getElementById('inputCondicion').value;
+        const description = document.getElementById('inputDescripcion').value.trim();
+        const price = parseFloat(document.getElementById('inputPrecio').value) || 0;
 
-        if (!titulo) {
+        if (!name) {
             alert('El título del producto es obligatorio.');
             return;
         }
 
-        if (!modelo) {
+        if (!model) {
             alert('El modelo del producto es obligatorio.');
             return;
         }
 
-        if (!categoria) {
+        if (!category) {
             alert('La categoría es obligatoria.');
             return;
         }
 
-        if (precio <= 0) {
+        if (price <= 0) {
             alert('El precio debe ser mayor a 0.');
             return;
         }
 
         const datos = {
-            titulo,
-            modelo,
-            year,
-            categoria,
-            condicion,
-            descripcion,
-            precio,
-            precio_contado: precio,
-            imagenes: imagenesActuales,
+            name: name,
+            model: model,
+            car_model: model,  // Para compatibilidad con búsquedas
+            year: year,
+            category: category,
+            condition: condition,
+            description: description,
+            price: price,
+            images: imagenesActuales,
             updated_at: new Date().toISOString()
         };
 
@@ -1574,13 +1510,13 @@
         try {
             if (idOriginal) {
                 await supabaseClient
-                    .from('productos')
+                    .from('products')
                     .update(datos)
                     .eq('id', parseInt(idOriginal));
             } else {
                 datos.created_at = new Date().toISOString();
                 await supabaseClient
-                    .from('productos')
+                    .from('products')
                     .insert([datos]);
             }
 
@@ -1604,15 +1540,15 @@
 
         try {
             const { data: producto, error: fetchError } = await supabaseClient
-                .from('productos')
-                .select('imagenes')
+                .from('products')
+                .select('images')
                 .eq('id', id)
                 .single();
 
             if (fetchError) throw fetchError;
 
-            if (producto && producto.imagenes && producto.imagenes.length > 0) {
-                const rutas = producto.imagenes.map(url => {
+            if (producto && producto.images && producto.images.length > 0) {
+                const rutas = producto.images.map(url => {
                     const parts = url.split('/');
                     return parts[parts.length - 1].split('?')[0];
                 });
@@ -1625,7 +1561,7 @@
             }
 
             await supabaseClient
-                .from('productos')
+                .from('products')
                 .delete()
                 .eq('id', id);
 
