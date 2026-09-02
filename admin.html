@@ -143,19 +143,6 @@
 
         .sidebar-btn-cat:active { transform: scale(0.97); }
 
-        .sidebar-btn-cat .cat-ico {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-
         .sidebar-btn-cat:hover { background: rgba(255,255,255,0.05); color: white; }
 
         .sidebar-btn-cat.active {
@@ -164,8 +151,6 @@
             font-weight: 600;
             box-shadow: 0 6px 16px rgba(204,0,0,0.35);
         }
-
-        .sidebar-btn-cat.active .cat-ico { background: rgba(255,255,255,0.18); }
 
         .sidebar-footer {
             padding: 14px 16px;
@@ -329,14 +314,10 @@
         .search-box input::placeholder { color: #666; }
         .search-box input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,0,0,0.15); }
 
+        /* Quitamos el emoji de la lupa del buscador */
         .search-box::before {
-            content: "🔍";
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            pointer-events: none;
+            content: "";
+            display: none;
         }
 
         .contador-resultados {
@@ -909,6 +890,7 @@
     </div>
 </div>
 
+<!-- ===== SIDEBAR SIN ICONOS ===== -->
 <aside id="appSidebar">
     <div class="sidebar-brand">
         <span class="brand-red">REYES</span> PERFORMANCE
@@ -916,68 +898,40 @@
     </div>
     <div class="sidebar-menu">
         <div class="menu-label">Vista general</div>
-        <button class="sidebar-btn-cat active" onclick="filtrarCategoria('Todas', this)">
-            <span class="cat-ico"><i class="fas fa-th-list"></i></span> Todas
-        </button>
+        <button class="sidebar-btn-cat active" onclick="filtrarCategoria('Todas', this)">Todas</button>
+
         <div class="menu-label">Exterior</div>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('defensa-frontal', this)">
-            <span class="cat-ico"><i class="fas fa-car-front"></i></span> Defensas Frontales
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('defensa-trasera', this)">
-            <span class="cat-ico"><i class="fas fa-car-side"></i></span> Defensas Traseras
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('parrillas', this)">
-            <span class="cat-ico"><i class="fas fa-grip"></i></span> Parrillas
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('cofres', this)">
-            <span class="cat-ico"><i class="fas fa-box"></i></span> Cofres
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('salpicaderas-delanteras', this)">
-            <span class="cat-ico"><i class="fas fa-fender"></i></span> Salpicaderas
-        </button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('defensa-frontal', this)">Defensas Frontales</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('defensa-trasera', this)">Defensas Traseras</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('parrillas', this)">Parrillas</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('cofres', this)">Cofres</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('salpicaderas-delanteras', this)">Salpicaderas</button>
+
         <div class="menu-label">Laterales</div>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('laterales', this)">
-            <span class="cat-ico"><i class="fas fa-door-open"></i></span> Faldones Laterales
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('puertas', this)">
-            <span class="cat-ico"><i class="fas fa-door-closed"></i></span> Puertas
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('espejos', this)">
-            <span class="cat-ico"><i class="fas fa-eye"></i></span> Espejos
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('vidrios', this)">
-            <span class="cat-ico"><i class="fas fa-window-maximize"></i></span> Vidrios
-        </button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('laterales', this)">Faldones Laterales</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('puertas', this)">Puertas</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('espejos', this)">Espejos</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('vidrios', this)">Vidrios</button>
+
         <div class="menu-label">Luces y Radiadores</div>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('iluminacion', this)">
-            <span class="cat-ico"><i class="fas fa-lightbulb"></i></span> Iluminación
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('enfriamiento', this)">
-            <span class="cat-ico"><i class="fas fa-fan"></i></span> Radiadores
-        </button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('iluminacion', this)">Iluminación</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('enfriamiento', this)">Radiadores</button>
+
         <div class="menu-label">Interiores</div>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('tablero-y-consola', this)">
-            <span class="cat-ico"><i class="fas fa-dashboard"></i></span> Tableros
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('bolsas-de-aire', this)">
-            <span class="cat-ico"><i class="fas fa-airbag"></i></span> Airbags
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('cinturones-y-volantes', this)">
-            <span class="cat-ico"><i class="fas fa-steering-wheel"></i></span> Cinturones & Volantes
-        </button>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('asientos-y-tapiceria', this)">
-            <span class="cat-ico"><i class="fas fa-chair"></i></span> Asientos & Tapicería
-        </button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('tablero-y-consola', this)">Tableros</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('bolsas-de-aire', this)">Airbags</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('cinturones-y-volantes', this)">Cinturones &amp; Volantes</button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('asientos-y-tapiceria', this)">Asientos &amp; Tapicería</button>
+
         <div class="menu-label">Accesorios</div>
-        <button class="sidebar-btn-cat" onclick="filtrarCategoria('accesorio', this)">
-            <span class="cat-ico"><i class="fas fa-star"></i></span> Accesorios
-        </button>
+        <button class="sidebar-btn-cat" onclick="filtrarCategoria('accesorio', this)">Accesorios</button>
     </div>
     <div class="sidebar-footer">
-        <button class="btn-logout-side" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        <button class="btn-logout-side" onclick="cerrarSesion()">Cerrar Sesión</button>
     </div>
 </aside>
 
+<!-- ===== MAIN ===== -->
 <main>
     <header>
         <div class="header-title">
@@ -1025,6 +979,7 @@
     </div>
 </main>
 
+<!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="modalProducto">
     <div class="modal-card">
         <div class="modal-header">
