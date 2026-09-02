@@ -55,11 +55,6 @@
         -moz-osx-font-smoothing: grayscale;
       }
 
-      /* Forzar scroll al inicio */
-      body {
-        position: relative;
-      }
-
       .main-wrapper {
         max-width: 100vw;
         overflow-x: hidden;
@@ -314,21 +309,22 @@
         transform: translateY(-2px);
       }
 
-      /* ===== FILTROS - SIN EMOJIS ===== */
+      /* ===== FILTROS - ORGANIZADOS POR FILAS ===== */
       .filters-container {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
         width: 100%;
+        padding: 10px 0;
       }
 
       .filter-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 4px;
         align-items: center;
-        padding: 6px 0;
-        border-bottom: 1px solid rgba(60, 60, 60, 0.2);
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(60, 60, 60, 0.15);
       }
       .filter-row:last-child {
         border-bottom: none;
@@ -347,14 +343,14 @@
       .filter-label i {
         margin-right: 4px;
         color: #cc0000;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
       }
 
       .filter-btn {
-        font-size: 0.65rem;
-        padding: 4px 12px;
+        font-size: 0.6rem;
+        padding: 3px 10px;
         touch-action: manipulation;
-        min-height: 28px;
+        min-height: 24px;
         cursor: pointer;
         border: 1px solid rgba(60, 60, 60, 0.3);
         transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -363,7 +359,6 @@
         background: rgba(20, 20, 20, 0.6);
         color: #999;
         white-space: nowrap;
-        font-size: 0.6rem;
       }
       .filter-btn:hover {
         border-color: #cc0000;
@@ -374,7 +369,7 @@
         background: rgba(204, 0, 0, 0.2);
         color: #ff1e1e;
         border-color: #cc0000;
-        box-shadow: 0 0 20px rgba(204, 0, 0, 0.08);
+        box-shadow: 0 0 15px rgba(204, 0, 0, 0.08);
       }
 
       .filter-btn-all {
@@ -382,8 +377,8 @@
         border-color: rgba(204, 0, 0, 0.25);
         color: #cc6666;
         font-weight: 600;
-        padding: 4px 16px;
-        font-size: 0.65rem;
+        padding: 3px 14px;
+        font-size: 0.6rem;
       }
       .filter-btn-all.active {
         background: rgba(204, 0, 0, 0.25);
@@ -395,39 +390,22 @@
         color: #ff1e1e;
       }
 
+      .filter-row-todos {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 2px;
+        border-bottom: none !important;
+      }
+
+      /* Responsive */
       @media (max-width: 768px) {
         .filter-row {
-          gap: 4px;
-          padding: 4px 0;
+          gap: 3px;
+          padding: 3px 0;
         }
         .filter-label {
           font-size: 0.5rem;
           min-width: 55px;
-        }
-        .filter-btn {
-          font-size: 0.55rem;
-          padding: 3px 10px;
-          min-height: 24px;
-        }
-        .filter-btn-all {
-          font-size: 0.55rem;
-          padding: 3px 12px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .filter-row {
-          gap: 3px;
-          padding: 3px 0;
-          flex-wrap: wrap;
-        }
-        .filter-label {
-          font-size: 0.45rem;
-          min-width: 45px;
-          padding-right: 4px;
-        }
-        .filter-label i {
-          font-size: 0.55rem;
         }
         .filter-btn {
           font-size: 0.5rem;
@@ -440,25 +418,50 @@
         }
       }
 
+      @media (max-width: 480px) {
+        .filter-row {
+          gap: 2px;
+          padding: 2px 0;
+        }
+        .filter-label {
+          font-size: 0.45rem;
+          min-width: 45px;
+          padding-right: 4px;
+        }
+        .filter-label i {
+          font-size: 0.5rem;
+        }
+        .filter-btn {
+          font-size: 0.45rem;
+          padding: 2px 6px;
+          min-height: 18px;
+          border-radius: 30px;
+        }
+        .filter-btn-all {
+          font-size: 0.45rem;
+          padding: 2px 8px;
+        }
+      }
+
       /* ===== BUSCADOR ===== */
       .search-wrapper {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         width: 100%;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
 
       .search-input {
         background: rgba(20, 20, 20, 0.8);
         border: 2px solid #333;
         color: white;
-        padding: 10px 18px;
+        padding: 8px 16px;
         border-radius: 50px;
         flex: 1;
         min-width: 150px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         transition: all 0.3s ease;
         outline: none;
         backdrop-filter: blur(8px);
@@ -476,7 +479,7 @@
 
       .search-results-count {
         color: #888;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 500;
         white-space: nowrap;
       }
@@ -485,16 +488,16 @@
         .search-wrapper {
           flex-direction: column;
           align-items: stretch;
-          gap: 6px;
+          gap: 4px;
         }
         .search-input {
-          padding: 8px 14px;
-          font-size: 0.75rem;
+          padding: 7px 14px;
+          font-size: 0.7rem;
           min-width: 100%;
         }
         .search-results-count {
           text-align: center;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
         }
       }
 
@@ -1126,11 +1129,11 @@
           <span id="resultsCount" class="search-results-count">0 productos</span>
         </div>
 
-        <!-- ===== FILTROS - SIN EMOJIS ===== -->
-        <div class="filters-container mb-4 md:mb-6">
-          <!-- Fila 1: Exterior -->
+        <!-- ===== FILTROS - ORGANIZADOS POR FILAS ===== -->
+        <div class="filters-container">
+          <!-- Fila 1: EXTERIOR -->
           <div class="filter-row">
-            <span class="filter-label"><i class="fas fa-car"></i> Exterior</span>
+            <span class="filter-label">EXTERIOR</span>
             <button class="filter-btn" data-filter="defensa-frontal">Frontales</button>
             <button class="filter-btn" data-filter="parrillas">Parrillas</button>
             <button class="filter-btn" data-filter="cofres">Cofres</button>
@@ -1140,34 +1143,34 @@
             <button class="filter-btn" data-filter="difusores">Difusores</button>
           </div>
 
-          <!-- Fila 2: Laterales y Estructura -->
+          <!-- Fila 2: LATERALES -->
           <div class="filter-row">
-            <span class="filter-label"><i class="fas fa-door-open"></i> Laterales</span>
+            <span class="filter-label">LATERALES</span>
             <button class="filter-btn" data-filter="laterales">Faldones</button>
             <button class="filter-btn" data-filter="puertas">Puertas</button>
             <button class="filter-btn" data-filter="espejos">Espejos</button>
             <button class="filter-btn" data-filter="vidrios">Vidrios</button>
           </div>
 
-          <!-- Fila 3: Luces y Enfriamiento -->
+          <!-- Fila 3: LUCES -->
           <div class="filter-row">
-            <span class="filter-label"><i class="fas fa-lightbulb"></i> Luces</span>
+            <span class="filter-label">LUCES</span>
             <button class="filter-btn" data-filter="iluminacion">Iluminacion</button>
             <button class="filter-btn" data-filter="enfriamiento">Radiadores</button>
           </div>
 
-          <!-- Fila 4: Interiores -->
+          <!-- Fila 4: INTERIORES -->
           <div class="filter-row">
-            <span class="filter-label"><i class="fas fa-chair"></i> Interiores</span>
+            <span class="filter-label">INTERIORES</span>
             <button class="filter-btn" data-filter="tablero-y-consola">Tableros</button>
             <button class="filter-btn" data-filter="bolsas-de-aire">Airbags</button>
             <button class="filter-btn" data-filter="cinturones-y-volantes">Cinturones</button>
             <button class="filter-btn" data-filter="asientos-y-tapiceria">Asientos</button>
           </div>
 
-          <!-- Fila 5: Accesorios y Todos -->
-          <div class="filter-row" style="border-bottom: none; padding-top: 4px;">
-            <span class="filter-label"><i class="fas fa-star"></i> Extras</span>
+          <!-- Fila 5: EXTRAS + TODOS -->
+          <div class="filter-row" style="border-bottom: none;">
+            <span class="filter-label">EXTRAS</span>
             <button class="filter-btn" data-filter="accesorio">Accesorios</button>
             <button class="filter-btn filter-btn-all active" data-filter="all" style="margin-left: auto;">Todos</button>
           </div>
@@ -1290,7 +1293,7 @@
       (function () {
         "use strict";
 
-        // Forzar scroll al inicio de la página
+        // Forzar scroll al inicio
         if (window.location.hash === '') {
           window.scrollTo(0, 0);
         }
@@ -1887,12 +1890,11 @@
           console.log(`${allProducts.length} productos cargados`);
         }
 
-        // Forzar scroll al inicio después de cargar
+        // Forzar scroll al inicio
         if (window.location.hash === '') {
           window.scrollTo(0, 0);
         }
 
-        // También al recargar
         window.addEventListener('load', function() {
           if (window.location.hash === '') {
             window.scrollTo(0, 0);
