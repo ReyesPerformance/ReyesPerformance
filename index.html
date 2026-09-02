@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* === FUENTE HAUSER BOLD === */
+    /* === RESET Y FUENTES === */
     @font-face {
       font-family: "Hauser Bold";
       src: url("fonts/Hauser Bold.otf") format("opentype");
@@ -22,6 +22,12 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    /* === PREVENIR ZOOM EN INPUTS (iPhone) === */
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+
     html { scroll-behavior: smooth; }
     html, body {
       max-width: 100%;
@@ -53,7 +59,7 @@
     .header-with-logo {
       position: relative;
       width: 100%;
-      min-height: 65vh;
+      min-height: 55vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -65,8 +71,8 @@
     /* === LOGO === */
     .logo-container {
       position: absolute;
-      top: 25px;
-      left: 25px;
+      top: 20px;
+      left: 20px;
       z-index: 20;
       padding: 0;
       display: block;
@@ -76,7 +82,7 @@
     }
     .logo-container:hover { transform: scale(1.08) rotate(-1deg); }
     .logo-container img {
-      height: 140px;
+      height: 120px;
       width: auto;
       display: block;
       filter: drop-shadow(0 0 30px rgba(204,0,0,0.35));
@@ -84,43 +90,43 @@
     }
     .logo-container:hover img { filter: drop-shadow(0 0 60px rgba(204,0,0,0.7)); }
 
-    @media (max-width: 1200px) { .logo-container { top: 18px; left: 18px; } .logo-container img { height: 110px; } }
-    @media (max-width: 992px) { .logo-container { top: 16px; left: 16px; } .logo-container img { height: 95px; } }
-    @media (max-width: 768px) { .logo-container { top: 14px; left: 14px; } .logo-container img { height: 85px; } }
-    @media (max-width: 480px) { .logo-container { top: 12px; left: 12px; } .logo-container img { height: 100px; } }
+    @media (max-width: 1200px) { .logo-container { top: 15px; left: 15px; } .logo-container img { height: 95px; } }
+    @media (max-width: 992px) { .logo-container { top: 12px; left: 12px; } .logo-container img { height: 80px; } }
+    @media (max-width: 768px) { .logo-container { top: 10px; left: 10px; } .logo-container img { height: 70px; } }
+    @media (max-width: 480px) { .logo-container { top: 8px; left: 8px; } .logo-container img { height: 75px; } }
 
     /* === TÍTULO === */
     .hero-title {
       font-family: "Hauser Bold", "Orbitron", sans-serif;
-      font-size: clamp(3rem, 10vw, 6.5rem);
+      font-size: clamp(2.2rem, 8vw, 5.5rem);
       line-height: 1.05;
       letter-spacing: 0.08em;
       font-weight: 700;
       text-transform: uppercase;
       text-align: center;
       width: 100%;
-      margin-top: clamp(70px, 14vh, 140px);
+      margin-top: clamp(60px, 12vh, 120px);
     }
     .hero-title .reyes { color: #ff1e1e; text-shadow: 0 0 40px rgba(255,30,30,0.5), 0 0 80px rgba(204,0,0,0.2); display: inline-block; }
     .hero-title .performance { color: white; text-shadow: 0 0 40px rgba(255,255,255,0.15); display: inline-block; }
 
     .hero-subtitle {
       font-family: "Hauser Bold", "Orbitron", sans-serif;
-      font-size: clamp(0.9rem, 2.6vw, 2rem);
+      font-size: clamp(0.7rem, 2vw, 1.6rem);
       line-height: 1.4;
       letter-spacing: 0.15em;
       font-weight: 500;
       color: rgba(255,60,60,0.9);
       text-align: center;
       width: 100%;
-      margin-top: 0.6rem;
+      margin-top: 0.4rem;
       padding: 0 15px;
       text-shadow: 0 0 20px rgba(255,30,30,0.2);
     }
 
     @media (max-width: 480px) {
-      .hero-title { margin-top: 80px; font-size: clamp(2.4rem, 8vw, 3rem); letter-spacing: 0.06em; }
-      .hero-subtitle { font-size: clamp(0.75rem, 2.4vw, 0.95rem); letter-spacing: 0.1em; }
+      .hero-title { margin-top: 65px; font-size: clamp(2rem, 7vw, 2.6rem); letter-spacing: 0.06em; }
+      .hero-subtitle { font-size: clamp(0.6rem, 2vw, 0.8rem); letter-spacing: 0.1em; }
     }
 
     /* === TARJETAS === */
@@ -152,11 +158,13 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       border: none;
       touch-action: manipulation;
-      min-height: 48px;
-      min-width: 48px;
+      min-height: 44px;
+      min-width: 44px;
       cursor: pointer;
       border-radius: 50px;
       box-shadow: 0 4px 25px rgba(204,0,0,0.3);
+      font-size: 0.85rem;
+      padding: 10px 24px;
     }
     .btn-racing:hover { background: linear-gradient(135deg, #ff1e1e, #cc0000); box-shadow: 0 6px 40px rgba(255,30,30,0.5); transform: translateY(-2px) scale(1.03); }
 
@@ -167,19 +175,20 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       border: none;
       touch-action: manipulation;
-      min-height: 40px;
+      min-height: 36px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 10px 20px;
+      gap: 6px;
+      padding: 8px 16px;
       border-radius: 50px;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       box-shadow: 0 4px 20px rgba(37,211,102,0.3);
       white-space: nowrap;
     }
     .btn-whatsapp:hover { background: linear-gradient(135deg, #30d96e, #1da851); box-shadow: 0 6px 35px rgba(37,211,102,0.5); transform: translateY(-2px) scale(1.04); }
+    @media (max-width: 480px) { .btn-whatsapp { font-size: 0.65rem; padding: 6px 12px; min-height: 30px; gap: 4px; } }
 
     .btn-outline-racing {
       background: transparent;
@@ -188,19 +197,20 @@
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       touch-action: manipulation;
-      min-height: 48px;
+      min-height: 44px;
       cursor: pointer;
       border-radius: 50px;
-      padding: 0 24px;
+      padding: 0 20px;
+      font-size: 0.85rem;
     }
     .btn-outline-racing:hover { background: rgba(204,0,0,0.15); border-color: #ff1e1e; box-shadow: 0 0 30px rgba(204,0,0,0.2); transform: translateY(-2px); }
 
     /* ============================================
-       FILTROS - ESTILO "MUEBLERIA" (HORIZONTAL SCROLL)
+       FILTROS - ESTILO "MUEBLERIA" (TAMAÑO MEJORADO)
        ============================================ */
     .filters-wrapper {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     /* === Categorías principales (scroll horizontal) === */
@@ -208,15 +218,15 @@
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
-      gap: 8px;
-      padding: 6px 2px 10px 2px;
+      gap: 10px;
+      padding: 8px 2px 12px 2px;
       scrollbar-width: thin;
       scrollbar-color: #cc0000 transparent;
       -webkit-overflow-scrolling: touch;
       white-space: nowrap;
     }
     .categories-scroll::-webkit-scrollbar {
-      height: 3px;
+      height: 4px;
     }
     .categories-scroll::-webkit-scrollbar-track {
       background: transparent;
@@ -228,11 +238,11 @@
 
     .cat-btn {
       flex-shrink: 0;
-      padding: 6px 16px;
-      font-size: 0.7rem;
-      font-weight: 600;
+      padding: 10px 22px;
+      font-size: 0.85rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       border: 1px solid rgba(60,60,60,0.3);
       border-radius: 50px;
       background: rgba(20,20,20,0.6);
@@ -251,7 +261,7 @@
       background: rgba(204,0,0,0.2);
       color: #ff1e1e;
       border-color: #cc0000;
-      box-shadow: 0 0 20px rgba(204,0,0,0.1);
+      box-shadow: 0 0 25px rgba(204,0,0,0.12);
     }
 
     /* === Subcategorías (scroll horizontal) === */
@@ -259,19 +269,19 @@
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
-      gap: 6px;
-      padding: 4px 2px 6px 2px;
+      gap: 8px;
+      padding: 8px 2px 10px 2px;
       scrollbar-width: thin;
       scrollbar-color: #555 transparent;
       -webkit-overflow-scrolling: touch;
       white-space: nowrap;
-      min-height: 32px;
+      min-height: 40px;
       border-top: 1px solid rgba(60,60,60,0.15);
-      padding-top: 8px;
-      margin-top: 2px;
+      padding-top: 10px;
+      margin-top: 4px;
     }
     .subcategories-scroll::-webkit-scrollbar {
-      height: 2px;
+      height: 3px;
     }
     .subcategories-scroll::-webkit-scrollbar-track {
       background: transparent;
@@ -283,13 +293,13 @@
 
     .subcat-btn {
       flex-shrink: 0;
-      padding: 4px 12px;
-      font-size: 0.6rem;
-      font-weight: 500;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
       border: 1px solid rgba(60,60,60,0.2);
       border-radius: 50px;
       background: rgba(20,20,20,0.4);
-      color: #777;
+      color: #888;
       cursor: pointer;
       transition: all 0.25s ease;
       touch-action: manipulation;
@@ -297,7 +307,7 @@
     }
     .subcat-btn:hover {
       border-color: #cc0000;
-      color: #ccc;
+      color: #ddd;
       background: rgba(40,40,40,0.6);
     }
     .subcat-btn.active {
@@ -308,9 +318,37 @@
 
     .subcat-placeholder {
       color: #555;
-      font-size: 0.6rem;
-      padding: 4px 0;
+      font-size: 0.75rem;
+      padding: 6px 0;
       font-style: italic;
+    }
+
+    /* === AJUSTES RESPONSIVE === */
+    @media (max-width: 768px) {
+      .cat-btn {
+        padding: 8px 16px;
+        font-size: 0.75rem;
+      }
+      .subcat-btn {
+        padding: 5px 14px;
+        font-size: 0.7rem;
+      }
+      .categories-scroll { gap: 8px; padding: 6px 2px 10px 2px; }
+      .subcategories-scroll { gap: 6px; padding: 6px 2px 8px 2px; min-height: 36px; }
+    }
+
+    @media (max-width: 480px) {
+      .cat-btn {
+        padding: 7px 14px;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+      }
+      .subcat-btn {
+        padding: 4px 12px;
+        font-size: 0.65rem;
+      }
+      .categories-scroll { gap: 6px; padding: 5px 2px 8px 2px; }
+      .subcategories-scroll { gap: 5px; padding: 5px 2px 6px 2px; min-height: 32px; }
     }
 
     /* === BUSCADOR === */
@@ -318,33 +356,32 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .search-input {
       background: rgba(20,20,20,0.8);
       border: 2px solid #333;
       color: white;
-      padding: 8px 16px;
+      padding: 10px 18px;
       border-radius: 50px;
       flex: 1;
       min-width: 150px;
-      font-size: 0.8rem;
+      font-size: 16px !important; /* Previene zoom en iPhone */
       transition: all 0.3s ease;
       outline: none;
       backdrop-filter: blur(8px);
+      -webkit-appearance: none;
     }
-    .search-input::placeholder { color: #666; font-weight: 300; }
+    .search-input::placeholder { color: #666; font-weight: 300; font-size: 14px; }
     .search-input:focus { border-color: #cc0000; box-shadow: 0 0 30px rgba(204,0,0,0.1); background: rgba(30,30,30,0.9); }
-    .search-results-count { color: #888; font-size: 0.7rem; font-weight: 500; white-space: nowrap; }
+    .search-results-count { color: #888; font-size: 0.8rem; font-weight: 500; white-space: nowrap; }
 
     @media (max-width: 480px) {
-      .search-wrapper { flex-direction: column; align-items: stretch; gap: 4px; }
-      .search-input { padding: 7px 14px; font-size: 0.7rem; min-width: 100%; }
-      .search-results-count { text-align: center; font-size: 0.6rem; }
-      .cat-btn { font-size: 0.6rem; padding: 4px 12px; }
-      .subcat-btn { font-size: 0.55rem; padding: 3px 10px; }
+      .search-wrapper { flex-direction: column; align-items: stretch; gap: 6px; }
+      .search-input { padding: 10px 16px; font-size: 16px !important; min-width: 100%; }
+      .search-results-count { text-align: center; font-size: 0.7rem; }
     }
 
     /* === IMÁGENES === */
@@ -383,7 +420,7 @@
     /* === REFERENCIAS === */
     .referencia-img {
       width: 100%;
-      height: 380px;
+      height: 350px;
       object-fit: cover;
       background: #0a0a0a;
       border-radius: 14px;
@@ -395,13 +432,13 @@
       box-shadow: 0 4px 30px rgba(204,0,0,0.1);
     }
     .referencia-img:hover { transform: scale(1.03); border-color: #cc0000; box-shadow: 0 8px 50px rgba(204,0,0,0.3); }
-    @media (max-width: 768px) { .referencia-img { height: 280px; } }
-    @media (max-width: 480px) { .referencia-img { height: 220px; } }
+    @media (max-width: 768px) { .referencia-img { height: 260px; } }
+    @media (max-width: 480px) { .referencia-img { height: 210px; } }
 
     .referencia-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%, transparent 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%, transparent 100%);
       opacity: 0;
       transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       border-radius: 14px;
@@ -409,15 +446,15 @@
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding: 24px;
+      padding: 20px;
     }
     .referencia-container:hover .referencia-overlay { opacity: 1; }
     .referencia-overlay .btn-ver {
       background: rgba(204,0,0,0.9);
       color: white;
-      padding: 12px 28px;
+      padding: 10px 24px;
       border-radius: 50px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
@@ -425,26 +462,26 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       cursor: pointer;
       box-shadow: 0 4px 30px rgba(204,0,0,0.3);
     }
     .referencia-overlay .btn-ver:hover { background: #cc0000; transform: scale(1.05); }
     .referencia-overlay .chat-label {
       color: rgba(255,255,255,0.8);
-      font-size: 13px;
-      margin-bottom: 10px;
+      font-size: 12px;
+      margin-bottom: 8px;
       background: rgba(0,0,0,0.5);
-      padding: 6px 18px;
+      padding: 4px 16px;
       border-radius: 20px;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 500;
     }
-    .referencia-overlay .chat-label i { color: #25d366; font-size: 14px; }
+    .referencia-overlay .chat-label i { color: #25d366; font-size: 13px; }
 
     /* === MODAL === */
     .modal {
@@ -631,7 +668,7 @@
       padding: 0.15rem 0.8rem;
       border-radius: 20px;
       border-left: 2px solid #cc0000;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 500;
       white-space: nowrap;
       display: inline-block;
@@ -651,11 +688,11 @@
     .loading-spinner i { animation: spin 1s linear infinite; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    .section-padding { padding: 2rem 1rem; }
-    @media (min-width: 768px) { .section-padding { padding: 3rem 2rem; } }
-    @media (min-width: 1024px) { .section-padding { padding: 4rem 2.5rem; } }
+    .section-padding { padding: 1.5rem 1rem; }
+    @media (min-width: 768px) { .section-padding { padding: 2.5rem 2rem; } }
+    @media (min-width: 1024px) { .section-padding { padding: 3.5rem 2.5rem; } }
 
-    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #cc0000; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #ff1e1e; }
@@ -686,7 +723,7 @@
       <img src="logo.jpg" alt="REYES PERFORMANCE" />
     </div>
     <div class="max-w-5xl mx-auto relative z-10 px-3 md:px-4 w-full">
-      <div class="mb-4 md:mb-5 text-center">
+      <div class="mb-3 md:mb-4 text-center">
         <h1 class="hero-title font-black tracking-widest drop-shadow-[0_0_40px_rgba(255,0,0,0.3)]">
           <span class="reyes">REYES</span>
           <span class="performance">PERFORMANCE</span>
@@ -695,15 +732,15 @@
           HECHO PARA DOMINAR EN LAS CALLES - BODY KIT
         </p>
       </div>
-      <div class="mt-5 md:mt-7 flex flex-wrap justify-center gap-3 md:gap-4">
-        <a href="#catalogo" class="btn-racing px-6 md:px-10 py-3 md:py-3.5 rounded-full text-sm md:text-base tracking-wider shadow-2xl glow-red transition-all">
+      <div class="mt-4 md:mt-6 flex flex-wrap justify-center gap-3 md:gap-4">
+        <a href="#catalogo" class="btn-racing px-5 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base tracking-wider shadow-2xl glow-red transition-all">
           <i class="fas fa-chevron-circle-right mr-2"></i> Explorar
         </a>
-        <a href="#contacto" class="btn-outline-racing px-6 md:px-9 py-3 md:py-3.5 rounded-full text-sm md:text-base">
+        <a href="#contacto" class="btn-outline-racing px-5 md:px-8 py-2.5 md:py-3 rounded-full text-sm md:text-base">
           <i class="fas fa-phone-alt mr-2"></i> Contacto
         </a>
       </div>
-      <div class="mt-10 md:mt-14 text-xs text-gray-500 tracking-[0.2em] text-center">
+      <div class="mt-8 md:mt-12 text-xs text-gray-500 tracking-[0.2em] text-center">
         <i class="fas fa-arrow-down animate-bounce inline-block mr-2 text-red-600"></i> DESPLAZA
       </div>
     </div>
@@ -712,7 +749,7 @@
 
   <!-- ===== CATÁLOGO ===== -->
   <section class="max-w-7xl mx-auto px-3 md:px-4 section-padding" id="catalogo">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3 md:mb-5">
       <div>
         <span class="text-red-500 font-bold text-[0.6rem] md:text-xs tracking-[0.4em] uppercase">Catalogo</span>
         <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white">AUTOPARTES</h2>
@@ -959,12 +996,10 @@
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const index = parseInt(this.dataset.index);
-        // Activar visualmente
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         activeCategoryIndex = index;
         renderSubcategories(index);
-        // Resetear filtro a "all" al cambiar de categoría
         currentCategoryFilter = "all";
         applyFilters();
       });
@@ -983,8 +1018,6 @@
 
     let html = '';
     group.subcategories.forEach((sub, subIndex) => {
-      const isActive = subIndex === 0 && group.name !== "TODOS" ? 'active' : '';
-      // Si es la categoría "TODOS", activar el botón "Todos"
       const isAll = sub.id === "all";
       const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' : '');
       html += `
@@ -998,7 +1031,6 @@
     document.querySelectorAll('.subcat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const categoryId = this.dataset.category;
-        // Activar visualmente
         document.querySelectorAll('.subcat-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         currentCategoryFilter = categoryId;
@@ -1006,7 +1038,6 @@
       });
     });
 
-    // Si la categoría es "TODOS", aplicar filtro "all" automáticamente
     if (group.name === "TODOS") {
       currentCategoryFilter = "all";
       applyFilters();
