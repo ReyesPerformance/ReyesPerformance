@@ -306,89 +306,152 @@
         transform: translateY(-2px);
       }
 
-      /* ===== FILTROS MEJORADOS ===== */
-      .filter-group {
+      /* ===== FILTROS MEJORADOS - DISEÑO LIMPIO ===== */
+      .filters-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 8px;
-        margin-bottom: 12px;
-        padding: 8px 12px;
-        background: rgba(20, 20, 20, 0.6);
-        border-radius: 12px;
-        border: 1px solid rgba(60, 60, 60, 0.3);
+        width: 100%;
       }
 
-      .filter-group-label {
+      .filter-row {
         display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
         align-items: center;
-        color: #ff1e1e;
-        font-size: 0.7rem;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(60, 60, 60, 0.2);
+      }
+      .filter-row:last-child {
+        border-bottom: none;
+      }
+
+      .filter-label {
+        font-size: 0.6rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding-right: 10px;
-        border-right: 1px solid rgba(60, 60, 60, 0.3);
-        margin-right: 4px;
-        white-space: nowrap;
+        letter-spacing: 0.08em;
+        color: #888;
+        min-width: 70px;
+        padding-right: 8px;
+        flex-shrink: 0;
       }
-      .filter-group-label i {
-        margin-right: 6px;
+      .filter-label i {
+        margin-right: 4px;
+        color: #cc0000;
+        font-size: 0.7rem;
       }
 
       .filter-btn {
-        font-size: clamp(0.65rem, 0.8vw, 0.8rem);
-        padding: 5px 14px;
+        font-size: 0.65rem;
+        padding: 4px 12px;
         touch-action: manipulation;
-        min-height: 32px;
+        min-height: 28px;
         cursor: pointer;
-        border: 1px solid transparent;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid rgba(60, 60, 60, 0.3);
+        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         border-radius: 50px;
-        font-weight: 600;
-        background: rgba(30, 30, 30, 0.6);
-        color: #aaa;
+        font-weight: 500;
+        background: rgba(20, 20, 20, 0.6);
+        color: #999;
         white-space: nowrap;
+        font-size: 0.6rem;
       }
       .filter-btn:hover {
         border-color: #cc0000;
         color: #fff;
-        background: rgba(60, 60, 60, 0.6);
+        background: rgba(40, 40, 40, 0.8);
       }
       .filter-btn.active {
+        background: rgba(204, 0, 0, 0.2);
+        color: #ff1e1e;
+        border-color: #cc0000;
+        box-shadow: 0 0 20px rgba(204, 0, 0, 0.08);
+      }
+
+      .filter-btn-all {
+        background: rgba(204, 0, 0, 0.1);
+        border-color: rgba(204, 0, 0, 0.25);
+        color: #cc6666;
+        font-weight: 600;
+        padding: 4px 16px;
+        font-size: 0.65rem;
+      }
+      .filter-btn-all.active {
         background: rgba(204, 0, 0, 0.25);
         color: #ff1e1e;
         border-color: #cc0000;
-        box-shadow: 0 0 20px rgba(204, 0, 0, 0.15);
+      }
+      .filter-btn-all:hover {
+        background: rgba(204, 0, 0, 0.2);
+        color: #ff1e1e;
       }
 
-      .filter-btn-category {
-        background: rgba(204, 0, 0, 0.08);
-        border-color: rgba(204, 0, 0, 0.2);
-        color: #cc6666;
-        font-size: clamp(0.6rem, 0.7vw, 0.75rem);
-        padding: 3px 12px;
+      /* Responsive filtros */
+      @media (max-width: 768px) {
+        .filter-row {
+          gap: 4px;
+          padding: 4px 0;
+        }
+        .filter-label {
+          font-size: 0.5rem;
+          min-width: 55px;
+        }
+        .filter-btn {
+          font-size: 0.55rem;
+          padding: 3px 10px;
+          min-height: 24px;
+        }
+        .filter-btn-all {
+          font-size: 0.55rem;
+          padding: 3px 12px;
+        }
       }
-      .filter-btn-category:hover {
-        background: rgba(204, 0, 0, 0.2);
-        border-color: #cc0000;
-        color: #ff1e1e;
-      }
-      .filter-btn-category.active {
-        background: rgba(204, 0, 0, 0.3);
-        color: #ff1e1e;
-        border-color: #cc0000;
+
+      @media (max-width: 480px) {
+        .filter-row {
+          gap: 3px;
+          padding: 3px 0;
+          flex-wrap: wrap;
+        }
+        .filter-label {
+          font-size: 0.45rem;
+          min-width: 45px;
+          padding-right: 4px;
+        }
+        .filter-label i {
+          font-size: 0.55rem;
+        }
+        .filter-btn {
+          font-size: 0.5rem;
+          padding: 2px 8px;
+          min-height: 20px;
+        }
+        .filter-btn-all {
+          font-size: 0.5rem;
+          padding: 2px 10px;
+        }
       }
 
       /* ===== BUSCADOR ===== */
+      .search-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
       .search-input {
         background: rgba(20, 20, 20, 0.8);
         border: 2px solid #333;
         color: white;
-        padding: 10px 20px;
+        padding: 10px 18px;
         border-radius: 50px;
-        width: 100%;
-        max-width: 380px;
-        font-size: 0.95rem;
+        flex: 1;
+        min-width: 150px;
+        font-size: 0.85rem;
         transition: all 0.3s ease;
         outline: none;
         backdrop-filter: blur(8px);
@@ -400,8 +463,32 @@
       }
       .search-input:focus {
         border-color: #cc0000;
-        box-shadow: 0 0 30px rgba(204, 0, 0, 0.15);
+        box-shadow: 0 0 30px rgba(204, 0, 0, 0.1);
         background: rgba(30, 30, 30, 0.9);
+      }
+
+      .search-results-count {
+        color: #888;
+        font-size: 0.75rem;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 480px) {
+        .search-wrapper {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 6px;
+        }
+        .search-input {
+          padding: 8px 14px;
+          font-size: 0.75rem;
+          min-width: 100%;
+        }
+        .search-results-count {
+          text-align: center;
+          font-size: 0.65rem;
+        }
       }
 
       /* ===== IMÁGENES ===== */
@@ -422,12 +509,14 @@
       }
       @media (max-width: 768px) {
         .product-img {
-          height: 230px;
+          height: 200px;
+          padding: 8px;
         }
       }
       @media (max-width: 480px) {
         .product-img {
-          height: 200px;
+          height: 180px;
+          padding: 6px;
         }
       }
 
@@ -468,12 +557,12 @@
       }
       @media (max-width: 768px) {
         .referencia-img {
-          height: 300px;
+          height: 280px;
         }
       }
       @media (max-width: 480px) {
         .referencia-img {
-          height: 240px;
+          height: 220px;
         }
       }
 
@@ -763,6 +852,52 @@
         }
       }
 
+      @media (max-width: 480px) {
+        .modal {
+          padding: 5px;
+        }
+        .modal-image-wrapper img {
+          max-height: 72vh;
+        }
+        .modal-nav {
+          padding: 8px 12px;
+          font-size: 14px;
+          min-width: 36px;
+          min-height: 36px;
+        }
+        .modal-nav.prev {
+          left: 5px;
+        }
+        .modal-nav.next {
+          right: 5px;
+        }
+        .modal-close {
+          top: 10px;
+          right: 10px;
+          font-size: 18px;
+          width: 36px;
+          height: 36px;
+        }
+        .modal-controls {
+          bottom: 12px;
+          padding: 6px 12px;
+          gap: 6px;
+        }
+        .modal-controls button {
+          width: 30px;
+          height: 30px;
+          font-size: 12px;
+        }
+        .modal-controls .counter {
+          font-size: 11px;
+          min-width: 40px;
+        }
+        .modal-controls .zoom-indicator {
+          font-size: 9px;
+          min-width: 30px;
+        }
+      }
+
       /* ===== FOOTER ===== */
       .footer-racing {
         border-top: 2px solid #cc0000;
@@ -835,11 +970,16 @@
       }
 
       .section-padding {
-        padding: 2.5rem 1.5rem;
+        padding: 2rem 1rem;
       }
       @media (min-width: 768px) {
         .section-padding {
-          padding: 3.5rem 2.5rem;
+          padding: 3rem 2rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .section-padding {
+          padding: 4rem 2.5rem;
         }
       }
 
@@ -857,24 +997,45 @@
         background: #ff1e1e;
       }
 
-      /* ===== RESPONSIVE FILTERS ===== */
-      @media (max-width: 768px) {
-        .filter-group {
-          padding: 6px 10px;
-          gap: 5px;
+      /* ===== GRID PRODUCTOS RESPONSIVE ===== */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+      }
+
+      @media (max-width: 640px) {
+        .products-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
         }
-        .filter-group-label {
-          font-size: 0.6rem;
-          padding-right: 6px;
+      }
+
+      @media (max-width: 420px) {
+        .products-grid {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
         }
-        .filter-btn {
-          font-size: 0.6rem;
-          padding: 3px 10px;
-          min-height: 26px;
+      }
+
+      /* ===== REFERENCIAS GRID RESPONSIVE ===== */
+      .referencias-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+      }
+
+      @media (max-width: 640px) {
+        .referencias-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.75rem;
         }
-        .filter-btn-category {
-          font-size: 0.55rem;
-          padding: 2px 8px;
+      }
+
+      @media (max-width: 420px) {
+        .referencias-grid {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
         }
       }
     </style>
@@ -934,117 +1095,79 @@
       </header>
 
       <!-- ===== CATÁLOGO ===== -->
-      <section class="max-w-7xl mx-auto px-4 section-padding" id="catalogo">
-        <div
-          class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5 md:mb-7"
-        >
+      <section class="max-w-7xl mx-auto px-3 md:px-4 section-padding" id="catalogo">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-6">
           <div>
-            <span
-              class="text-red-500 font-bold text-xs tracking-[0.4em] uppercase"
-              >Catálogo</span
-            >
-            <h2 class="text-3xl md:text-5xl font-bold text-white">
-              AUTOPARTES
-            </h2>
-            <p class="text-gray-400 text-sm md:text-base">
-              Exterior · Interior · Iluminación · Accesorios
-            </p>
+            <span class="text-red-500 font-bold text-[0.6rem] md:text-xs tracking-[0.4em] uppercase">Catálogo</span>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white">AUTOPARTES</h2>
+            <p class="text-gray-400 text-xs md:text-sm">Exterior · Interior · Iluminación · Accesorios</p>
           </div>
         </div>
 
         <!-- ===== BUSCADOR ===== -->
-        <div class="mb-6">
-          <div class="flex flex-wrap items-center gap-3">
-            <div class="relative flex-1 min-w-[200px] max-w-[400px]">
-              <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-              <input
-                type="text"
-                id="searchInput"
-                placeholder="Buscar por modelo de carro o pieza..."
-                class="search-input pl-11 pr-4"
-                autocomplete="off"
-              />
-            </div>
-            <span class="text-gray-500 text-sm hidden sm:inline">|</span>
-            <span id="resultsCount" class="text-gray-400 text-sm font-medium">0 productos</span>
+        <div class="search-wrapper">
+          <div class="relative flex-1 min-w-[120px]">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar por modelo o pieza..."
+              class="search-input pl-10 pr-4 w-full"
+              autocomplete="off"
+            />
           </div>
+          <span id="resultsCount" class="search-results-count">0 productos</span>
         </div>
 
-        <!-- ===== FILTROS MEJORADOS ===== -->
-        <div class="mb-6 space-y-3">
-          <!-- Grupo 1: Exterior Frontal -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-car"></i> Exterior Frontal
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="defensa-frontal">Defensas Frontales</button>
-            <button class="filter-btn filter-btn-category" data-filter="parrillas">Parrillas</button>
-            <button class="filter-btn filter-btn-category" data-filter="cofres">Cofres</button>
-            <button class="filter-btn filter-btn-category" data-filter="salpicaderas-delanteras">Salpicaderas</button>
+        <!-- ===== FILTROS MEJORADOS - DISTRIBUCIÓN LIMPIA ===== -->
+        <div class="filters-container mb-4 md:mb-6">
+          <!-- Fila 1: Exterior -->
+          <div class="filter-row">
+            <span class="filter-label"><i class="fas fa-car"></i> Exterior</span>
+            <button class="filter-btn" data-filter="defensa-frontal">Frontales</button>
+            <button class="filter-btn" data-filter="parrillas">Parrillas</button>
+            <button class="filter-btn" data-filter="cofres">Cofres</button>
+            <button class="filter-btn" data-filter="salpicaderas-delanteras">Salpicaderas</button>
+            <button class="filter-btn" data-filter="defensa-trasera">Traseras</button>
+            <button class="filter-btn" data-filter="tapa-cajuela">Cajuelas</button>
+            <button class="filter-btn" data-filter="difusores">Difusores</button>
           </div>
 
-          <!-- Grupo 2: Exterior Trasero -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-car-side"></i> Exterior Trasero
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="defensa-trasera">Defensas Traseras</button>
-            <button class="filter-btn filter-btn-category" data-filter="tapa-cajuela">Tapas de Cajuela</button>
-            <button class="filter-btn filter-btn-category" data-filter="difusores">Difusores</button>
+          <!-- Fila 2: Laterales y Estructura -->
+          <div class="filter-row">
+            <span class="filter-label"><i class="fas fa-door-open"></i> Laterales</span>
+            <button class="filter-btn" data-filter="laterales">Faldones</button>
+            <button class="filter-btn" data-filter="puertas">Puertas</button>
+            <button class="filter-btn" data-filter="espejos">Espejos</button>
+            <button class="filter-btn" data-filter="vidrios">Vidrios</button>
           </div>
 
-          <!-- Grupo 3: Laterales y Vidrios -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-door-open"></i> Laterales & Vidrios
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="laterales">Laterales</button>
-            <button class="filter-btn filter-btn-category" data-filter="puertas">Puertas</button>
-            <button class="filter-btn filter-btn-category" data-filter="espejos">Espejos</button>
-            <button class="filter-btn filter-btn-category" data-filter="vidrios">Vidrios</button>
+          <!-- Fila 3: Luces y Enfriamiento -->
+          <div class="filter-row">
+            <span class="filter-label"><i class="fas fa-lightbulb"></i> Luces</span>
+            <button class="filter-btn" data-filter="iluminacion">Iluminación</button>
+            <button class="filter-btn" data-filter="enfriamiento">Radiadores</button>
           </div>
 
-          <!-- Grupo 4: Luces y Radiadores -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-lightbulb"></i> Luces & Radiadores
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="iluminacion">Iluminación</button>
-            <button class="filter-btn filter-btn-category" data-filter="enfriamiento">Enfriamiento</button>
+          <!-- Fila 4: Interiores -->
+          <div class="filter-row">
+            <span class="filter-label"><i class="fas fa-chair"></i> Interiores</span>
+            <button class="filter-btn" data-filter="tablero-y-consola">Tableros</button>
+            <button class="filter-btn" data-filter="bolsas-de-aire">Airbags</button>
+            <button class="filter-btn" data-filter="cinturones-y-volantes">Cinturones</button>
+            <button class="filter-btn" data-filter="asientos-y-tapiceria">Asientos</button>
           </div>
 
-          <!-- Grupo 5: Interiores -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-chair"></i> Interiores
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="tablero-y-consola">Tableros</button>
-            <button class="filter-btn filter-btn-category" data-filter="bolsas-de-aire">Airbags</button>
-            <button class="filter-btn filter-btn-category" data-filter="cinturones-y-volantes">Cinturones & Volantes</button>
-            <button class="filter-btn filter-btn-category" data-filter="asientos-y-tapiceria">Asientos & Tapicería</button>
-          </div>
-
-          <!-- Grupo 6: Accesorios -->
-          <div class="filter-group">
-            <span class="filter-group-label">
-              <i class="fas fa-star"></i> Accesorios & Estética
-            </span>
-            <button class="filter-btn filter-btn-category" data-filter="accesorio">Accesorios</button>
-          </div>
-
-          <!-- Botón Todos -->
-          <div class="flex justify-end">
-            <button class="filter-btn active" data-filter="all" style="background: rgba(204,0,0,0.2); color: #ff1e1e; border-color: #cc0000;">
-              <i class="fas fa-th-list mr-1"></i> Ver Todos
-            </button>
+          <!-- Fila 5: Accesorios y Todos -->
+          <div class="filter-row" style="border-bottom: none; padding-top: 4px;">
+            <span class="filter-label"><i class="fas fa-star"></i> Extras</span>
+            <button class="filter-btn" data-filter="accesorio">Accesorios</button>
+            <button class="filter-btn filter-btn-all active" data-filter="all" style="margin-left: auto;">Todos</button>
           </div>
         </div>
 
         <!-- ===== PRODUCTOS ===== -->
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-          id="catalogGrid"
-        >
+        <div class="products-grid" id="catalogGrid">
           <div class="loading-spinner col-span-full">
             <i class="fas fa-spinner"></i> Cargando productos...
           </div>
@@ -1053,34 +1176,21 @@
 
       <!-- ===== REFERENCIAS ===== -->
       <section
-        class="max-w-7xl mx-auto px-4 section-padding border-t border-red-900/30"
+        class="max-w-7xl mx-auto px-3 md:px-4 section-padding border-t border-red-900/30"
         id="referencias"
       >
-        <div class="mb-6 md:mb-8">
-          <span
-            class="text-red-500 font-bold text-xs tracking-[0.4em] uppercase"
-            >Referencias</span
-          >
-          <h2
-            class="text-3xl md:text-5xl font-bold text-white flex items-center gap-3 flex-wrap"
-          >
+        <div class="mb-4 md:mb-6">
+          <span class="text-red-500 font-bold text-[0.6rem] md:text-xs tracking-[0.4em] uppercase">Referencias</span>
+          <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white flex items-center gap-2 flex-wrap">
             CHATS DE WHATSAPP
-            <span
-              class="text-sm font-normal text-gray-400 bg-[#25d366]/20 px-4 py-1.5 rounded-full flex items-center gap-2"
-            >
+            <span class="text-xs font-normal text-gray-400 bg-[#25d366]/20 px-3 py-1 rounded-full flex items-center gap-1">
               <i class="fab fa-whatsapp text-[#25d366]"></i> Clientes
-              satisfechos
             </span>
           </h2>
-          <p class="text-gray-400 text-sm md:text-base">
-            Capturas de conversaciones reales con nuestros clientes
-          </p>
+          <p class="text-gray-400 text-xs md:text-sm">Capturas de conversaciones reales con nuestros clientes</p>
         </div>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7"
-          id="referenciasGrid"
-        >
+        <div class="referencias-grid" id="referenciasGrid">
           <div class="loading-spinner col-span-full">
             <i class="fas fa-spinner"></i> Cargando referencias...
           </div>
@@ -1089,100 +1199,61 @@
 
       <!-- ===== FOOTER ===== -->
       <footer
-        class="footer-racing py-8 md:py-12 px-4 mt-4 md:mt-8"
+        class="footer-racing py-6 md:py-10 px-3 md:px-4 mt-4 md:mt-6"
         id="contacto"
       >
-        <div
-          class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10"
-        >
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
-            <h3
-              class="text-2xl md:text-3xl font-black tracking-wider text-white"
-            >
+            <h3 class="text-xl md:text-2xl font-black tracking-wider text-white">
               <span class="text-red-500">REYES</span> PERFORMANCE
             </h3>
-            <p class="text-gray-400 mt-3 text-sm md:text-base leading-relaxed">
+            <p class="text-gray-400 mt-2 text-xs md:text-sm leading-relaxed">
               Venta de autopartes nuevas o usadas, partes de colisión y
               accesorios para todo vehículo.
             </p>
-            <div class="flex gap-4 mt-4">
-              <a href="#" class="social-icon text-xl md:text-2xl"
-                ><i class="fab fa-facebook"></i
-              ></a>
-              <a href="#" class="social-icon text-xl md:text-2xl"
-                ><i class="fab fa-tiktok"></i
-              ></a>
-              <a href="#" class="social-icon text-xl md:text-2xl"
-                ><i class="fab fa-instagram"></i
-              ></a>
+            <div class="flex gap-3 mt-3">
+              <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-facebook"></i></a>
+              <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-tiktok"></i></a>
+              <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="mt-4 pt-4 border-t border-gray-800">
-              <p class="text-gray-400 text-sm flex items-start gap-2">
+            <div class="mt-3 pt-3 border-t border-gray-800">
+              <p class="text-gray-400 text-xs flex items-start gap-2">
                 <i class="fas fa-map-marker-alt direccion-icon mt-0.5"></i>
-                <span class="direccion-text"
-                  >San Buenaventura, Mexico, 25500</span
-                >
+                <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
               </p>
             </div>
           </div>
           <div>
-            <h4
-              class="text-white font-bold text-lg border-b border-red-600/50 pb-2 inline-block"
-            >
-              CONTACTO
-            </h4>
-            <ul class="mt-4 space-y-2 text-gray-300 text-sm md:text-base">
-              <li>
-                <i class="fas fa-phone-alt text-red-500 w-6"></i> (866) 176 03
-                44
-              </li>
-              <li>
-                <i class="fas fa-phone-alt text-red-500 w-6"></i> (866) 277 91
-                03
-              </li>
-              <li>
-                <i class="fab fa-facebook text-red-500 w-6"></i> Reyes
-                Performance
-              </li>
-              <li>
-                <i class="fab fa-tiktok text-red-500 w-6"></i>
-                @reyes_performance0
-              </li>
-              <li class="mt-3 pt-3 border-t border-gray-800">
+            <h4 class="text-white font-bold text-base border-b border-red-600/50 pb-1 inline-block">CONTACTO</h4>
+            <ul class="mt-3 space-y-1.5 text-gray-300 text-xs md:text-sm">
+              <li><i class="fas fa-phone-alt text-red-500 w-5"></i> (866) 176 03 44</li>
+              <li><i class="fas fa-phone-alt text-red-500 w-5"></i> (866) 277 91 03</li>
+              <li><i class="fab fa-facebook text-red-500 w-5"></i> Reyes Performance</li>
+              <li><i class="fab fa-tiktok text-red-500 w-5"></i> @reyes_performance0</li>
+              <li class="mt-2 pt-2 border-t border-gray-800">
                 <i class="fas fa-map-marker-alt direccion-icon"></i>
-                <span class="direccion-text"
-                  >San Buenaventura, Mexico, 25500</span
-                >
+                <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
               </li>
             </ul>
           </div>
           <div>
-            <h4
-              class="text-white font-bold text-lg border-b border-red-600/50 pb-2 inline-block"
-            >
-              SERVICIO
-            </h4>
-            <p class="text-gray-400 mt-4 text-sm md:text-base">
+            <h4 class="text-white font-bold text-base border-b border-red-600/50 pb-1 inline-block">SERVICIO</h4>
+            <p class="text-gray-400 mt-3 text-xs md:text-sm">
               Lun - Vie: 9:00 - 20:00 <br />
               Sábado: 10:00 - 18:00
             </p>
-            <p class="text-gray-500 text-sm mt-2">
-              <i class="fas fa-shield-alt text-red-500 mr-2"></i> Garantía en
-              todas las piezas
+            <p class="text-gray-500 text-xs mt-2">
+              <i class="fas fa-shield-alt text-red-500 mr-1"></i> Garantía en todas las piezas
             </p>
-            <div class="mt-4 pt-4 border-t border-gray-800">
-              <p class="text-gray-400 text-sm flex items-start gap-2">
+            <div class="mt-3 pt-3 border-t border-gray-800">
+              <p class="text-gray-400 text-xs flex items-start gap-2">
                 <i class="fas fa-map-marker-alt text-red-500 mt-0.5"></i>
-                <span class="direccion-text"
-                  >San Buenaventura, Mexico, 25500</span
-                >
+                <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
               </p>
             </div>
           </div>
         </div>
-        <div
-          class="text-center text-gray-600 text-sm mt-8 md:mt-10 border-t border-gray-800 pt-6"
-        >
+        <div class="text-center text-gray-600 text-xs mt-6 md:mt-8 border-t border-gray-800 pt-4">
           &copy; 2026 REYES PERFORMANCE — Hecho para dominar.
         </div>
       </footer>
@@ -1190,36 +1261,18 @@
       <!-- ===== MODAL ===== -->
       <div id="imageModal" class="modal">
         <div class="modal-content">
-          <button class="modal-close" id="modalClose" aria-label="Cerrar">
-            &times;
-          </button>
-          <button class="modal-nav prev" id="modalPrev" aria-label="Anterior">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="modal-nav next" id="modalNext" aria-label="Siguiente">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+          <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+          <button class="modal-nav prev" id="modalPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="modal-nav next" id="modalNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
           <div class="modal-image-wrapper" id="modalImageWrapper">
-            <img
-              id="modalImage"
-              src=""
-              alt="Referencia"
-              loading="lazy"
-              draggable="false"
-            />
+            <img id="modalImage" src="" alt="Referencia" loading="lazy" draggable="false" />
           </div>
           <div class="modal-controls">
-            <button id="modalZoomOut" aria-label="Alejar">
-              <i class="fas fa-search-minus"></i>
-            </button>
-            <button id="modalZoomIn" aria-label="Acercar">
-              <i class="fas fa-search-plus"></i>
-            </button>
+            <button id="modalZoomOut" aria-label="Alejar"><i class="fas fa-search-minus"></i></button>
+            <button id="modalZoomIn" aria-label="Acercar"><i class="fas fa-search-plus"></i></button>
             <span class="zoom-indicator" id="zoomIndicator">100%</span>
             <span class="counter" id="modalCounter">1 / 1</span>
-            <button id="modalReset" aria-label="Restablecer">
-              <i class="fas fa-expand"></i>
-            </button>
+            <button id="modalReset" aria-label="Restablecer"><i class="fas fa-expand"></i></button>
           </div>
         </div>
       </div>
@@ -1246,35 +1299,27 @@
         let currentSearchTerm = "";
 
         // ============================================
-        // MAPEO DE CATEGORÍAS PARA MOSTRAR EN ESPAÑOL
+        // MAPEO DE CATEGORÍAS
         // ============================================
         const categoryDisplayNames = {
-          // Exterior Frontal
-          "defensa-frontal": "Defensa Frontal",
+          "defensa-frontal": "Frontal",
           "parrillas": "Parrillas",
           "cofres": "Cofres",
           "salpicaderas-delanteras": "Salpicaderas",
-          // Exterior Trasero
-          "defensa-trasera": "Defensa Trasera",
-          "tapa-cajuela": "Tapa de Cajuela",
+          "defensa-trasera": "Trasera",
+          "tapa-cajuela": "Cajuela",
           "difusores": "Difusores",
-          // Laterales y Vidrios
-          "laterales": "Laterales",
+          "laterales": "Faldones",
           "puertas": "Puertas",
           "espejos": "Espejos",
           "vidrios": "Vidrios",
-          // Luces y Radiadores
           "iluminacion": "Iluminación",
-          "enfriamiento": "Enfriamiento",
-          // Interiores
+          "enfriamiento": "Radiadores",
           "tablero-y-consola": "Tableros",
           "bolsas-de-aire": "Airbags",
-          "cinturones-y-volantes": "Cinturones & Volantes",
-          "asientos-y-tapiceria": "Asientos & Tapicería",
-          // Accesorios
+          "cinturones-y-volantes": "Cinturones",
+          "asientos-y-tapiceria": "Asientos",
           "accesorio": "Accesorios",
-          // Default
-          "all": "Todos"
         };
 
         // ============================================
@@ -1283,7 +1328,7 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ============================================
-        // CARGAR PRODUCTOS DESDE SUPABASE
+        // CARGAR PRODUCTOS
         // ============================================
         async function loadProducts() {
           const container = document.getElementById("catalogGrid");
@@ -1302,11 +1347,11 @@
           } catch (error) {
             console.error("Error cargando productos:", error);
             container.innerHTML = `
-              <div class="col-span-full text-center text-gray-400 py-10 md:py-14">
-                <i class="fas fa-exclamation-triangle text-4xl md:text-5xl mb-4"></i>
-                <p class="text-base md:text-lg">Error al cargar productos</p>
-                <p class="text-sm text-gray-500 mt-2">Verifica la conexión con Supabase</p>
-                <p class="text-xs text-gray-600 mt-1">${error.message || "Error desconocido"}</p>
+              <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
+                <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
+                <p class="text-sm md:text-base">Error al cargar productos</p>
+                <p class="text-xs text-gray-500 mt-1">Verifica la conexión con Supabase</p>
+                <p class="text-[0.6rem] text-gray-600 mt-1">${error.message || "Error desconocido"}</p>
               </div>
             `;
           }
@@ -1322,10 +1367,10 @@
 
           if (!data || data.length === 0) {
             container.innerHTML = `
-              <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
-                <i class="fas fa-box-open text-3xl md:text-4xl mb-3"></i>
-                <p class="text-base">No hay productos disponibles</p>
-                <p class="text-sm text-gray-500 mt-1">${currentSearchTerm ? `No se encontraron resultados para "${currentSearchTerm}"` : "Agrega productos en Supabase"}</p>
+              <div class="col-span-full text-center text-gray-400 py-6 md:py-8">
+                <i class="fas fa-box-open text-2xl md:text-3xl mb-2"></i>
+                <p class="text-sm md:text-base">No hay productos disponibles</p>
+                <p class="text-xs text-gray-500 mt-1">${currentSearchTerm ? `No se encontraron resultados para "${currentSearchTerm}"` : "Agrega productos en Supabase"}</p>
               </div>
             `;
             return;
@@ -1335,17 +1380,13 @@
 
           data.forEach((p) => {
             const card = document.createElement("div");
-            card.className =
-              "card-racing rounded-xl p-4 md:p-5 transition-all duration-300 cursor-pointer";
+            card.className = "card-racing rounded-xl p-3 md:p-4 transition-all duration-300 cursor-pointer";
 
             const images = p.images && p.images.length > 0 ? p.images : [];
             const firstImage = images.length > 0 ? images[0] : "";
             const imageCount = images.length;
-
-            // Obtener nombre de categoría en español
             const categoryName = categoryDisplayNames[p.category] || p.category || "Pieza";
 
-            // Formatear precio
             const formattedPrice = p.price ? new Intl.NumberFormat('es-MX', {
               style: 'currency',
               currency: 'MXN',
@@ -1361,32 +1402,31 @@
                        onerror="this.src='https://via.placeholder.com/500x300/1a1a1a/cc0000?text=${encodeURIComponent(p.name)}'">
                 ` : `
                   <div class="product-img flex items-center justify-center bg-gray-900 rounded-lg">
-                    <i class="fas fa-image text-4xl text-gray-600"></i>
+                    <i class="fas fa-image text-3xl md:text-4xl text-gray-600"></i>
                   </div>
                 `}
                 ${imageCount > 1 ? `<span class="image-counter"><i class="fas fa-images mr-1"></i>${imageCount}</span>` : ""}
-                <span class="absolute top-3 right-3 tech-badge">${categoryName}</span>
+                <span class="absolute top-2 right-2 tech-badge text-[0.55rem] md:text-xs">${categoryName}</span>
               </div>
-              <h4 class="text-lg md:text-xl font-bold text-white mt-3">${p.name || "Sin nombre"}</h4>
-              <p class="text-gray-400 text-sm">${p.description || "Sin descripción"}</p>
+              <h4 class="text-sm md:text-base lg:text-lg font-bold text-white mt-2 truncate">${p.name || "Sin nombre"}</h4>
+              <p class="text-gray-400 text-xs md:text-sm truncate">${p.description || "Sin descripción"}</p>
               
-              <div class="flex flex-wrap gap-2 mt-2">
-                <span class="tech-badge"><i class="far fa-calendar-alt mr-1"></i> ${p.year || "N/A"}</span>
-                <span class="tech-badge"><i class="fas fa-car mr-1"></i> ${p.model || p.car_model || "N/A"}</span>
-                <span class="tech-badge ${p.condition === "nuevo" ? "border-green-500 text-green-300" : "border-yellow-500 text-yellow-300"}">
+              <div class="flex flex-wrap gap-1.5 mt-1.5">
+                <span class="tech-badge text-[0.5rem] md:text-xs"><i class="far fa-calendar-alt mr-1"></i> ${p.year || "N/A"}</span>
+                <span class="tech-badge text-[0.5rem] md:text-xs"><i class="fas fa-car mr-1"></i> ${p.model || p.car_model || "N/A"}</span>
+                <span class="tech-badge text-[0.5rem] md:text-xs ${p.condition === "nuevo" ? "border-green-500 text-green-300" : "border-yellow-500 text-yellow-300"}">
                   <i class="fas ${p.condition === "nuevo" ? "fa-check-circle" : "fa-history"} mr-1"></i> ${p.condition === "nuevo" ? "Nuevo" : "Usado"}
                 </span>
               </div>
               
-              <div class="mt-3 md:mt-4 flex flex-wrap justify-between items-center gap-2">
-                <span class="text-2xl md:text-3xl font-bold text-red-400">${formattedPrice}</span>
-                <button class="btn-whatsapp buy-btn" data-product-id="${p.id}">
+              <div class="mt-2 md:mt-3 flex flex-wrap justify-between items-center gap-1.5">
+                <span class="text-base md:text-xl lg:text-2xl font-bold text-red-400">${formattedPrice}</span>
+                <button class="btn-whatsapp text-[0.6rem] md:text-xs py-1.5 px-3 md:py-2 md:px-4 min-h-[28px] md:min-h-[36px]" data-product-id="${p.id}">
                   <i class="fab fa-whatsapp"></i> Cotizar
                 </button>
               </div>
             `;
 
-            // Evento para abrir modal con imágenes
             const imgElement = card.querySelector(".product-img");
             if (imgElement && images.length > 0) {
               imgElement.addEventListener("click", function (e) {
@@ -1397,7 +1437,6 @@
               });
             }
 
-            // Evento para WhatsApp
             const buyBtn = card.querySelector(".buy-btn");
             buyBtn.addEventListener("click", function (e) {
               e.stopPropagation();
@@ -1426,7 +1465,7 @@
         }
 
         // ============================================
-        // APLICAR FILTROS + BÚSQUEDA
+        // APLICAR FILTROS
         // ============================================
         function applyFilters() {
           let filtered = [...allProducts];
@@ -1485,18 +1524,15 @@
                 if (response.ok) {
                   existingImages.push(img);
                 }
-              } catch (e) {
-                console.log(`No se pudo cargar ${img}:`, e);
-              }
+              } catch (e) {}
             }
 
             if (existingImages.length === 0) {
               container.innerHTML = `
-                <div class="col-span-full text-center text-gray-400 py-10 md:py-14">
-                  <i class="fas fa-comments text-4xl md:text-5xl mb-4"></i>
-                  <p class="text-base md:text-lg">No hay referencias disponibles</p>
-                  <p class="text-sm text-gray-500 mt-2">Agrega imágenes en la carpeta <strong>Referencias/</strong></p>
-                  <p class="text-xs text-gray-600 mt-1">Asegúrate que los archivos se llamen: chat1.jpg, chat2.jpg, etc.</p>
+                <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
+                  <i class="fas fa-comments text-3xl md:text-4xl mb-3"></i>
+                  <p class="text-sm md:text-base">No hay referencias disponibles</p>
+                  <p class="text-xs text-gray-500 mt-1">Agrega imágenes en la carpeta <strong>Referencias/</strong></p>
                 </div>
               `;
               return;
@@ -1506,8 +1542,7 @@
 
             existingImages.forEach((img, index) => {
               const div = document.createElement("div");
-              div.className =
-                "referencia-container relative group overflow-hidden rounded-xl";
+              div.className = "referencia-container relative group overflow-hidden rounded-xl";
 
               div.innerHTML = `
                 <img src="Referencias/${img}" alt="Referencia ${index + 1}" 
@@ -1515,11 +1550,11 @@
                      loading="lazy"
                      onerror="this.src='https://via.placeholder.com/500x400/1a1a1a/cc0000?text=Error+al+cargar'">
                 <div class="referencia-overlay">
-                  <div class="chat-label">
+                  <div class="chat-label text-xs md:text-sm">
                     <i class="fab fa-whatsapp"></i> Conversación ${index + 1}
                   </div>
-                  <button class="btn-ver" data-index="${index}">
-                    <i class="fas fa-expand"></i> Ver captura completa
+                  <button class="btn-ver text-xs md:text-sm py-2 px-4 md:py-3 md:px-6" data-index="${index}">
+                    <i class="fas fa-expand"></i> Ver captura
                   </button>
                 </div>
               `;
@@ -1527,18 +1562,14 @@
               const imgElement = div.querySelector(".referencia-img");
               imgElement.addEventListener("click", function (e) {
                 e.stopPropagation();
-                const images = existingImages.map(
-                  (name) => `Referencias/${name}`,
-                );
+                const images = existingImages.map((name) => `Referencias/${name}`);
                 openModal(images, index);
               });
 
               const btnVer = div.querySelector(".btn-ver");
               btnVer.addEventListener("click", function (e) {
                 e.stopPropagation();
-                const images = existingImages.map(
-                  (name) => `Referencias/${name}`,
-                );
+                const images = existingImages.map((name) => `Referencias/${name}`);
                 openModal(images, index);
               });
 
@@ -1550,16 +1581,16 @@
           } catch (error) {
             console.error("Error cargando referencias:", error);
             container.innerHTML = `
-              <div class="col-span-full text-center text-gray-400 py-10 md:py-14">
-                <i class="fas fa-exclamation-triangle text-4xl md:text-5xl mb-4"></i>
-                <p class="text-base md:text-lg">Error al cargar las referencias</p>
+              <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
+                <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
+                <p class="text-sm md:text-base">Error al cargar las referencias</p>
               </div>
             `;
           }
         }
 
         // ============================================
-        // MODAL (misma funcionalidad que antes)
+        // MODAL
         // ============================================
         let currentModalImages = [];
         let currentModalIndex = 0;
@@ -1675,7 +1706,6 @@
           zoomIndicator.textContent = percent + "%";
         }
 
-        // Eventos del modal
         document.getElementById("modalZoomIn").addEventListener("click", zoomIn);
         document.getElementById("modalZoomOut").addEventListener("click", zoomOut);
         document.getElementById("modalReset").addEventListener("click", resetZoom);
@@ -1702,7 +1732,6 @@
           }
         }, { passive: false });
 
-        // Drag con mouse
         wrapper.addEventListener("mousedown", function (e) {
           if (!isZoomed) return;
           isDragging = true;
@@ -1730,7 +1759,6 @@
           }
         });
 
-        // Touch events
         let isTouchDragging = false;
         let touchStartX = 0;
         let touchStartY = 0;
@@ -1813,29 +1841,32 @@
         // INICIALIZACIÓN
         // ============================================
         async function init() {
-          // Filtros por categoría
-          document.querySelectorAll(".filter-btn-category").forEach((btn) => {
+          // Filtros de categoría
+          document.querySelectorAll(".filter-btn").forEach((btn) => {
             btn.addEventListener("click", function () {
-              // Desactivar todos los filtros de categoría
-              document.querySelectorAll(".filter-btn-category").forEach((b) => b.classList.remove("active"));
-              // Desactivar el botón "Todos"
-              document.querySelector(".filter-btn[data-filter='all']").classList.remove("active");
-              
+              const filterValue = this.dataset.filter;
+
+              // Desactivar todos los filtros
+              document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+              document.querySelector(".filter-btn-all")?.classList.remove("active");
+
+              // Activar el filtro clickeado
               this.classList.add("active");
-              currentCategoryFilter = this.dataset.filter;
+
+              // Si es "all", activar el botón "Todos"
+              if (filterValue === "all") {
+                document.querySelector(".filter-btn-all")?.classList.add("active");
+              }
+
+              currentCategoryFilter = filterValue;
               applyFilters();
             });
           });
 
-          // Botón "Todos"
-          document.querySelector(".filter-btn[data-filter='all']").addEventListener("click", function () {
-            document.querySelectorAll(".filter-btn-category").forEach((b) => b.classList.remove("active"));
-            document.querySelectorAll(".filter-btn[data-filter='all']").forEach((b) => b.classList.add("active"));
-            currentCategoryFilter = "all";
-            applyFilters();
-          });
+          // Asegurar que "Todos" esté activo por defecto
+          document.querySelector(".filter-btn-all")?.classList.add("active");
 
-          // Buscador en tiempo real
+          // Buscador
           const searchInput = document.getElementById("searchInput");
           searchInput.addEventListener("input", function () {
             currentSearchTerm = this.value;
@@ -1847,7 +1878,6 @@
 
           console.log("✅ REYES PERFORMANCE - Conectado a Supabase");
           console.log(`📦 ${allProducts.length} productos cargados`);
-          console.log("📂 Categorías disponibles:", Object.keys(categoryDisplayNames).filter(k => k !== "all").join(", "));
         }
 
         init();
