@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* ===== MISMOS ESTILOS QUE ANTES ===== */
+        /* ===== MISMOS ESTILOS QUE ANTES (omitidos por brevedad, incluir igual) ===== */
         :root {
             --sidebar-width: 260px;
             --sidebar-mobile-width: 80vw;
@@ -51,7 +51,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* === BOTÓN MENÚ MÓVIL === */
+        /* === ESTILOS COMPLETOS (incluir desde versión anterior) === */
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -71,7 +71,6 @@
             touch-action: manipulation;
         }
 
-        /* === SIDEBAR === */
         aside {
             width: var(--sidebar-width);
             background: linear-gradient(180deg, #0a0a0a, #050505);
@@ -201,7 +200,6 @@
             -webkit-backdrop-filter: blur(4px);
         }
 
-        /* === MAIN === */
         main {
             margin-left: var(--sidebar-width);
             flex-grow: 1;
@@ -481,6 +479,7 @@
         }
         .badge.nuevo { background: var(--success-light); color: var(--success); }
         .badge.usado { background: var(--warning-light); color: var(--warning); }
+        .badge.agotado { background: var(--danger-light); color: var(--danger); }
 
         .btn-action {
             flex: 1;
@@ -777,7 +776,6 @@
         .oculto { display: none; }
         #msgLoader { font-size: 13px; font-weight: 600; margin-top: 8px; text-align: center; color: var(--red); }
 
-        /* === LOGIN === */
         #loginScreen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(circle at 25% 15%, rgba(204,0,0,0.2), transparent 55%), linear-gradient(160deg, #0a0a0a, #050505);
@@ -921,7 +919,6 @@
         <button class="sidebar-btn-cat active" onclick="filtrarCategoria('Todas', this)">
             <span class="cat-ico"><i class="fas fa-th-list"></i></span> Todas
         </button>
-
         <div class="menu-label">Exterior</div>
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('defensa-frontal', this)">
             <span class="cat-ico"><i class="fas fa-car-front"></i></span> Defensas Frontales
@@ -938,7 +935,6 @@
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('salpicaderas-delanteras', this)">
             <span class="cat-ico"><i class="fas fa-fender"></i></span> Salpicaderas
         </button>
-
         <div class="menu-label">Laterales</div>
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('laterales', this)">
             <span class="cat-ico"><i class="fas fa-door-open"></i></span> Faldones Laterales
@@ -952,7 +948,6 @@
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('vidrios', this)">
             <span class="cat-ico"><i class="fas fa-window-maximize"></i></span> Vidrios
         </button>
-
         <div class="menu-label">Luces y Radiadores</div>
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('iluminacion', this)">
             <span class="cat-ico"><i class="fas fa-lightbulb"></i></span> Iluminación
@@ -960,7 +955,6 @@
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('enfriamiento', this)">
             <span class="cat-ico"><i class="fas fa-fan"></i></span> Radiadores
         </button>
-
         <div class="menu-label">Interiores</div>
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('tablero-y-consola', this)">
             <span class="cat-ico"><i class="fas fa-dashboard"></i></span> Tableros
@@ -974,7 +968,6 @@
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('asientos-y-tapiceria', this)">
             <span class="cat-ico"><i class="fas fa-chair"></i></span> Asientos & Tapicería
         </button>
-
         <div class="menu-label">Accesorios</div>
         <button class="sidebar-btn-cat" onclick="filtrarCategoria('accesorio', this)">
             <span class="cat-ico"><i class="fas fa-star"></i></span> Accesorios
@@ -1194,7 +1187,7 @@
     // ============================================
     async function cargarProductos() {
         const { data, error } = await supabaseClient
-            .from('products')   // ← TABLA CORRECTA
+            .from('products')
             .select('*')
             .order('id', { ascending: false });
 
@@ -1277,7 +1270,7 @@
                 prod.images[0] :
                 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%231a1a1a"/%3E%3Ctext x="150" y="110" font-family="Arial" font-size="18" fill="%23666" text-anchor="middle"%3ESin imagen%3C/text%3E%3C/svg%3E';
 
-            const badgeClass = prod.condition === 'nuevo' ? 'nuevo' : (prod.condition === 'usado' ? 'usado' : '');
+            const badgeClass = prod.condition === 'nuevo' ? 'nuevo' : (prod.condition === 'usado' ? 'usado' : 'agotado');
             const badgeLabel = prod.condition === 'nuevo' ? 'Nuevo' : (prod.condition === 'usado' ? 'Usado' : 'Agotado');
 
             const displayName = prod.name || 'Sin título';
@@ -1289,7 +1282,7 @@
                 <div class="product-card">
                     <div class="product-card-img-wrap">
                         <span class="card-id-badge">#${prod.id}</span>
-                        ${badgeClass ? `<span class="badge ${badgeClass}">${badgeLabel}</span>` : ''}
+                        <span class="badge ${badgeClass}">${badgeLabel}</span>
                         <img src="${primeraImg}" class="product-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,%253Csvg xmlns=%2522http://www.w3.org/2000/svg%2522 width=%2522300%2522 height=%2522200%2522 viewBox=%25220 0 300 200%2522%253E%253Crect width=%2522300%2522 height=%2522200%2522 fill=%2522%25231a1a1a%2522/%253E%253Ctext x=%2522150%2522 y=%2522110%2522 font-family=%2522Arial%2522 font-size=%252218%2522 fill=%2522%2523666%2522 text-anchor=%2522middle%2522%253ESin imagen%253C/text%253E%253C/svg%253E'">
                     </div>
                     <div class="product-card-body">
@@ -1459,7 +1452,7 @@
     }
 
     // ============================================
-    // GUARDAR PRODUCTO (TABLA "products")
+    // GUARDAR PRODUCTO CON LOGS DE DEPURACIÓN
     // ============================================
     async function guardarProducto() {
         const idOriginal = document.getElementById('productoIdOriginal').value;
@@ -1494,7 +1487,7 @@
         const datos = {
             name: name,
             model: model,
-            car_model: model,  // Para compatibilidad con búsquedas
+            car_model: model,
             year: year,
             category: category,
             condition: condition,
@@ -1504,20 +1497,34 @@
             updated_at: new Date().toISOString()
         };
 
+        console.log('📦 Datos a guardar:', datos);
+
         const msg = document.getElementById('msgLoader');
         msg.textContent = 'Guardando producto...';
 
         try {
+            let result;
             if (idOriginal) {
-                await supabaseClient
+                console.log('✏️ Actualizando producto ID:', idOriginal);
+                result = await supabaseClient
                     .from('products')
                     .update(datos)
                     .eq('id', parseInt(idOriginal));
             } else {
+                console.log('📝 Creando nuevo producto');
                 datos.created_at = new Date().toISOString();
-                await supabaseClient
+                result = await supabaseClient
                     .from('products')
                     .insert([datos]);
+            }
+
+            console.log('✅ Resultado de Supabase:', result);
+
+            if (result.error) {
+                console.error('❌ Error de Supabase:', result.error);
+                alert('Error al guardar: ' + result.error.message);
+                msg.textContent = 'Error: ' + result.error.message;
+                return;
             }
 
             msg.textContent = 'Producto guardado exitosamente!';
@@ -1526,7 +1533,7 @@
             cerrarModal();
             cargarProductos();
         } catch (error) {
-            console.error('Error al guardar:', error);
+            console.error('❌ Excepción al guardar:', error);
             msg.textContent = 'Error al guardar el producto.';
             alert('Hubo un error al guardar el producto.');
         }
