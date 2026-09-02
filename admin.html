@@ -1404,32 +1404,36 @@
     // ============================================
     // ELIMINAR IMAGEN LOCAL (CORREGIDO CON AWAIT)
     // ============================================
-    async function eliminarImagenLocal(index) {
-        const url = imagenesActuales[index];
+   async function eliminarImagenLocal(index) {
+    const url = imagenesActuales[index];
 
-        if (url && url.includes('supabase')) {
-            try {
-                const nombreArchivo = url.split('/').pop().split('?')[0];
-                console.log(`🗑️ Intentando eliminar: ${nombreArchivo}`);
+    if (url && url.includes('supabase')) {
+        try {
+            const nombreArchivo = url.split('/').pop().split('?')[0];
+            console.log(`🗑️ Intentando eliminar: ${nombreArchivo}`);
 
-                const { error } = await supabaseClient.storage
-                    .from('productos')
-                    .remove([nombreArchivo]);
+            const { error } = await supabaseClient.storage
+                .from('productos')
+                .remove([nombreArchivo]);
 
-                if (error) {
-                    console.error('❌ Error al eliminar del storage:', error);
-                } else {
-                    console.log('✅ Imagen eliminada del storage');
-                }
-            } catch (e) {
-                console.error('❌ Excepción al eliminar imagen:', e);
+            if (error) {
+                console.error('❌ Error al eliminar del storage:', error);
+                alert('Error al eliminar la imagen: ' + error.message);
+                return; // No eliminar de la lista local si falla
+            } else {
+                console.log('✅ Imagen eliminada del storage');
             }
+        } catch (e) {
+            console.error('❌ Excepción al eliminar imagen:', e);
+            alert('Excepción: ' + e.message);
+            return;
         }
-
-        // Eliminar de la lista local (SIEMPRE, aunque falle la eliminación en storage)
-        imagenesActuales.splice(index, 1);
-        renderizarPreviews();
     }
+
+    // Solo eliminar de la lista local si la operación en storage fue exitosa
+    imagenesActuales.splice(index, 1);
+    renderizarPreviews();
+}
 
     function moverImagen(index, direccion) {
         const nuevoIndex = index + direccion;
