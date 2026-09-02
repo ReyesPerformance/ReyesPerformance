@@ -195,96 +195,123 @@
     }
     .btn-outline-racing:hover { background: rgba(204,0,0,0.15); border-color: #ff1e1e; box-shadow: 0 0 30px rgba(204,0,0,0.2); transform: translateY(-2px); }
 
-    /* === FILTROS ACORDEÓN === */
-    .filters-container {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    /* ============================================
+       FILTROS - ESTILO "MUEBLERIA" (HORIZONTAL SCROLL)
+       ============================================ */
+    .filters-wrapper {
       width: 100%;
-      padding: 6px 0;
+      margin-bottom: 12px;
     }
 
-    .filter-category {
-      border-bottom: 1px solid rgba(60,60,60,0.2);
-    }
-    .filter-category:last-child {
-      border-bottom: none;
-    }
-
-    .filter-category-header {
+    /* === Categorías principales (scroll horizontal) === */
+    .categories-scroll {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 6px;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.2s ease;
-      border-radius: 6px;
-    }
-    .filter-category-header:hover {
-      background: rgba(204,0,0,0.05);
-    }
-
-    .filter-category-header .label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #ccc;
-    }
-    .filter-category-header .label i {
-      margin-right: 8px;
-      color: #cc0000;
-      width: 16px;
-      text-align: center;
-    }
-
-    .filter-category-header .arrow {
-      color: #666;
-      font-size: 0.65rem;
-      transition: transform 0.3s ease;
-    }
-    .filter-category-header .arrow.open {
-      transform: rotate(180deg);
-    }
-
-    .filter-subcategories {
-      display: none;
-      flex-wrap: wrap;
-      gap: 4px;
-      padding: 4px 6px 8px 6px;
-    }
-    .filter-subcategories.open {
-      display: flex;
-    }
-
-    .filter-btn {
-      font-size: 0.6rem;
-      padding: 3px 10px;
-      touch-action: manipulation;
-      min-height: 22px;
-      cursor: pointer;
-      border: 1px solid rgba(60,60,60,0.3);
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border-radius: 50px;
-      font-weight: 500;
-      background: rgba(20,20,20,0.6);
-      color: #999;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 8px;
+      padding: 6px 2px 10px 2px;
+      scrollbar-width: thin;
+      scrollbar-color: #cc0000 transparent;
+      -webkit-overflow-scrolling: touch;
       white-space: nowrap;
     }
-    .filter-btn:hover { border-color: #cc0000; color: #fff; background: rgba(40,40,40,0.8); }
-    .filter-btn.active { background: rgba(204,0,0,0.2); color: #ff1e1e; border-color: #cc0000; box-shadow: 0 0 15px rgba(204,0,0,0.08); }
-
-    .filter-btn-all {
-      background: rgba(204,0,0,0.1);
-      border-color: rgba(204,0,0,0.25);
-      color: #cc6666;
-      font-weight: 600;
-      padding: 3px 14px;
-      font-size: 0.6rem;
+    .categories-scroll::-webkit-scrollbar {
+      height: 3px;
     }
-    .filter-btn-all.active { background: rgba(204,0,0,0.25); color: #ff1e1e; border-color: #cc0000; }
-    .filter-btn-all:hover { background: rgba(204,0,0,0.2); color: #ff1e1e; }
+    .categories-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .categories-scroll::-webkit-scrollbar-thumb {
+      background: #cc0000;
+      border-radius: 10px;
+    }
+
+    .cat-btn {
+      flex-shrink: 0;
+      padding: 6px 16px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(60,60,60,0.3);
+      border-radius: 50px;
+      background: rgba(20,20,20,0.6);
+      color: #999;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      touch-action: manipulation;
+      user-select: none;
+    }
+    .cat-btn:hover {
+      border-color: #cc0000;
+      color: #fff;
+      background: rgba(40,40,40,0.8);
+    }
+    .cat-btn.active {
+      background: rgba(204,0,0,0.2);
+      color: #ff1e1e;
+      border-color: #cc0000;
+      box-shadow: 0 0 20px rgba(204,0,0,0.1);
+    }
+
+    /* === Subcategorías (scroll horizontal) === */
+    .subcategories-scroll {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 6px;
+      padding: 4px 2px 6px 2px;
+      scrollbar-width: thin;
+      scrollbar-color: #555 transparent;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      min-height: 32px;
+      border-top: 1px solid rgba(60,60,60,0.15);
+      padding-top: 8px;
+      margin-top: 2px;
+    }
+    .subcategories-scroll::-webkit-scrollbar {
+      height: 2px;
+    }
+    .subcategories-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .subcategories-scroll::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 10px;
+    }
+
+    .subcat-btn {
+      flex-shrink: 0;
+      padding: 4px 12px;
+      font-size: 0.6rem;
+      font-weight: 500;
+      border: 1px solid rgba(60,60,60,0.2);
+      border-radius: 50px;
+      background: rgba(20,20,20,0.4);
+      color: #777;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      touch-action: manipulation;
+      user-select: none;
+    }
+    .subcat-btn:hover {
+      border-color: #cc0000;
+      color: #ccc;
+      background: rgba(40,40,40,0.6);
+    }
+    .subcat-btn.active {
+      background: rgba(204,0,0,0.15);
+      color: #ff1e1e;
+      border-color: #cc0000;
+    }
+
+    .subcat-placeholder {
+      color: #555;
+      font-size: 0.6rem;
+      padding: 4px 0;
+      font-style: italic;
+    }
 
     /* === BUSCADOR === */
     .search-wrapper {
@@ -316,9 +343,8 @@
       .search-wrapper { flex-direction: column; align-items: stretch; gap: 4px; }
       .search-input { padding: 7px 14px; font-size: 0.7rem; min-width: 100%; }
       .search-results-count { text-align: center; font-size: 0.6rem; }
-      .filter-btn { font-size: 0.5rem; padding: 2px 8px; min-height: 18px; }
-      .filter-btn-all { font-size: 0.5rem; padding: 2px 10px; }
-      .filter-category-header .label { font-size: 0.6rem; }
+      .cat-btn { font-size: 0.6rem; padding: 4px 12px; }
+      .subcat-btn { font-size: 0.55rem; padding: 3px 10px; }
     }
 
     /* === IMÁGENES === */
@@ -703,9 +729,16 @@
       <span id="resultsCount" class="search-results-count">0 productos</span>
     </div>
 
-    <!-- ===== FILTROS ACORDEÓN ===== -->
-    <div class="filters-container" id="filtersContainer">
-      <!-- Los filtros se generan desde JavaScript -->
+    <!-- ===== FILTROS - ESTILO "MUEBLERIA" ===== -->
+    <div class="filters-wrapper" id="filtersWrapper">
+      <!-- Categorías principales (scroll horizontal) -->
+      <div class="categories-scroll" id="categoriesScroll">
+        <!-- Generado desde JavaScript -->
+      </div>
+      <!-- Subcategorías (scroll horizontal) -->
+      <div class="subcategories-scroll" id="subcategoriesScroll">
+        <!-- Generado desde JavaScript -->
+      </div>
     </div>
 
     <!-- ===== PRODUCTOS ===== -->
@@ -825,12 +858,11 @@
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
   // ============================================
-  // ESTRUCTURA DE CATEGORÍAS CON SUBCATEGORÍAS
+  // ESTRUCTURA DE CATEGORÍAS
   // ============================================
   const categoryGroups = [
     {
       name: "EXTERIOR",
-      icon: "fa-car",
       subcategories: [
         { id: "defensa-frontal", label: "Frontales" },
         { id: "parrillas", label: "Parrillas" },
@@ -843,7 +875,6 @@
     },
     {
       name: "LATERALES",
-      icon: "fa-door-open",
       subcategories: [
         { id: "laterales", label: "Faldones" },
         { id: "puertas", label: "Puertas" },
@@ -853,7 +884,6 @@
     },
     {
       name: "LUCES",
-      icon: "fa-lightbulb",
       subcategories: [
         { id: "iluminacion", label: "Iluminacion" },
         { id: "enfriamiento", label: "Radiadores" }
@@ -861,7 +891,6 @@
     },
     {
       name: "INTERIORES",
-      icon: "fa-chair",
       subcategories: [
         { id: "tablero-y-consola", label: "Tableros" },
         { id: "bolsas-de-aire", label: "Airbags" },
@@ -871,9 +900,14 @@
     },
     {
       name: "EXTRAS",
-      icon: "fa-star",
       subcategories: [
         { id: "accesorio", label: "Accesorios" }
+      ]
+    },
+    {
+      name: "TODOS",
+      subcategories: [
+        { id: "all", label: "Todos" }
       ]
     }
   ];
@@ -892,6 +926,7 @@
   let allProducts = [];
   let currentCategoryFilter = "all";
   let currentSearchTerm = "";
+  let activeCategoryIndex = 0;
 
   // ============================================
   // SUPABASE CLIENT
@@ -899,89 +934,83 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // ============================================
-  // GENERAR FILTROS ACORDEÓN
+  // RENDER FILTROS (Estilo Muebleria)
   // ============================================
   function renderFilters() {
-    const container = document.getElementById("filtersContainer");
-    if (!container) return;
+    const categoriesContainer = document.getElementById("categoriesScroll");
+    const subcategoriesContainer = document.getElementById("subcategoriesScroll");
+
+    if (!categoriesContainer || !subcategoriesContainer) return;
+
+    // --- Categorías principales ---
+    let catHtml = '';
+    categoryGroups.forEach((group, index) => {
+      const isActive = index === 0 ? 'active' : '';
+      catHtml += `
+        <button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>
+      `;
+    });
+    categoriesContainer.innerHTML = catHtml;
+
+    // --- Subcategorías (mostrar las de la primera categoría) ---
+    renderSubcategories(0);
+
+    // --- Eventos para categorías principales ---
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        // Activar visualmente
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeCategoryIndex = index;
+        renderSubcategories(index);
+        // Resetear filtro a "all" al cambiar de categoría
+        currentCategoryFilter = "all";
+        applyFilters();
+      });
+    });
+  }
+
+  function renderSubcategories(categoryIndex) {
+    const subcategoriesContainer = document.getElementById("subcategoriesScroll");
+    if (!subcategoriesContainer) return;
+
+    const group = categoryGroups[categoryIndex];
+    if (!group) {
+      subcategoriesContainer.innerHTML = `<span class="subcat-placeholder">Sin subcategorías</span>`;
+      return;
+    }
 
     let html = '';
-
-    categoryGroups.forEach((group, groupIndex) => {
-      const groupId = `group-${groupIndex}`;
-      const isFirst = groupIndex === 0;
-
+    group.subcategories.forEach((sub, subIndex) => {
+      const isActive = subIndex === 0 && group.name !== "TODOS" ? 'active' : '';
+      // Si es la categoría "TODOS", activar el botón "Todos"
+      const isAll = sub.id === "all";
+      const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' : '');
       html += `
-        <div class="filter-category">
-          <div class="filter-category-header" data-group="${groupId}">
-            <span class="label"><i class="fas ${group.icon}"></i> ${group.name}</span>
-            <span class="arrow ${isFirst ? 'open' : ''}"><i class="fas fa-chevron-down"></i></span>
-          </div>
-          <div class="filter-subcategories ${isFirst ? 'open' : ''}" id="${groupId}">
-      `;
-
-      group.subcategories.forEach(sub => {
-        html += `
-          <button class="filter-btn" data-filter="${sub.id}">${sub.label}</button>
-        `;
-      });
-
-      html += `
-          </div>
-        </div>
+        <button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>
       `;
     });
 
-    // Botón "Todos" al final
-    html += `
-      <div class="filter-category" style="border-bottom: none; margin-top: 4px;">
-        <div style="display: flex; justify-content: flex-end; padding: 4px 6px;">
-          <button class="filter-btn filter-btn-all active" data-filter="all">Todos</button>
-        </div>
-      </div>
-    `;
+    subcategoriesContainer.innerHTML = html;
 
-    container.innerHTML = html;
-
-    // Eventos de toggle para acordeón
-    document.querySelectorAll('.filter-category-header').forEach(header => {
-      header.addEventListener('click', function() {
-        const groupId = this.dataset.group;
-        const subContainer = document.getElementById(groupId);
-        const arrow = this.querySelector('.arrow');
-
-        if (subContainer) {
-          subContainer.classList.toggle('open');
-          if (arrow) {
-            arrow.classList.toggle('open');
-          }
-        }
-      });
-    });
-
-    // Eventos de los botones de filtro
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const filterValue = this.dataset.filter;
-
-        // Desactivar todos los filtros
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.filter-btn-all').forEach(b => b.classList.remove('active'));
-
+    // --- Eventos para subcategorías ---
+    document.querySelectorAll('.subcat-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const categoryId = this.dataset.category;
+        // Activar visualmente
+        document.querySelectorAll('.subcat-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-
-        if (filterValue === 'all') {
-          document.querySelectorAll('.filter-btn-all').forEach(b => b.classList.add('active'));
-        }
-
-        currentCategoryFilter = filterValue;
+        currentCategoryFilter = categoryId;
         applyFilters();
       });
     });
 
-    // Asegurar que "Todos" esté activo por defecto
-    document.querySelectorAll('.filter-btn-all').forEach(b => b.classList.add('active'));
+    // Si la categoría es "TODOS", aplicar filtro "all" automáticamente
+    if (group.name === "TODOS") {
+      currentCategoryFilter = "all";
+      applyFilters();
+    }
   }
 
   // ============================================
