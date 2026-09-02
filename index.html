@@ -158,13 +158,13 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       border: none;
       touch-action: manipulation;
-      min-height: 44px;
-      min-width: 44px;
+      min-height: 48px;
+      min-width: 48px;
       cursor: pointer;
       border-radius: 50px;
       box-shadow: 0 4px 25px rgba(204,0,0,0.3);
-      font-size: 0.85rem;
-      padding: 10px 24px;
+      font-size: 0.9rem;
+      padding: 12px 28px;
     }
     .btn-racing:hover { background: linear-gradient(135deg, #ff1e1e, #cc0000); box-shadow: 0 6px 40px rgba(255,30,30,0.5); transform: translateY(-2px) scale(1.03); }
 
@@ -175,20 +175,20 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       border: none;
       touch-action: manipulation;
-      min-height: 36px;
+      min-height: 38px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 8px 16px;
+      padding: 8px 18px;
       border-radius: 50px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       box-shadow: 0 4px 20px rgba(37,211,102,0.3);
       white-space: nowrap;
     }
     .btn-whatsapp:hover { background: linear-gradient(135deg, #30d96e, #1da851); box-shadow: 0 6px 35px rgba(37,211,102,0.5); transform: translateY(-2px) scale(1.04); }
-    @media (max-width: 480px) { .btn-whatsapp { font-size: 0.65rem; padding: 6px 12px; min-height: 30px; gap: 4px; } }
+    @media (max-width: 480px) { .btn-whatsapp { font-size: 0.7rem; padding: 6px 14px; min-height: 32px; gap: 4px; } }
 
     .btn-outline-racing {
       background: transparent;
@@ -197,16 +197,16 @@
       font-weight: 600;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       touch-action: manipulation;
-      min-height: 44px;
+      min-height: 48px;
       cursor: pointer;
       border-radius: 50px;
-      padding: 0 20px;
-      font-size: 0.85rem;
+      padding: 0 24px;
+      font-size: 0.9rem;
     }
     .btn-outline-racing:hover { background: rgba(204,0,0,0.15); border-color: #ff1e1e; box-shadow: 0 0 30px rgba(204,0,0,0.2); transform: translateY(-2px); }
 
     /* ============================================
-       FILTROS - ESTILO "MUEBLERIA" (TAMAÑO MEJORADO)
+       FILTROS - ESTILO "MUEBLERIA" (BOTONES MÁS GRANDES)
        ============================================ */
     .filters-wrapper {
       width: 100%;
@@ -218,8 +218,8 @@
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
-      gap: 10px;
-      padding: 8px 2px 12px 2px;
+      gap: 12px;
+      padding: 10px 2px 14px 2px;
       scrollbar-width: thin;
       scrollbar-color: #cc0000 transparent;
       -webkit-overflow-scrolling: touch;
@@ -238,12 +238,12 @@
 
     .cat-btn {
       flex-shrink: 0;
-      padding: 10px 22px;
-      font-size: 0.85rem;
+      padding: 14px 28px;
+      font-size: 1rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      border: 1px solid rgba(60,60,60,0.3);
+      border: 2px solid rgba(60,60,60,0.3);
       border-radius: 50px;
       background: rgba(20,20,20,0.6);
       color: #999;
@@ -251,6 +251,7 @@
       transition: all 0.25s ease;
       touch-action: manipulation;
       user-select: none;
+      min-height: 52px;
     }
     .cat-btn:hover {
       border-color: #cc0000;
@@ -261,7 +262,7 @@
       background: rgba(204,0,0,0.2);
       color: #ff1e1e;
       border-color: #cc0000;
-      box-shadow: 0 0 25px rgba(204,0,0,0.12);
+      box-shadow: 0 0 30px rgba(204,0,0,0.15);
     }
 
     /* === Subcategorías (scroll horizontal) === */
@@ -269,15 +270,15 @@
       display: flex;
       overflow-x: auto;
       overflow-y: hidden;
-      gap: 8px;
-      padding: 8px 2px 10px 2px;
+      gap: 10px;
+      padding: 10px 2px 12px 2px;
       scrollbar-width: thin;
       scrollbar-color: #555 transparent;
       -webkit-overflow-scrolling: touch;
       white-space: nowrap;
-      min-height: 40px;
+      min-height: 48px;
       border-top: 1px solid rgba(60,60,60,0.15);
-      padding-top: 10px;
+      padding-top: 12px;
       margin-top: 4px;
     }
     .subcategories-scroll::-webkit-scrollbar {
@@ -293,10 +294,10 @@
 
     .subcat-btn {
       flex-shrink: 0;
-      padding: 6px 16px;
-      font-size: 0.75rem;
+      padding: 10px 22px;
+      font-size: 0.9rem;
       font-weight: 600;
-      border: 1px solid rgba(60,60,60,0.2);
+      border: 2px solid rgba(60,60,60,0.2);
       border-radius: 50px;
       background: rgba(20,20,20,0.4);
       color: #888;
@@ -304,6 +305,7 @@
       transition: all 0.25s ease;
       touch-action: manipulation;
       user-select: none;
+      min-height: 42px;
     }
     .subcat-btn:hover {
       border-color: #cc0000;
@@ -318,37 +320,43 @@
 
     .subcat-placeholder {
       color: #555;
-      font-size: 0.75rem;
-      padding: 6px 0;
+      font-size: 0.85rem;
+      padding: 8px 0;
       font-style: italic;
     }
 
     /* === AJUSTES RESPONSIVE === */
     @media (max-width: 768px) {
       .cat-btn {
-        padding: 8px 16px;
-        font-size: 0.75rem;
+        padding: 12px 22px;
+        font-size: 0.9rem;
+        min-height: 46px;
       }
       .subcat-btn {
-        padding: 5px 14px;
-        font-size: 0.7rem;
+        padding: 8px 18px;
+        font-size: 0.8rem;
+        min-height: 38px;
       }
-      .categories-scroll { gap: 8px; padding: 6px 2px 10px 2px; }
-      .subcategories-scroll { gap: 6px; padding: 6px 2px 8px 2px; min-height: 36px; }
+      .categories-scroll { gap: 10px; padding: 8px 2px 12px 2px; }
+      .subcategories-scroll { gap: 8px; padding: 8px 2px 10px 2px; min-height: 42px; }
     }
 
     @media (max-width: 480px) {
       .cat-btn {
-        padding: 7px 14px;
-        font-size: 0.7rem;
+        padding: 10px 18px;
+        font-size: 0.8rem;
+        min-height: 40px;
         letter-spacing: 0.05em;
+        border-width: 2px;
       }
       .subcat-btn {
-        padding: 4px 12px;
-        font-size: 0.65rem;
+        padding: 8px 14px;
+        font-size: 0.75rem;
+        min-height: 36px;
+        border-width: 2px;
       }
-      .categories-scroll { gap: 6px; padding: 5px 2px 8px 2px; }
-      .subcategories-scroll { gap: 5px; padding: 5px 2px 6px 2px; min-height: 32px; }
+      .categories-scroll { gap: 8px; padding: 6px 2px 10px 2px; }
+      .subcategories-scroll { gap: 6px; padding: 6px 2px 8px 2px; min-height: 36px; }
     }
 
     /* === BUSCADOR === */
@@ -364,24 +372,25 @@
       background: rgba(20,20,20,0.8);
       border: 2px solid #333;
       color: white;
-      padding: 10px 18px;
+      padding: 12px 20px;
       border-radius: 50px;
       flex: 1;
       min-width: 150px;
-      font-size: 16px !important; /* Previene zoom en iPhone */
+      font-size: 16px !important;
       transition: all 0.3s ease;
       outline: none;
       backdrop-filter: blur(8px);
       -webkit-appearance: none;
+      min-height: 48px;
     }
-    .search-input::placeholder { color: #666; font-weight: 300; font-size: 14px; }
+    .search-input::placeholder { color: #666; font-weight: 300; font-size: 15px; }
     .search-input:focus { border-color: #cc0000; box-shadow: 0 0 30px rgba(204,0,0,0.1); background: rgba(30,30,30,0.9); }
-    .search-results-count { color: #888; font-size: 0.8rem; font-weight: 500; white-space: nowrap; }
+    .search-results-count { color: #888; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
 
     @media (max-width: 480px) {
       .search-wrapper { flex-direction: column; align-items: stretch; gap: 6px; }
-      .search-input { padding: 10px 16px; font-size: 16px !important; min-width: 100%; }
-      .search-results-count { text-align: center; font-size: 0.7rem; }
+      .search-input { padding: 10px 16px; font-size: 16px !important; min-width: 100%; min-height: 44px; }
+      .search-results-count { text-align: center; font-size: 0.75rem; }
     }
 
     /* === IMÁGENES === */
@@ -665,10 +674,10 @@
     .tech-badge {
       background: #1a1a1a;
       color: #bbb;
-      padding: 0.15rem 0.8rem;
+      padding: 0.2rem 0.9rem;
       border-radius: 20px;
       border-left: 2px solid #cc0000;
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       font-weight: 500;
       white-space: nowrap;
       display: inline-block;
@@ -766,7 +775,7 @@
       <span id="resultsCount" class="search-results-count">0 productos</span>
     </div>
 
-    <!-- ===== FILTROS - ESTILO "MUEBLERIA" ===== -->
+    <!-- ===== FILTROS - ESTILO "MUEBLERIA" (BOTONES GRANDES) ===== -->
     <div class="filters-wrapper" id="filtersWrapper">
       <!-- Categorías principales (scroll horizontal) -->
       <div class="categories-scroll" id="categoriesScroll">
