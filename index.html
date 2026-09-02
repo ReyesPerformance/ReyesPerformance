@@ -775,7 +775,7 @@
       <span id="resultsCount" class="search-results-count">0 productos</span>
     </div>
 
-    <!-- ===== FILTROS - ESTILO "MUEBLERIA" (BOTONES GRANDES) ===== -->
+    <!-- ===== FILTROS - ESTILO "MUEBLERIA" (TODOS AL PRINCIPIO) ===== -->
     <div class="filters-wrapper" id="filtersWrapper">
       <!-- Categorías principales (scroll horizontal) -->
       <div class="categories-scroll" id="categoriesScroll">
@@ -904,9 +904,15 @@
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
   // ============================================
-  // ESTRUCTURA DE CATEGORÍAS
+  // ESTRUCTURA DE CATEGORÍAS - TODOS AL PRINCIPIO
   // ============================================
   const categoryGroups = [
+    {
+      name: "TODOS",
+      subcategories: [
+        { id: "all", label: "Todos" }
+      ]
+    },
     {
       name: "EXTERIOR",
       subcategories: [
@@ -949,12 +955,6 @@
       subcategories: [
         { id: "accesorio", label: "Accesorios" }
       ]
-    },
-    {
-      name: "TODOS",
-      subcategories: [
-        { id: "all", label: "Todos" }
-      ]
     }
   ];
 
@@ -980,7 +980,7 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // ============================================
-  // RENDER FILTROS (Estilo Muebleria)
+  // RENDER FILTROS (Estilo Muebleria - TODOS al inicio)
   // ============================================
   function renderFilters() {
     const categoriesContainer = document.getElementById("categoriesScroll");
@@ -988,9 +988,10 @@
 
     if (!categoriesContainer || !subcategoriesContainer) return;
 
-    // --- Categorías principales ---
+    // --- Categorías principales (TODOS primero) ---
     let catHtml = '';
     categoryGroups.forEach((group, index) => {
+      // "TODOS" activo por defecto (index 0)
       const isActive = index === 0 ? 'active' : '';
       catHtml += `
         <button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>
@@ -998,7 +999,7 @@
     });
     categoriesContainer.innerHTML = catHtml;
 
-    // --- Subcategorías (mostrar las de la primera categoría) ---
+    // --- Subcategorías (mostrar las de "TODOS" primero) ---
     renderSubcategories(0);
 
     // --- Eventos para categorías principales ---
@@ -1009,6 +1010,7 @@
         this.classList.add('active');
         activeCategoryIndex = index;
         renderSubcategories(index);
+        // Resetear filtro a "all" al cambiar de categoría
         currentCategoryFilter = "all";
         applyFilters();
       });
@@ -1028,6 +1030,7 @@
     let html = '';
     group.subcategories.forEach((sub, subIndex) => {
       const isAll = sub.id === "all";
+      // Si es la categoría "TODOS", activar el botón "Todos"
       const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' : '');
       html += `
         <button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>
@@ -1047,6 +1050,7 @@
       });
     });
 
+    // Si la categoría es "TODOS", aplicar filtro "all" automáticamente
     if (group.name === "TODOS") {
       currentCategoryFilter = "all";
       applyFilters();
