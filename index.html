@@ -40,6 +40,10 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       html,
       body {
         max-width: 100%;
@@ -47,9 +51,13 @@
         background: #0a0a0a;
         color: #e5e5e5;
         font-family: -apple-system, "Inter", "Segoe UI", system-ui, sans-serif;
-        scroll-behavior: smooth;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Forzar scroll al inicio */
+      body {
+        position: relative;
       }
 
       .main-wrapper {
@@ -306,7 +314,7 @@
         transform: translateY(-2px);
       }
 
-      /* ===== FILTROS MEJORADOS - DISEÑO LIMPIO ===== */
+      /* ===== FILTROS - SIN EMOJIS ===== */
       .filters-container {
         display: flex;
         flex-direction: column;
@@ -387,7 +395,6 @@
         color: #ff1e1e;
       }
 
-      /* Responsive filtros */
       @media (max-width: 768px) {
         .filter-row {
           gap: 4px;
@@ -1098,9 +1105,9 @@
       <section class="max-w-7xl mx-auto px-3 md:px-4 section-padding" id="catalogo">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-6">
           <div>
-            <span class="text-red-500 font-bold text-[0.6rem] md:text-xs tracking-[0.4em] uppercase">Catálogo</span>
+            <span class="text-red-500 font-bold text-[0.6rem] md:text-xs tracking-[0.4em] uppercase">Catalogo</span>
             <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white">AUTOPARTES</h2>
-            <p class="text-gray-400 text-xs md:text-sm">Exterior · Interior · Iluminación · Accesorios</p>
+            <p class="text-gray-400 text-xs md:text-sm">Exterior · Interior · Iluminacion · Accesorios</p>
           </div>
         </div>
 
@@ -1119,7 +1126,7 @@
           <span id="resultsCount" class="search-results-count">0 productos</span>
         </div>
 
-        <!-- ===== FILTROS MEJORADOS - DISTRIBUCIÓN LIMPIA ===== -->
+        <!-- ===== FILTROS - SIN EMOJIS ===== -->
         <div class="filters-container mb-4 md:mb-6">
           <!-- Fila 1: Exterior -->
           <div class="filter-row">
@@ -1145,7 +1152,7 @@
           <!-- Fila 3: Luces y Enfriamiento -->
           <div class="filter-row">
             <span class="filter-label"><i class="fas fa-lightbulb"></i> Luces</span>
-            <button class="filter-btn" data-filter="iluminacion">Iluminación</button>
+            <button class="filter-btn" data-filter="iluminacion">Iluminacion</button>
             <button class="filter-btn" data-filter="enfriamiento">Radiadores</button>
           </div>
 
@@ -1208,8 +1215,8 @@
               <span class="text-red-500">REYES</span> PERFORMANCE
             </h3>
             <p class="text-gray-400 mt-2 text-xs md:text-sm leading-relaxed">
-              Venta de autopartes nuevas o usadas, partes de colisión y
-              accesorios para todo vehículo.
+              Venta de autopartes nuevas o usadas, partes de colision y
+              accesorios para todo vehiculo.
             </p>
             <div class="flex gap-3 mt-3">
               <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-facebook"></i></a>
@@ -1240,10 +1247,10 @@
             <h4 class="text-white font-bold text-base border-b border-red-600/50 pb-1 inline-block">SERVICIO</h4>
             <p class="text-gray-400 mt-3 text-xs md:text-sm">
               Lun - Vie: 9:00 - 20:00 <br />
-              Sábado: 10:00 - 18:00
+              Sabado: 10:00 - 18:00
             </p>
             <p class="text-gray-500 text-xs mt-2">
-              <i class="fas fa-shield-alt text-red-500 mr-1"></i> Garantía en todas las piezas
+              <i class="fas fa-shield-alt text-red-500 mr-1"></i> Garantia en todas las piezas
             </p>
             <div class="mt-3 pt-3 border-t border-gray-800">
               <p class="text-gray-400 text-xs flex items-start gap-2">
@@ -1283,10 +1290,15 @@
       (function () {
         "use strict";
 
+        // Forzar scroll al inicio de la página
+        if (window.location.hash === '') {
+          window.scrollTo(0, 0);
+        }
+
         const WHATSAPP_NUMBER = "528662569229";
 
         // ============================================
-        // 🔴 CONFIGURACIÓN DE SUPABASE
+        // CONFIGURACIÓN DE SUPABASE
         // ============================================
         const SUPABASE_URL = "https://frpycdvqavqsbzbqmugr.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
@@ -1313,7 +1325,7 @@
           "puertas": "Puertas",
           "espejos": "Espejos",
           "vidrios": "Vidrios",
-          "iluminacion": "Iluminación",
+          "iluminacion": "Iluminacion",
           "enfriamiento": "Radiadores",
           "tablero-y-consola": "Tableros",
           "bolsas-de-aire": "Airbags",
@@ -1350,7 +1362,7 @@
               <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
                 <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
                 <p class="text-sm md:text-base">Error al cargar productos</p>
-                <p class="text-xs text-gray-500 mt-1">Verifica la conexión con Supabase</p>
+                <p class="text-xs text-gray-500 mt-1">Verifica la conexion con Supabase</p>
                 <p class="text-[0.6rem] text-gray-600 mt-1">${error.message || "Error desconocido"}</p>
               </div>
             `;
@@ -1409,7 +1421,7 @@
                 <span class="absolute top-2 right-2 tech-badge text-[0.55rem] md:text-xs">${categoryName}</span>
               </div>
               <h4 class="text-sm md:text-base lg:text-lg font-bold text-white mt-2 truncate">${p.name || "Sin nombre"}</h4>
-              <p class="text-gray-400 text-xs md:text-sm truncate">${p.description || "Sin descripción"}</p>
+              <p class="text-gray-400 text-xs md:text-sm truncate">${p.description || "Sin descripcion"}</p>
               
               <div class="flex flex-wrap gap-1.5 mt-1.5">
                 <span class="tech-badge text-[0.5rem] md:text-xs"><i class="far fa-calendar-alt mr-1"></i> ${p.year || "N/A"}</span>
@@ -1450,7 +1462,7 @@
                   maximumFractionDigits: 2
                 }).format(product.price) : "$0.00";
 
-                const message = `Hola, me interesa la pieza: ${product.name} para ${product.model || product.car_model || ""} (${product.year || ""}) - Condición: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+                const message = `Hola, me interesa la pieza: ${product.name} para ${product.model || product.car_model || ""} (${product.year || ""}) - Condicion: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
                 window.open(
                   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
                   "_blank",
@@ -1532,7 +1544,7 @@
                 <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
                   <i class="fas fa-comments text-3xl md:text-4xl mb-3"></i>
                   <p class="text-sm md:text-base">No hay referencias disponibles</p>
-                  <p class="text-xs text-gray-500 mt-1">Agrega imágenes en la carpeta <strong>Referencias/</strong></p>
+                  <p class="text-xs text-gray-500 mt-1">Agrega imagenes en la carpeta <strong>Referencias/</strong></p>
                 </div>
               `;
               return;
@@ -1551,7 +1563,7 @@
                      onerror="this.src='https://via.placeholder.com/500x400/1a1a1a/cc0000?text=Error+al+cargar'">
                 <div class="referencia-overlay">
                   <div class="chat-label text-xs md:text-sm">
-                    <i class="fab fa-whatsapp"></i> Conversación ${index + 1}
+                    <i class="fab fa-whatsapp"></i> Conversacion ${index + 1}
                   </div>
                   <button class="btn-ver text-xs md:text-sm py-2 px-4 md:py-3 md:px-6" data-index="${index}">
                     <i class="fas fa-expand"></i> Ver captura
@@ -1846,14 +1858,11 @@
             btn.addEventListener("click", function () {
               const filterValue = this.dataset.filter;
 
-              // Desactivar todos los filtros
               document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
               document.querySelector(".filter-btn-all")?.classList.remove("active");
 
-              // Activar el filtro clickeado
               this.classList.add("active");
 
-              // Si es "all", activar el botón "Todos"
               if (filterValue === "all") {
                 document.querySelector(".filter-btn-all")?.classList.add("active");
               }
@@ -1863,10 +1872,8 @@
             });
           });
 
-          // Asegurar que "Todos" esté activo por defecto
           document.querySelector(".filter-btn-all")?.classList.add("active");
 
-          // Buscador
           const searchInput = document.getElementById("searchInput");
           searchInput.addEventListener("input", function () {
             currentSearchTerm = this.value;
@@ -1876,9 +1883,21 @@
           await loadProducts();
           await loadReferencias();
 
-          console.log("✅ REYES PERFORMANCE - Conectado a Supabase");
-          console.log(`📦 ${allProducts.length} productos cargados`);
+          console.log("REYES PERFORMANCE - Conectado a Supabase");
+          console.log(`${allProducts.length} productos cargados`);
         }
+
+        // Forzar scroll al inicio después de cargar
+        if (window.location.hash === '') {
+          window.scrollTo(0, 0);
+        }
+
+        // También al recargar
+        window.addEventListener('load', function() {
+          if (window.location.hash === '') {
+            window.scrollTo(0, 0);
+          }
+        });
 
         init();
       })();
