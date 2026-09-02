@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -12,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* ===== RESET Y FUENTES ===== */
+    /* === RESET Y FUENTES === */
     @font-face {
       font-family: "Hauser Bold";
       src: url("fonts/Hauser Bold.otf") format("opentype");
@@ -775,10 +776,16 @@
       <span id="resultsCount" class="search-results-count">0 productos</span>
     </div>
 
-    <!-- ===== FILTROS ===== -->
+    <!-- ===== FILTROS - ESTILO "MUEBLERIA" (TODOS AL PRINCIPIO) ===== -->
     <div class="filters-wrapper" id="filtersWrapper">
-      <div class="categories-scroll" id="categoriesScroll"></div>
-      <div class="subcategories-scroll" id="subcategoriesScroll"></div>
+      <!-- Categorías principales (scroll horizontal) -->
+      <div class="categories-scroll" id="categoriesScroll">
+        <!-- Generado desde JavaScript -->
+      </div>
+      <!-- Subcategorías (scroll horizontal) -->
+      <div class="subcategories-scroll" id="subcategoriesScroll">
+        <!-- Generado desde JavaScript -->
+      </div>
     </div>
 
     <!-- ===== PRODUCTOS ===== -->
@@ -880,7 +887,7 @@
   </div>
 </div>
 
-<!-- ===== JAVASCRIPT CORREGIDO ===== -->
+<!-- ===== JAVASCRIPT ===== -->
 <script>
 (function() {
   "use strict";
@@ -901,7 +908,12 @@
   // ESTRUCTURA DE CATEGORÍAS - TODOS AL PRINCIPIO
   // ============================================
   const categoryGroups = [
-    { name: "TODOS", subcategories: [ { id: "all", label: "Todos" } ] },
+    {
+      name: "TODOS",
+      subcategories: [
+        { id: "all", label: "Todos" }
+      ]
+    },
     {
       name: "EXTERIOR",
       subcategories: [
@@ -947,6 +959,7 @@
     }
   ];
 
+  // Mapeo para mostrar nombre en tarjetas
   const categoryDisplayNames = {};
   categoryGroups.forEach(group => {
     group.subcategories.forEach(sub => {
@@ -968,22 +981,29 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // ============================================
-  // RENDER FILTROS (sin cambios)
+  // RENDER FILTROS (Estilo Muebleria - TODOS al inicio)
   // ============================================
   function renderFilters() {
     const categoriesContainer = document.getElementById("categoriesScroll");
     const subcategoriesContainer = document.getElementById("subcategoriesScroll");
+
     if (!categoriesContainer || !subcategoriesContainer) return;
 
+    // --- Categorías principales (TODOS primero) ---
     let catHtml = '';
     categoryGroups.forEach((group, index) => {
+      // "TODOS" activo por defecto (index 0)
       const isActive = index === 0 ? 'active' : '';
-      catHtml += `<button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>`;
+      catHtml += `
+        <button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>
+      `;
     });
     categoriesContainer.innerHTML = catHtml;
 
+    // --- Subcategorías (mostrar las de "TODOS" primero) ---
     renderSubcategories(0);
 
+    // --- Eventos para categorías principales ---
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const index = parseInt(this.dataset.index);
@@ -991,6 +1011,7 @@
         this.classList.add('active');
         activeCategoryIndex = index;
         renderSubcategories(index);
+        // Resetear filtro a "all" al cambiar de categoría
         currentCategoryFilter = "all";
         applyFilters();
       });
@@ -1010,11 +1031,16 @@
     let html = '';
     group.subcategories.forEach((sub, subIndex) => {
       const isAll = sub.id === "all";
+      // Si es la categoría "TODOS", activar el botón "Todos"
       const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' : '');
-      html += `<button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>`;
+      html += `
+        <button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>
+      `;
     });
+
     subcategoriesContainer.innerHTML = html;
 
+    // --- Eventos para subcategorías ---
     document.querySelectorAll('.subcat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const categoryId = this.dataset.category;
@@ -1025,6 +1051,7 @@
       });
     });
 
+    // Si la categoría es "TODOS", aplicar filtro "all" automáticamente
     if (group.name === "TODOS") {
       currentCategoryFilter = "all";
       applyFilters();
@@ -1032,39 +1059,29 @@
   }
 
   // ============================================
-  // CARGAR PRODUCTOS (CORREGIDO: orden por id)
+  // CARGAR PRODUCTOS
   // ============================================
   async function loadProducts() {
     const container = document.getElementById("catalogGrid");
 
     try {
-      // Cambiamos la ordenación a "id" para garantizar que funcione
       const { data, error } = await supabase
         .from("products")
         .select("*")
-        .order("id", { ascending: false });
+        .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("❌ Error de Supabase:", error);
-        throw error;
-      }
+      if (error) throw error;
 
       allProducts = data || [];
-      console.log(`✅ Productos cargados: ${allProducts.length}`);
-      if (allProducts.length > 0) {
-        console.log("📦 Primer producto:", allProducts[0]);
-      } else {
-        console.warn("⚠️ No se encontraron productos en la tabla 'products'.");
-      }
       applyFilters();
       updateResultsCount();
     } catch (error) {
-      console.error("💥 Error al cargar productos:", error);
+      console.error("Error cargando productos:", error);
       container.innerHTML = `
         <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
           <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
           <p class="text-sm md:text-base">Error al cargar productos</p>
-          <p class="text-xs text-gray-500 mt-1">Verifica la conexion con Supabase o que la tabla 'products' exista</p>
+          <p class="text-xs text-gray-500 mt-1">Verifica la conexion con Supabase</p>
           <p class="text-[0.6rem] text-gray-600 mt-1">${error.message || "Error desconocido"}</p>
         </div>
       `;
@@ -1072,7 +1089,7 @@
   }
 
   // ============================================
-  // RENDER PRODUCTOS (sin cambios)
+  // RENDER PRODUCTOS
   // ============================================
   function renderProductCards(containerId, data) {
     const container = document.getElementById(containerId);
@@ -1084,7 +1101,7 @@
         <div class="col-span-full text-center text-gray-400 py-6 md:py-8">
           <i class="fas fa-box-open text-2xl md:text-3xl mb-2"></i>
           <p class="text-sm md:text-base">No hay productos disponibles</p>
-          <p class="text-xs text-gray-500 mt-1">${currentSearchTerm ? `No se encontraron resultados para "${currentSearchTerm}"` : "Agrega productos desde el panel de administración"}</p>
+          <p class="text-xs text-gray-500 mt-1">${currentSearchTerm ? `No se encontraron resultados para "${currentSearchTerm}"` : "Agrega productos en Supabase"}</p>
         </div>
       `;
       return;
@@ -1174,7 +1191,7 @@
   }
 
   // ============================================
-  // APLICAR FILTROS (sin cambios)
+  // APLICAR FILTROS
   // ============================================
   function applyFilters() {
     let filtered = [...allProducts];
@@ -1198,7 +1215,7 @@
   }
 
   // ============================================
-  // ACTUALIZAR CONTADOR (sin cambios)
+  // ACTUALIZAR CONTADOR
   // ============================================
   function updateResultsCount(count) {
     const el = document.getElementById("resultsCount");
@@ -1209,7 +1226,7 @@
   }
 
   // ============================================
-  // CARGAR REFERENCIAS (sin cambios)
+  // CARGAR REFERENCIAS
   // ============================================
   async function loadReferencias() {
     const container = document.getElementById("referenciasGrid");
@@ -1288,7 +1305,7 @@
   }
 
   // ============================================
-  // MODAL (código completo - sin cambios)
+  // MODAL (código completo)
   // ============================================
   let currentModalImages = [];
   let currentModalIndex = 0;
@@ -1312,17 +1329,22 @@
 
   function openModal(images, index) {
     if (!images || images.length === 0) return;
+
     scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
     currentModalImages = images;
     currentModalIndex = index;
     resetZoom();
+
     modalImage.src = images[currentModalIndex] || "https://via.placeholder.com/800x600/1a1a1a/cc0000?text=Sin+imagen";
     counter.textContent = `${currentModalIndex + 1} / ${images.length}`;
     modal.classList.add("active");
+
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollPosition}px`;
     document.body.style.width = "100%";
+
     const hasMultiple = images.length > 1;
     document.getElementById("modalPrev").style.display = hasMultiple ? "flex" : "none";
     document.getElementById("modalNext").style.display = hasMultiple ? "flex" : "none";
@@ -1496,7 +1518,8 @@
     await loadProducts();
     await loadReferencias();
 
-    console.log("✅ REYES PERFORMANCE - Página principal reparada");
+    console.log("REYES PERFORMANCE - Conectado a Supabase");
+    console.log(`${allProducts.length} productos cargados`);
   }
 
   init();
