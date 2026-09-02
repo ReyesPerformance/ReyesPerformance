@@ -1454,90 +1454,91 @@
     // ============================================
     // GUARDAR PRODUCTO CON LOGS DE DEPURACIÓN
     // ============================================
-    async function guardarProducto() {
-        const idOriginal = document.getElementById('productoIdOriginal').value;
-        const name = document.getElementById('inputTitulo').value.trim();
-        const model = document.getElementById('inputModelo').value.trim();
-        const year = document.getElementById('inputYear').value.trim();
-        const category = document.getElementById('inputCategoria').value;
-        const condition = document.getElementById('inputCondicion').value;
-        const description = document.getElementById('inputDescripcion').value.trim();
-        const price = parseFloat(document.getElementById('inputPrecio').value) || 0;
+   async function guardarProducto() {
+    const idOriginal = document.getElementById('productoIdOriginal').value;
+    const name = document.getElementById('inputTitulo').value.trim();
+    const model = document.getElementById('inputModelo').value.trim();
+    const year = document.getElementById('inputYear').value.trim();
+    const category = document.getElementById('inputCategoria').value;
+    const condition = document.getElementById('inputCondicion').value;
+    const description = document.getElementById('inputDescripcion').value.trim();
+    const price = parseFloat(document.getElementById('inputPrecio').value) || 0;
 
-        if (!name) {
-            alert('El título del producto es obligatorio.');
-            return;
-        }
-
-        if (!model) {
-            alert('El modelo del producto es obligatorio.');
-            return;
-        }
-
-        if (!category) {
-            alert('La categoría es obligatoria.');
-            return;
-        }
-
-        if (price <= 0) {
-            alert('El precio debe ser mayor a 0.');
-            return;
-        }
-
-        const datos = {
-            name: name,
-            model: model,
-            car_model: model,
-            year: year,
-            category: category,
-            condition: condition,
-            description: description,
-            price: price,
-            images: imagenesActuales,
-            updated_at: new Date().toISOString()
-        };
-
-        console.log('📦 Datos a guardar:', datos);
-
-        const msg = document.getElementById('msgLoader');
-        msg.textContent = 'Guardando producto...';
-
-        try {
-            let result;
-            if (idOriginal) {
-                console.log('✏️ Actualizando producto ID:', idOriginal);
-                result = await supabaseClient
-                    .from('products')
-                    .update(datos)
-                    .eq('id', parseInt(idOriginal));
-            } else {
-                console.log('📝 Creando nuevo producto');
-                datos.created_at = new Date().toISOString();
-                result = await supabaseClient
-                    .from('products')
-                    .insert([datos]);
-            }
-
-            console.log('✅ Resultado de Supabase:', result);
-
-            if (result.error) {
-                console.error('❌ Error de Supabase:', result.error);
-                alert('Error al guardar: ' + result.error.message);
-                msg.textContent = 'Error: ' + result.error.message;
-                return;
-            }
-
-            msg.textContent = 'Producto guardado exitosamente!';
-            setTimeout(() => { msg.textContent = ''; }, 2000);
-
-            cerrarModal();
-            cargarProductos();
-        } catch (error) {
-            console.error('❌ Excepción al guardar:', error);
-            msg.textContent = 'Error al guardar el producto.';
-            alert('Hubo un error al guardar el producto.');
-        }
+    if (!name) {
+        alert('El título del producto es obligatorio.');
+        return;
     }
+
+    if (!model) {
+        alert('El modelo del producto es obligatorio.');
+        return;
+    }
+
+    if (!category) {
+        alert('La categoría es obligatoria.');
+        return;
+    }
+
+    if (price <= 0) {
+        alert('El precio debe ser mayor a 0.');
+        return;
+    }
+
+    // Datos a enviar (sin updated_at)
+    const datos = {
+        name: name,
+        model: model,
+        car_model: model,  // para compatibilidad con búsquedas
+        year: year,
+        category: category,
+        condition: condition,
+        description: description,
+        price: price,
+        images: imagenesActuales
+        // No incluimos updated_at ni created_at (la base de datos los maneja automáticamente)
+    };
+
+    console.log('📦 Datos a guardar:', datos);
+
+    const msg = document.getElementById('msgLoader');
+    msg.textContent = 'Guardando producto...';
+
+    try {
+        let result;
+        if (idOriginal) {
+            console.log('✏️ Actualizando producto ID:', idOriginal);
+            result = await supabaseClient
+                .from('products')
+                .update(datos)
+                .eq('id', parseInt(idOriginal));
+        } else {
+            console.log('📝 Creando nuevo producto');
+            result = await supabaseClient
+                .from('products')
+                .insert([datos]);
+        }
+
+        console.log('✅ Resultado de Supabase:', result);
+
+        if (result.error) {
+            console.error('❌ Error de Supabase:', result.error);
+            alert('Error al guardar: ' + result.error.message);
+            msg.textContent = 'Error: ' + result.error.message;
+            return;
+        }
+
+        msg.textContent = 'Producto guardado exitosamente!';
+        setTimeout(() => { msg.textContent = ''; }, 2000);
+
+        cerrarModal();
+        cargarProductos();
+    } catch (error) {
+        console.error('❌ Excepción al guardar:', error);
+        msg.textContent = 'Error al guardar el producto.';
+        alert('Hubo un error al guardar el producto.');
+    }
+}
+
 
     // ============================================
     // ELIMINAR PRODUCTO
