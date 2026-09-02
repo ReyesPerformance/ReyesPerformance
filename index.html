@@ -306,12 +306,40 @@
         transform: translateY(-2px);
       }
 
-      /* ===== FILTROS ===== */
+      /* ===== FILTROS MEJORADOS ===== */
+      .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        background: rgba(20, 20, 20, 0.6);
+        border-radius: 12px;
+        border: 1px solid rgba(60, 60, 60, 0.3);
+      }
+
+      .filter-group-label {
+        display: flex;
+        align-items: center;
+        color: #ff1e1e;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-right: 10px;
+        border-right: 1px solid rgba(60, 60, 60, 0.3);
+        margin-right: 4px;
+        white-space: nowrap;
+      }
+      .filter-group-label i {
+        margin-right: 6px;
+      }
+
       .filter-btn {
-        font-size: clamp(0.7rem, 1vw, 0.85rem);
-        padding: 6px 16px;
+        font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+        padding: 5px 14px;
         touch-action: manipulation;
-        min-height: 36px;
+        min-height: 32px;
         cursor: pointer;
         border: 1px solid transparent;
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -319,13 +347,34 @@
         font-weight: 600;
         background: rgba(30, 30, 30, 0.6);
         color: #aaa;
+        white-space: nowrap;
       }
       .filter-btn:hover {
         border-color: #cc0000;
         color: #fff;
+        background: rgba(60, 60, 60, 0.6);
       }
       .filter-btn.active {
         background: rgba(204, 0, 0, 0.25);
+        color: #ff1e1e;
+        border-color: #cc0000;
+        box-shadow: 0 0 20px rgba(204, 0, 0, 0.15);
+      }
+
+      .filter-btn-category {
+        background: rgba(204, 0, 0, 0.08);
+        border-color: rgba(204, 0, 0, 0.2);
+        color: #cc6666;
+        font-size: clamp(0.6rem, 0.7vw, 0.75rem);
+        padding: 3px 12px;
+      }
+      .filter-btn-category:hover {
+        background: rgba(204, 0, 0, 0.2);
+        border-color: #cc0000;
+        color: #ff1e1e;
+      }
+      .filter-btn-category.active {
+        background: rgba(204, 0, 0, 0.3);
         color: #ff1e1e;
         border-color: #cc0000;
       }
@@ -807,6 +856,27 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #ff1e1e;
       }
+
+      /* ===== RESPONSIVE FILTERS ===== */
+      @media (max-width: 768px) {
+        .filter-group {
+          padding: 6px 10px;
+          gap: 5px;
+        }
+        .filter-group-label {
+          font-size: 0.6rem;
+          padding-right: 6px;
+        }
+        .filter-btn {
+          font-size: 0.6rem;
+          padding: 3px 10px;
+          min-height: 26px;
+        }
+        .filter-btn-category {
+          font-size: 0.55rem;
+          padding: 2px 8px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -877,44 +947,12 @@
               AUTOPARTES
             </h2>
             <p class="text-gray-400 text-sm md:text-base">
-              Defensas · Laterales · Accesorios · Colisión
+              Exterior · Interior · Iluminación · Accesorios
             </p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button
-              class="filter-btn active"
-              data-filter="all"
-            >
-              Todos
-            </button>
-            <button
-              class="filter-btn"
-              data-filter="defensa-frontal"
-            >
-              Defensas Frontales
-            </button>
-            <button
-              class="filter-btn"
-              data-filter="defensa-trasera"
-            >
-              Defensas Traseras
-            </button>
-            <button
-              class="filter-btn"
-              data-filter="laterales"
-            >
-              Laterales
-            </button>
-            <button
-              class="filter-btn"
-              data-filter="accesorio"
-            >
-              Accesorios
-            </button>
           </div>
         </div>
 
-        <!-- ===== BUSCADOR POR CARRO ===== -->
+        <!-- ===== BUSCADOR ===== -->
         <div class="mb-6">
           <div class="flex flex-wrap items-center gap-3">
             <div class="relative flex-1 min-w-[200px] max-w-[400px]">
@@ -922,7 +960,7 @@
               <input
                 type="text"
                 id="searchInput"
-                placeholder="Busca por modelo de carro (Mustang, Camaro, Charger...)"
+                placeholder="Buscar por modelo de carro o pieza..."
                 class="search-input pl-11 pr-4"
                 autocomplete="off"
               />
@@ -932,6 +970,77 @@
           </div>
         </div>
 
+        <!-- ===== FILTROS MEJORADOS ===== -->
+        <div class="mb-6 space-y-3">
+          <!-- Grupo 1: Exterior Frontal -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-car"></i> Exterior Frontal
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="defensa-frontal">Defensas Frontales</button>
+            <button class="filter-btn filter-btn-category" data-filter="parrillas">Parrillas</button>
+            <button class="filter-btn filter-btn-category" data-filter="cofres">Cofres</button>
+            <button class="filter-btn filter-btn-category" data-filter="salpicaderas-delanteras">Salpicaderas</button>
+          </div>
+
+          <!-- Grupo 2: Exterior Trasero -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-car-side"></i> Exterior Trasero
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="defensa-trasera">Defensas Traseras</button>
+            <button class="filter-btn filter-btn-category" data-filter="tapa-cajuela">Tapas de Cajuela</button>
+            <button class="filter-btn filter-btn-category" data-filter="difusores">Difusores</button>
+          </div>
+
+          <!-- Grupo 3: Laterales y Vidrios -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-door-open"></i> Laterales & Vidrios
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="laterales">Laterales</button>
+            <button class="filter-btn filter-btn-category" data-filter="puertas">Puertas</button>
+            <button class="filter-btn filter-btn-category" data-filter="espejos">Espejos</button>
+            <button class="filter-btn filter-btn-category" data-filter="vidrios">Vidrios</button>
+          </div>
+
+          <!-- Grupo 4: Luces y Radiadores -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-lightbulb"></i> Luces & Radiadores
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="iluminacion">Iluminación</button>
+            <button class="filter-btn filter-btn-category" data-filter="enfriamiento">Enfriamiento</button>
+          </div>
+
+          <!-- Grupo 5: Interiores -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-chair"></i> Interiores
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="tablero-y-consola">Tableros</button>
+            <button class="filter-btn filter-btn-category" data-filter="bolsas-de-aire">Airbags</button>
+            <button class="filter-btn filter-btn-category" data-filter="cinturones-y-volantes">Cinturones & Volantes</button>
+            <button class="filter-btn filter-btn-category" data-filter="asientos-y-tapiceria">Asientos & Tapicería</button>
+          </div>
+
+          <!-- Grupo 6: Accesorios -->
+          <div class="filter-group">
+            <span class="filter-group-label">
+              <i class="fas fa-star"></i> Accesorios & Estética
+            </span>
+            <button class="filter-btn filter-btn-category" data-filter="accesorio">Accesorios</button>
+          </div>
+
+          <!-- Botón Todos -->
+          <div class="flex justify-end">
+            <button class="filter-btn active" data-filter="all" style="background: rgba(204,0,0,0.2); color: #ff1e1e; border-color: #cc0000;">
+              <i class="fas fa-th-list mr-1"></i> Ver Todos
+            </button>
+          </div>
+        </div>
+
+        <!-- ===== PRODUCTOS ===== -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
           id="catalogGrid"
@@ -1137,6 +1246,38 @@
         let currentSearchTerm = "";
 
         // ============================================
+        // MAPEO DE CATEGORÍAS PARA MOSTRAR EN ESPAÑOL
+        // ============================================
+        const categoryDisplayNames = {
+          // Exterior Frontal
+          "defensa-frontal": "Defensa Frontal",
+          "parrillas": "Parrillas",
+          "cofres": "Cofres",
+          "salpicaderas-delanteras": "Salpicaderas",
+          // Exterior Trasero
+          "defensa-trasera": "Defensa Trasera",
+          "tapa-cajuela": "Tapa de Cajuela",
+          "difusores": "Difusores",
+          // Laterales y Vidrios
+          "laterales": "Laterales",
+          "puertas": "Puertas",
+          "espejos": "Espejos",
+          "vidrios": "Vidrios",
+          // Luces y Radiadores
+          "iluminacion": "Iluminación",
+          "enfriamiento": "Enfriamiento",
+          // Interiores
+          "tablero-y-consola": "Tableros",
+          "bolsas-de-aire": "Airbags",
+          "cinturones-y-volantes": "Cinturones & Volantes",
+          "asientos-y-tapiceria": "Asientos & Tapicería",
+          // Accesorios
+          "accesorio": "Accesorios",
+          // Default
+          "all": "Todos"
+        };
+
+        // ============================================
         // SUPABASE CLIENT
         // ============================================
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1201,12 +1342,16 @@
             const firstImage = images.length > 0 ? images[0] : "";
             const imageCount = images.length;
 
-            const categoryNames = {
-              "defensa-frontal": "Defensa Frontal",
-              "defensa-trasera": "Defensa Trasera",
-              laterales: "Laterales",
-              accesorio: "Accesorio",
-            };
+            // Obtener nombre de categoría en español
+            const categoryName = categoryDisplayNames[p.category] || p.category || "Pieza";
+
+            // Formatear precio
+            const formattedPrice = p.price ? new Intl.NumberFormat('es-MX', {
+              style: 'currency',
+              currency: 'MXN',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2
+            }).format(p.price) : "$0.00";
 
             card.innerHTML = `
               <div class="relative">
@@ -1220,7 +1365,7 @@
                   </div>
                 `}
                 ${imageCount > 1 ? `<span class="image-counter"><i class="fas fa-images mr-1"></i>${imageCount}</span>` : ""}
-                <span class="absolute top-3 right-3 tech-badge">${categoryNames[p.category] || p.category || "Pieza"}</span>
+                <span class="absolute top-3 right-3 tech-badge">${categoryName}</span>
               </div>
               <h4 class="text-lg md:text-xl font-bold text-white mt-3">${p.name || "Sin nombre"}</h4>
               <p class="text-gray-400 text-sm">${p.description || "Sin descripción"}</p>
@@ -1234,7 +1379,7 @@
               </div>
               
               <div class="mt-3 md:mt-4 flex flex-wrap justify-between items-center gap-2">
-                <span class="text-2xl md:text-3xl font-bold text-red-400">${p.price || "$0"}</span>
+                <span class="text-2xl md:text-3xl font-bold text-red-400">${formattedPrice}</span>
                 <button class="btn-whatsapp buy-btn" data-product-id="${p.id}">
                   <i class="fab fa-whatsapp"></i> Cotizar
                 </button>
@@ -1259,7 +1404,14 @@
               const productId = parseInt(this.dataset.productId);
               const product = allProducts.find((p) => p.id === productId);
               if (product) {
-                const message = `Hola, me interesa la pieza: ${product.name} para ${product.model || product.car_model || ""} (${product.year || ""}) - Condición: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${product.price}`;
+                const formattedPriceMsg = product.price ? new Intl.NumberFormat('es-MX', {
+                  style: 'currency',
+                  currency: 'MXN',
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }).format(product.price) : "$0.00";
+
+                const message = `Hola, me interesa la pieza: ${product.name} para ${product.model || product.car_model || ""} (${product.year || ""}) - Condición: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
                 window.open(
                   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
                   "_blank",
@@ -1309,16 +1461,12 @@
         }
 
         // ============================================
-        // CARGAR REFERENCIAS (CORREGIDO)
+        // CARGAR REFERENCIAS
         // ============================================
         async function loadReferencias() {
           const container = document.getElementById("referenciasGrid");
 
           try {
-            // Detectar si estamos en GitHub Pages o local
-            const isGitHubPages = window.location.hostname.includes('github.io');
-            const basePath = isGitHubPages ? '' : '';
-
             const referencias = [
               "chat1.jpg",
               "chat2.jpg",
@@ -1665,15 +1813,29 @@
         // INICIALIZACIÓN
         // ============================================
         async function init() {
-          document.querySelectorAll(".filter-btn").forEach((btn) => {
+          // Filtros por categoría
+          document.querySelectorAll(".filter-btn-category").forEach((btn) => {
             btn.addEventListener("click", function () {
-              document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+              // Desactivar todos los filtros de categoría
+              document.querySelectorAll(".filter-btn-category").forEach((b) => b.classList.remove("active"));
+              // Desactivar el botón "Todos"
+              document.querySelector(".filter-btn[data-filter='all']").classList.remove("active");
+              
               this.classList.add("active");
               currentCategoryFilter = this.dataset.filter;
               applyFilters();
             });
           });
 
+          // Botón "Todos"
+          document.querySelector(".filter-btn[data-filter='all']").addEventListener("click", function () {
+            document.querySelectorAll(".filter-btn-category").forEach((b) => b.classList.remove("active"));
+            document.querySelectorAll(".filter-btn[data-filter='all']").forEach((b) => b.classList.add("active"));
+            currentCategoryFilter = "all";
+            applyFilters();
+          });
+
+          // Buscador en tiempo real
           const searchInput = document.getElementById("searchInput");
           searchInput.addEventListener("input", function () {
             currentSearchTerm = this.value;
@@ -1685,6 +1847,7 @@
 
           console.log("✅ REYES PERFORMANCE - Conectado a Supabase");
           console.log(`📦 ${allProducts.length} productos cargados`);
+          console.log("📂 Categorías disponibles:", Object.keys(categoryDisplayNames).filter(k => k !== "all").join(", "));
         }
 
         init();
