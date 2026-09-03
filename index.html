@@ -96,15 +96,17 @@
         .logo-wrapper:hover {
             transform: scale(1.05);
         }
+        /* Logo más grande en todos los dispositivos */
         .logo-wrapper img {
-            height: clamp(70px, 10vw, 140px);
+            height: clamp(110px, 16vw, 200px);
             width: auto;
-            filter: drop-shadow(0 0 30px rgba(204, 0, 0, 0.3));
-            transition: filter 0.4s ease;
+            filter: drop-shadow(0 0 40px rgba(204, 0, 0, 0.4));
+            transition: filter 0.4s ease, transform 0.3s ease;
             display: block;
         }
         .logo-wrapper:hover img {
-            filter: drop-shadow(0 0 50px rgba(204, 0, 0, 0.6));
+            filter: drop-shadow(0 0 70px rgba(204, 0, 0, 0.7));
+            transform: scale(1.04);
         }
 
         .hero-title {
@@ -116,7 +118,7 @@
             text-transform: uppercase;
             position: relative;
             z-index: 2;
-            margin-top: clamp(70px, 14vh, 130px);
+            margin-top: clamp(90px, 16vh, 150px);
         }
         .hero-title .reyes {
             color: #ff1e1e;
@@ -1484,6 +1486,7 @@
                 });
                 categoriesContainer.innerHTML = catHtml;
 
+                // Render inicial de subcategorías
                 renderSubcategories(0);
 
                 document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -1493,7 +1496,14 @@
                         this.classList.add('active');
                         activeCategoryIndex = index;
                         renderSubcategories(index);
-                        currentCategoryFilter = "all";
+                        // Obtener la subcategoría activa después de renderizar
+                        const activeSub = document.querySelector('.subcat-btn.active');
+                        if (activeSub) {
+                            currentCategoryFilter = activeSub.dataset.category;
+                        } else {
+                            // fallback (no debería ocurrir)
+                            currentCategoryFilter = "all";
+                        }
                         applyFilters();
                     });
                 });
@@ -1511,13 +1521,14 @@
 
                 let html = '';
                 group.subcategories.forEach((sub, subIndex) => {
-                    const isAll = sub.id === "all";
-                    const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' :
-                    '');
+                    // Para TODOS, la única es "all", para otros, la primera se activa
+                    const isActive = (sub.id === "all") || (subIndex === 0 && group.name !== "TODOS");
+                    const activeClass = isActive ? 'active' : '';
                     html += `<button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>`;
                 });
                 subcategoriesContainer.innerHTML = html;
 
+                // Asignar eventos a los botones de subcategoría
                 document.querySelectorAll('.subcat-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const categoryId = this.dataset.category;
@@ -1528,10 +1539,11 @@
                     });
                 });
 
-                if (group.name === "TODOS") {
-                    currentCategoryFilter = "all";
-                    applyFilters();
-                }
+                // Si el grupo es TODOS, forzamos el filtro a "all" y aplicamos
+                // pero ya lo haremos desde el evento de la categoría principal.
+                // No aplicamos filtro aquí para evitar duplicación.
+                // Sin embargo, cuando se carga la página, necesitamos un filtro inicial.
+                // Lo haremos en init.
             }
 
             // ============================================
@@ -2156,6 +2168,15 @@
             // ============================================
             async function init() {
                 renderFilters();
+
+                // Después de renderizar filtros, establecer el filtro inicial correcto
+                // La primera categoría (TODOS) tiene subcategoría "all", pero si no, tomamos la activa
+                const initialActiveSub = document.querySelector('.subcat-btn.active');
+                if (initialActiveSub) {
+                    currentCategoryFilter = initialActiveSub.dataset.category;
+                } else {
+                    currentCategoryFilter = "all";
+                }
 
                 const searchInput = document.getElementById("searchInput");
                 searchInput.addEventListener("input", function() {
