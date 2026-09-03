@@ -985,7 +985,7 @@
     </div>
   </footer>
 
-  <!-- ===== MODAL DE REFERENCIAS (zoom) ===== -->
+  <!-- ===== MODAL DE ZOOM (referencias) ===== -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
@@ -1416,11 +1416,12 @@
 
   // ===== Abrir zoom al hacer clic en la imagen del producto =====
   productGallery.addEventListener('click', function(e) {
-    // Solo si hay imágenes
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    // Abrir el modal de zoom con las imágenes del producto
+    // Cerrar el modal de producto para que el zoom se vea encima
+    closeProductModal();
+    // Abrir el zoom con las imágenes del producto
     openModal(images, currentProductImageIndex);
   });
 
