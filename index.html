@@ -67,10 +67,11 @@
       padding: 1rem;
     }
 
+    /* ===== LOGO MÁS GRANDE (con clamp) ===== */
     .logo-container {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: clamp(12px, 2vw, 25px);
+      left: clamp(12px, 2vw, 25px);
       z-index: 20;
       padding: 0;
       display: block;
@@ -80,18 +81,13 @@
     }
     .logo-container:hover { transform: scale(1.08) rotate(-1deg); }
     .logo-container img {
-      height: 120px;
+      height: clamp(80px, 12vw, 160px);
       width: auto;
       display: block;
       filter: drop-shadow(0 0 30px rgba(204,0,0,0.35));
       transition: filter 0.4s ease;
     }
     .logo-container:hover img { filter: drop-shadow(0 0 60px rgba(204,0,0,0.7)); }
-
-    @media (max-width: 1200px) { .logo-container { top: 15px; left: 15px; } .logo-container img { height: 95px; } }
-    @media (max-width: 992px) { .logo-container { top: 12px; left: 12px; } .logo-container img { height: 80px; } }
-    @media (max-width: 768px) { .logo-container { top: 10px; left: 10px; } .logo-container img { height: 70px; } }
-    @media (max-width: 480px) { .logo-container { top: 8px; left: 8px; } .logo-container img { height: 75px; } }
 
     .hero-title {
       font-family: "Hauser Bold", "Orbitron", sans-serif;
@@ -484,9 +480,7 @@
     @media (max-width: 640px) { .referencias-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; } }
     @media (max-width: 420px) { .referencias-grid { grid-template-columns: 1fr; gap: 0.75rem; } }
 
-    /* ============================================
-       MODAL DE PRODUCTO
-       ============================================ */
+    /* ===== MODAL DE PRODUCTO ===== */
     .product-modal {
       display: none;
       position: fixed;
@@ -949,7 +943,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER (sin dirección) ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer-racing py-6 md:py-10 px-3 md:px-4 mt-4 md:mt-6" id="contacto">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       <div>
@@ -985,7 +979,7 @@
     </div>
   </footer>
 
-  <!-- ===== MODAL DE ZOOM (referencias) ===== -->
+  <!-- ===== MODAL DE ZOOM ===== -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
@@ -1030,7 +1024,7 @@
   "use strict";
 
   // ============================================
-  // SCROLL AL INICIO (corregido)
+  // SCROLL AL INICIO
   // ============================================
   if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
   if (window.location.hash) { history.replaceState(null, null, window.location.pathname + window.location.search); }
@@ -1286,14 +1280,12 @@
         </div>
       `;
 
-      // ===== Hacer clic en toda la tarjeta =====
       card.addEventListener('click', function(e) {
         if (e.target.closest('.buy-btn')) return;
         const product = allProducts.find(prod => prod.id === p.id);
         if (product) openProductModal(product);
       });
 
-      // Evento de WhatsApp
       const buyBtn = card.querySelector(".buy-btn");
       if (buyBtn) {
         buyBtn.addEventListener("click", function(e) {
@@ -1353,7 +1345,6 @@
     const images = currentProduct.images && currentProduct.images.length > 0 ? currentProduct.images : [];
     const totalImages = images.length;
 
-    // Imagen
     if (totalImages > 0) {
       productModalImage.src = images[currentProductImageIndex] || '';
       productModalImage.alt = currentProduct.name || 'Producto';
@@ -1361,14 +1352,11 @@
       productModalImage.src = 'https://via.placeholder.com/600x400/1a1a1a/cc0000?text=Sin+imagen';
     }
 
-    // Contador
     productModalCounter.textContent = totalImages > 0 ? `${currentProductImageIndex + 1} / ${totalImages}` : '0 / 0';
 
-    // Navegación
     productModalPrev.style.display = totalImages > 1 ? 'flex' : 'none';
     productModalNext.style.display = totalImages > 1 ? 'flex' : 'none';
 
-    // Información (sin el ID)
     const conditionClass = currentProduct.condition === 'nuevo' ? 'nuevo' : (currentProduct.condition === 'usado' ? 'usado' : 'agotado');
     const conditionLabel = currentProduct.condition === 'nuevo' ? 'Nuevo' : (currentProduct.condition === 'usado' ? 'Usado' : 'Agotado');
     const formattedPrice = currentProduct.price ? new Intl.NumberFormat('es-MX', {
@@ -1398,7 +1386,6 @@
       </button>
     `;
 
-    // Evento WhatsApp dentro del modal
     const waBtn = document.getElementById('productModalWhatsapp');
     if (waBtn) {
       waBtn.addEventListener('click', function() {
@@ -1414,18 +1401,14 @@
     }
   }
 
-  // ===== Abrir zoom al hacer clic en la imagen del producto =====
   productGallery.addEventListener('click', function(e) {
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    // Cerrar el modal de producto para que el zoom se vea encima
     closeProductModal();
-    // Abrir el zoom con las imágenes del producto
     openModal(images, currentProductImageIndex);
   });
 
-  // Navegación del carrusel
   productModalPrev.addEventListener('click', function(e) {
     e.stopPropagation();
     if (!currentProduct) return;
@@ -1444,7 +1427,6 @@
     updateProductModal();
   });
 
-  // Cerrar modal de producto
   productModalClose.addEventListener('click', closeProductModal);
   productModal.addEventListener('click', function(e) {
     if (e.target === this) closeProductModal();
@@ -1452,7 +1434,7 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeProductModal();
-      closeModal(); // también cierra el zoom si está abierto
+      closeModal();
     }
     if (e.key === 'ArrowLeft' && productModal.classList.contains('active')) {
       productModalPrev.click();
@@ -1463,7 +1445,7 @@
   });
 
   // ============================================
-  // MODAL DE ZOOM (referencias + productos)
+  // MODAL DE ZOOM
   // ============================================
   let currentModalImages = [];
   let currentModalIndex = 0;
@@ -1685,9 +1667,6 @@
     updateResultsCount(filtered.length);
   }
 
-  // ============================================
-  // ACTUALIZAR CONTADOR
-  // ============================================
   function updateResultsCount(count) {
     const el = document.getElementById("resultsCount");
     if (el) {
