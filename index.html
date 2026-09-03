@@ -67,7 +67,7 @@
       padding: 1rem;
     }
 
-    /* ===== LOGO MÁS GRANDE (con clamp) ===== */
+    /* ===== LOGO MÁS GRANDE ===== */
     .logo-container {
       position: absolute;
       top: clamp(12px, 2vw, 25px);
@@ -480,7 +480,9 @@
     @media (max-width: 640px) { .referencias-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; } }
     @media (max-width: 420px) { .referencias-grid { grid-template-columns: 1fr; gap: 0.75rem; } }
 
-    /* ===== MODAL DE PRODUCTO ===== */
+    /* ============================================
+       MODAL DE PRODUCTO
+       ============================================ */
     .product-modal {
       display: none;
       position: fixed;
@@ -502,12 +504,13 @@
       max-width: 900px;
       width: 100%;
       max-height: 92vh;
-      overflow-y: auto;
+      overflow-y: auto; /* Scroll interno */
       border: 1px solid rgba(255,255,255,0.05);
       box-shadow: 0 30px 80px rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       position: relative;
+      -webkit-overflow-scrolling: touch;
     }
 
     .product-modal-close {
@@ -1313,10 +1316,12 @@
   }
 
   // ============================================
-  // MODAL DE PRODUCTO (con zoom integrado)
+  // MODAL DE PRODUCTO (CON BLOQUEO DE SCROLL MEJORADO)
   // ============================================
   let currentProduct = null;
   let currentProductImageIndex = 0;
+  let productScrollPosition = 0; // Guardar posición para restaurar
+
   const productModal = document.getElementById('productModal');
   const productModalImage = document.getElementById('productModalImage');
   const productModalInfo = document.getElementById('productModalInfo');
@@ -1331,12 +1336,24 @@
     currentProductImageIndex = 0;
     updateProductModal();
     productModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+
+    // === BLOQUEO DE SCROLL (igual que en el zoom) ===
+    productScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${productScrollPosition}px`;
+    document.body.style.width = "100%";
   }
 
   function closeProductModal() {
     productModal.classList.remove('active');
-    document.body.style.overflow = '';
+
+    // === RESTAURAR SCROLL ===
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, productScrollPosition);
   }
 
   function updateProductModal() {
@@ -1405,7 +1422,7 @@
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    closeProductModal();
+    closeProductModal(); // Cierra producto para que el zoom se vea encima
     openModal(images, currentProductImageIndex);
   });
 
@@ -1434,7 +1451,7 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeProductModal();
-      closeModal();
+      closeModal(); // cierra el zoom si está abierto
     }
     if (e.key === 'ArrowLeft' && productModal.classList.contains('active')) {
       productModalPrev.click();
@@ -1445,7 +1462,7 @@
   });
 
   // ============================================
-  // MODAL DE ZOOM
+  // MODAL DE ZOOM (referencias + productos)
   // ============================================
   let currentModalImages = [];
   let currentModalIndex = 0;
