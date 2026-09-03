@@ -67,7 +67,7 @@
       padding: 1rem;
     }
 
-    /* ===== LOGO MÁS GRANDE ===== */
+    /* ===== LOGO ===== */
     .logo-container {
       position: absolute;
       top: clamp(12px, 2vw, 25px);
@@ -1316,12 +1316,11 @@
   }
 
   // ============================================
-  // MODAL DE PRODUCTO (CON BLOQUEO DE SCROLL MEJORADO Y REAPERTURA AL CERRAR ZOOM)
+  // MODAL DE PRODUCTO
   // ============================================
   let currentProduct = null;
   let currentProductImageIndex = 0;
   let productScrollPosition = 0;
-  let zoomFromProduct = false; // ← indicador de que el zoom se abrió desde el producto
 
   const productModal = document.getElementById('productModal');
   const productModalImage = document.getElementById('productModalImage');
@@ -1338,6 +1337,7 @@
     updateProductModal();
     productModal.classList.add('active');
 
+    // Bloquear scroll del fondo
     productScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
@@ -1348,13 +1348,12 @@
   function closeProductModal() {
     productModal.classList.remove('active');
 
+    // Restaurar scroll
     document.body.style.overflow = "";
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.width = "";
     window.scrollTo(0, productScrollPosition);
-    // Resetear flag de zoom, por si acaso
-    zoomFromProduct = false;
   }
 
   function updateProductModal() {
@@ -1419,20 +1418,15 @@
     }
   }
 
-  // Al hacer clic en la imagen del producto, abrir el zoom
+  // ===== Abrir zoom desde el producto (SIN CERRAR EL PRODUCTO) =====
   productGallery.addEventListener('click', function(e) {
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    // Indicar que el zoom viene de producto
-    zoomFromProduct = true;
-    // Cerrar producto (se guarda la posición y se restaura al cerrar el zoom)
-    closeProductModal();
-    // Abrir el zoom
+    // No cerramos el producto, solo abrimos el zoom encima
     openModal(images, currentProductImageIndex);
   });
 
-  // Navegación del carrusel de producto
   productModalPrev.addEventListener('click', function(e) {
     e.stopPropagation();
     if (!currentProduct) return;
@@ -1510,15 +1504,6 @@
     document.body.style.width = "";
     window.scrollTo(0, scrollPosition);
     resetZoom();
-
-    // Si el zoom se abrió desde un producto, reabrir el producto
-    if (zoomFromProduct && currentProduct) {
-      zoomFromProduct = false; // resetear
-      // Reabrir el modal de producto (con un pequeño retraso para evitar conflictos)
-      setTimeout(() => {
-        openProductModal(currentProduct);
-      }, 50);
-    }
   }
 
   function changeModalImage(delta) {
@@ -1656,19 +1641,27 @@
 
   modal.addEventListener("click", function(e) { if (e.target === this) closeModal(); });
 
-  document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") {
-      closeModal();
-      // Si el zoom se cerró con Escape y venía de producto, también cerramos producto
-      if (zoomFromProduct) {
-        zoomFromProduct = false;
-        // No reabrimos producto, simplemente cerramos el zoom y dejamos la vista de catálogo.
+  // ============================================
+  // MANEJADOR DE TECLA ESC (mejorado)
+  // ============================================
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      // Si el zoom está abierto, cerrar solo el zoom
+      if (modal.classList.contains('active')) {
+        closeModal();
+      } else {
+        // Si no hay zoom, cerrar el producto si está abierto
+        if (productModal.classList.contains('active')) {
+          closeProductModal();
+        }
       }
     }
-    if (e.key === "ArrowLeft") changeModalImage(-1);
-    if (e.key === "ArrowRight") changeModalImage(1);
-    if (e.key === "+" || e.key === "=") zoomIn();
-    if (e.key === "-") zoomOut();
+    if (e.key === 'ArrowLeft' && productModal.classList.contains('active') && !modal.classList.contains('active')) {
+      productModalPrev.click();
+    }
+    if (e.key === 'ArrowRight' && productModal.classList.contains('active') && !modal.classList.contains('active')) {
+      productModalNext.click();
+    }
   });
 
   // ============================================
