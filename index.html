@@ -136,6 +136,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 <header class="header-modern bg-carbon" id="inicio">
   <div class="hero-inner">
     <div class="logo-wrapper"><img src="logo.jpg" alt="REYES PERFORMANCE" /></div>
+    <!-- Eliminado el </i> sobrante, solo dejamos el texto -->
     <div class="hero-kicker"><span>AUTOPARTES · BODY KIT</span></div>
     <h1 class="hero-title"><span class="reyes">REYES</span><span class="performance">PERFORMANCE</span></h1>
     <p class="hero-sub"><strong>HECHO PARA DOMINAR EN LAS CALLES</strong> · BODY KIT</p>
@@ -195,151 +196,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
     <script>
         (function() {
             "use strict";
-
-            // ============================================
-            // SOUND & VIBRATION MANAGER (tenue y sólido)
-            // ============================================
-            const SoundManager = (() => {
-                let audioCtx = null;
-
-                const ensureCtx = () => {
-                    if (!audioCtx) {
-                        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    }
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
-                    }
-                    return audioCtx;
-                };
-
-                // Sonido básico "clic sólido" (onda cuadrada, grave y corto)
-                const playSolidClick = (freq = 180, dur = 0.025, vol = 0.06) => {
-                    try {
-                        const ctx = ensureCtx();
-                        const osc = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        osc.type = 'square';  // sonido más sólido
-                        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-                        gain.gain.setValueAtTime(vol, ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
-                        osc.start(ctx.currentTime);
-                        osc.stop(ctx.currentTime + dur);
-                    } catch (_) { /* fallo silencioso */ }
-                };
-
-                // Sonido de apertura (dos golpes graves)
-                const playOpen = () => {
-                    try {
-                        const ctx = ensureCtx();
-                        // Primer golpe
-                        let osc = ctx.createOscillator();
-                        let gain = ctx.createGain();
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(150, ctx.currentTime);
-                        gain.gain.setValueAtTime(0.07, ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
-                        osc.start(ctx.currentTime);
-                        osc.stop(ctx.currentTime + 0.08);
-
-                        // Segundo golpe (más agudo, 50ms después)
-                        setTimeout(() => {
-                            try {
-                                let osc2 = ctx.createOscillator();
-                                let gain2 = ctx.createGain();
-                                osc2.type = 'sawtooth';
-                                osc2.frequency.setValueAtTime(220, ctx.currentTime);
-                                gain2.gain.setValueAtTime(0.06, ctx.currentTime);
-                                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
-                                osc2.connect(gain2);
-                                gain2.connect(ctx.destination);
-                                osc2.start(ctx.currentTime);
-                                osc2.stop(ctx.currentTime + 0.06);
-                            } catch (_) {}
-                        }, 50);
-                    } catch (_) {}
-                };
-
-                // Sonido de cierre (descendente grave)
-                const playClose = () => {
-                    try {
-                        const ctx = ensureCtx();
-                        const osc = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(160, ctx.currentTime);
-                        osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.10);
-                        gain.gain.setValueAtTime(0.06, ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.10);
-                        osc.connect(gain);
-                        gain.connect(ctx.destination);
-                        osc.start(ctx.currentTime);
-                        osc.stop(ctx.currentTime + 0.10);
-                    } catch (_) {}
-                };
-
-                // Éxito: dos "pops" graves y cortos
-                const playSuccess = () => {
-                    try {
-                        const ctx = ensureCtx();
-                        // Pop 1
-                        let osc1 = ctx.createOscillator();
-                        let gain1 = ctx.createGain();
-                        osc1.type = 'square';
-                        osc1.frequency.setValueAtTime(200, ctx.currentTime);
-                        gain1.gain.setValueAtTime(0.07, ctx.currentTime);
-                        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-                        osc1.connect(gain1);
-                        gain1.connect(ctx.destination);
-                        osc1.start(ctx.currentTime);
-                        osc1.stop(ctx.currentTime + 0.04);
-
-                        // Pop 2 (un poco más alto, 80ms después)
-                        setTimeout(() => {
-                            try {
-                                let osc2 = ctx.createOscillator();
-                                let gain2 = ctx.createGain();
-                                osc2.type = 'square';
-                                osc2.frequency.setValueAtTime(280, ctx.currentTime);
-                                gain2.gain.setValueAtTime(0.07, ctx.currentTime);
-                                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-                                osc2.connect(gain2);
-                                gain2.connect(ctx.destination);
-                                osc2.start(ctx.currentTime);
-                                osc2.stop(ctx.currentTime + 0.05);
-                            } catch (_) {}
-                        }, 80);
-                    } catch (_) {}
-                };
-
-                const vibrate = (pattern) => {
-                    try {
-                        if (navigator.vibrate) navigator.vibrate(pattern);
-                    } catch (_) {}
-                };
-
-                return {
-                    click: () => {
-                        playSolidClick(180, 0.025, 0.06);
-                        vibrate(3);
-                    },
-                    open: () => {
-                        playOpen();
-                        vibrate(8);
-                    },
-                    close: () => {
-                        playClose();
-                        vibrate(6);
-                    },
-                    success: () => {
-                        playSuccess();
-                        vibrate([6, 10, 6]);
-                    }
-                };
-            })();
 
             // ============================================
             // SCROLL AL INICIO
@@ -416,20 +272,22 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                 });
                 categoriesContainer.innerHTML = catHtml;
 
+                // Render inicial de subcategorías
                 renderSubcategories(0);
 
                 document.querySelectorAll('.cat-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        SoundManager.click();
                         const index = parseInt(this.dataset.index);
                         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
                         activeCategoryIndex = index;
                         renderSubcategories(index);
+                        // Obtener la subcategoría activa después de renderizar
                         const activeSub = document.querySelector('.subcat-btn.active');
                         if (activeSub) {
                             currentCategoryFilter = activeSub.dataset.category;
                         } else {
+                            // fallback (no debería ocurrir)
                             currentCategoryFilter = "all";
                         }
                         applyFilters();
@@ -449,15 +307,16 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
                 let html = '';
                 group.subcategories.forEach((sub, subIndex) => {
+                    // Para TODOS, la única es "all", para otros, la primera se activa
                     const isActive = (sub.id === "all") || (subIndex === 0 && group.name !== "TODOS");
                     const activeClass = isActive ? 'active' : '';
                     html += `<button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>`;
                 });
                 subcategoriesContainer.innerHTML = html;
 
+                // Asignar eventos a los botones de subcategoría
                 document.querySelectorAll('.subcat-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        SoundManager.click();
                         const categoryId = this.dataset.category;
                         document.querySelectorAll('.subcat-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
@@ -465,6 +324,12 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                         applyFilters();
                     });
                 });
+
+                // Si el grupo es TODOS, forzamos el filtro a "all" y aplicamos
+                // pero ya lo haremos desde el evento de la categoría principal.
+                // No aplicamos filtro aquí para evitar duplicación.
+                // Sin embargo, cuando se carga la página, necesitamos un filtro inicial.
+                // Lo haremos en init.
             }
 
             // ============================================
@@ -579,7 +444,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                     if (buyBtn) {
                         buyBtn.addEventListener("click", function(e) {
                             e.stopPropagation();
-                            SoundManager.success();
                             const productId = parseInt(this.dataset.productId);
                             const product = allProducts.find((p) => p.id === productId);
                             if (product) {
@@ -621,7 +485,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             const productGallery = document.getElementById('productGallery');
 
             function openProductModal(product) {
-                SoundManager.open();
                 currentProduct = product;
                 currentProductImageIndex = 0;
                 updateProductModal();
@@ -635,7 +498,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             }
 
             function closeProductModal() {
-                SoundManager.close();
                 productModal.classList.remove('active');
                 document.body.style.overflow = "";
                 document.body.style.position = "";
@@ -697,7 +559,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                 const waBtn = document.getElementById('productModalWhatsapp');
                 if (waBtn) {
                     waBtn.addEventListener('click', function() {
-                        SoundManager.success();
                         const formattedPriceMsg = currentProduct.price ? new Intl.NumberFormat('es-MX', {
                             style: 'currency',
                             currency: 'MXN',
@@ -713,6 +574,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                 }
             }
 
+            // Abrir zoom desde la galería del producto (sin cerrar el modal)
             productGallery.addEventListener('click', function(e) {
                 if (!currentProduct) return;
                 const images = currentProduct.images || [];
@@ -722,7 +584,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             productModalPrev.addEventListener('click', function(e) {
                 e.stopPropagation();
-                SoundManager.click();
                 if (!currentProduct) return;
                 const images = currentProduct.images || [];
                 if (images.length === 0) return;
@@ -732,7 +593,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             productModalNext.addEventListener('click', function(e) {
                 e.stopPropagation();
-                SoundManager.click();
                 if (!currentProduct) return;
                 const images = currentProduct.images || [];
                 if (images.length === 0) return;
@@ -775,7 +635,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             function openModal(images, index) {
                 if (!images || images.length === 0) return;
-                SoundManager.open();
 
                 scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -798,7 +657,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             }
 
             function closeModal() {
-                SoundManager.close();
                 modal.classList.remove("active");
                 document.body.style.overflow = "";
                 document.body.style.position = "";
@@ -810,7 +668,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             function changeModalImage(delta) {
                 if (currentModalImages.length === 0) return;
-                SoundManager.click();
                 currentModalIndex = (currentModalIndex + delta + currentModalImages.length) % currentModalImages.length;
                 modalImage.src = currentModalImages[currentModalIndex];
                 counter.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
@@ -1072,7 +929,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                         const btnVer = div.querySelector(".btn-ver");
                         btnVer.addEventListener("click", function(e) {
                             e.stopPropagation();
-                            SoundManager.click();
                             const images = existingImages.map((name) => `Referencias/${name}`);
                             openModal(images, index);
                         });
@@ -1094,20 +950,13 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             }
 
             // ============================================
-            // EVENTOS GLOBALES (para botones principales)
-            // ============================================
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.btn-primary') || e.target.closest('.btn-outline')) {
-                    SoundManager.click();
-                }
-            });
-
-            // ============================================
             // INICIO
             // ============================================
             async function init() {
                 renderFilters();
 
+                // Después de renderizar filtros, establecer el filtro inicial correcto
+                // La primera categoría (TODOS) tiene subcategoría "all", pero si no, tomamos la activa
                 const initialActiveSub = document.querySelector('.subcat-btn.active');
                 if (initialActiveSub) {
                     currentCategoryFilter = initialActiveSub.dataset.category;
@@ -1126,7 +975,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
                 console.log("REYES PERFORMANCE · Conectado a Supabase");
                 console.log(`${allProducts.length} productos cargados`);
-                console.log("🔊 Sonidos tenues y sólidos activados");
             }
 
             init();
