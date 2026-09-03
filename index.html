@@ -485,7 +485,7 @@
     @media (max-width: 420px) { .referencias-grid { grid-template-columns: 1fr; gap: 0.75rem; } }
 
     /* ============================================
-       MODAL DE PRODUCTO (nuevo)
+       MODAL DE PRODUCTO
        ============================================ */
     .product-modal {
       display: none;
@@ -557,6 +557,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
 
     .product-modal-gallery img {
@@ -564,6 +565,7 @@
       height: 100%;
       object-fit: contain;
       transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
     .product-modal-gallery .nav-btn {
@@ -697,7 +699,7 @@
       .product-modal-info .price { font-size: 1.6rem; }
     }
 
-    /* ===== MODAL DE REFERENCIAS (existente, sin cambios) ===== */
+    /* ===== MODAL DE ZOOM (referencias) ===== */
     .modal {
       display: none;
       position: fixed;
@@ -947,7 +949,7 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== FOOTER (sin dirección) ===== -->
   <footer class="footer-racing py-6 md:py-10 px-3 md:px-4 mt-4 md:mt-6" id="contacto">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       <div>
@@ -955,18 +957,12 @@
           <span class="text-red-500">REYES</span> PERFORMANCE
         </h3>
         <p class="text-gray-400 mt-2 text-xs md:text-sm leading-relaxed">
-          Venta de autopartes nuevas o usadas, partes de colision y accesorios para todo vehiculo.
+          Venta de autopartes nuevas o usadas, partes de colisión y accesorios para todo vehículo.
         </p>
         <div class="flex gap-3 mt-3">
           <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-facebook"></i></a>
           <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-tiktok"></i></a>
           <a href="#" class="social-icon text-lg md:text-xl"><i class="fab fa-instagram"></i></a>
-        </div>
-        <div class="mt-3 pt-3 border-t border-gray-800">
-          <p class="text-gray-400 text-xs flex items-start gap-2">
-            <i class="fas fa-map-marker-alt direccion-icon mt-0.5"></i>
-            <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
-          </p>
         </div>
       </div>
       <div>
@@ -976,22 +972,12 @@
           <li><i class="fas fa-phone-alt text-red-500 w-5"></i> (866) 277 91 03</li>
           <li><i class="fab fa-facebook text-red-500 w-5"></i> Reyes Performance</li>
           <li><i class="fab fa-tiktok text-red-500 w-5"></i> @reyes_performance0</li>
-          <li class="mt-2 pt-2 border-t border-gray-800">
-            <i class="fas fa-map-marker-alt direccion-icon"></i>
-            <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
-          </li>
         </ul>
       </div>
       <div>
         <h4 class="text-white font-bold text-base border-b border-red-600/50 pb-1 inline-block">SERVICIO</h4>
-        <p class="text-gray-400 mt-3 text-xs md:text-sm">Lun - Vie: 9:00 - 20:00 <br /> Sabado: 10:00 - 18:00</p>
-        <p class="text-gray-500 text-xs mt-2"><i class="fas fa-shield-alt text-red-500 mr-1"></i> Garantia en todas las piezas</p>
-        <div class="mt-3 pt-3 border-t border-gray-800">
-          <p class="text-gray-400 text-xs flex items-start gap-2">
-            <i class="fas fa-map-marker-alt text-red-500 mt-0.5"></i>
-            <span class="direccion-text">San Buenaventura, Mexico, 25500</span>
-          </p>
-        </div>
+        <p class="text-gray-400 mt-3 text-xs md:text-sm">Lun - Vie: 9:00 - 20:00 <br /> Sábado: 10:00 - 18:00</p>
+        <p class="text-gray-500 text-xs mt-2"><i class="fas fa-shield-alt text-red-500 mr-1"></i> Garantía en todas las piezas</p>
       </div>
     </div>
     <div class="text-center text-gray-600 text-xs mt-6 md:mt-8 border-t border-gray-800 pt-4">
@@ -999,7 +985,7 @@
     </div>
   </footer>
 
-  <!-- ===== MODAL DE REFERENCIAS (existente) ===== -->
+  <!-- ===== MODAL DE REFERENCIAS (zoom) ===== -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
@@ -1018,7 +1004,7 @@
     </div>
   </div>
 
-  <!-- ===== NUEVO MODAL DE PRODUCTO ===== -->
+  <!-- ===== MODAL DE PRODUCTO ===== -->
   <div id="productModal" class="product-modal">
     <div class="product-modal-content" id="productModalContent">
       <button class="product-modal-close" id="productModalClose">&times;</button>
@@ -1228,7 +1214,7 @@
   }
 
   // ============================================
-  // RENDER PRODUCTOS (con modal de detalle)
+  // RENDER PRODUCTOS
   // ============================================
   function renderProductCards(containerId, data) {
     const container = document.getElementById(containerId);
@@ -1302,7 +1288,6 @@
 
       // ===== Hacer clic en toda la tarjeta =====
       card.addEventListener('click', function(e) {
-        // Evitar que si el clic es en el botón de WhatsApp se abra dos veces
         if (e.target.closest('.buy-btn')) return;
         const product = allProducts.find(prod => prod.id === p.id);
         if (product) openProductModal(product);
@@ -1336,7 +1321,7 @@
   }
 
   // ============================================
-  // MODAL DE PRODUCTO
+  // MODAL DE PRODUCTO (con zoom integrado)
   // ============================================
   let currentProduct = null;
   let currentProductImageIndex = 0;
@@ -1347,6 +1332,7 @@
   const productModalPrev = document.getElementById('productModalPrev');
   const productModalNext = document.getElementById('productModalNext');
   const productModalClose = document.getElementById('productModalClose');
+  const productGallery = document.getElementById('productGallery');
 
   function openProductModal(product) {
     currentProduct = product;
@@ -1382,7 +1368,7 @@
     productModalPrev.style.display = totalImages > 1 ? 'flex' : 'none';
     productModalNext.style.display = totalImages > 1 ? 'flex' : 'none';
 
-    // Información
+    // Información (sin el ID)
     const conditionClass = currentProduct.condition === 'nuevo' ? 'nuevo' : (currentProduct.condition === 'usado' ? 'usado' : 'agotado');
     const conditionLabel = currentProduct.condition === 'nuevo' ? 'Nuevo' : (currentProduct.condition === 'usado' ? 'Usado' : 'Agotado');
     const formattedPrice = currentProduct.price ? new Intl.NumberFormat('es-MX', {
@@ -1405,7 +1391,6 @@
         <span><i class="fas fa-car"></i> ${currentProduct.model || currentProduct.car_model || 'N/A'}</span>
         <span><i class="far fa-calendar-alt"></i> ${currentProduct.year || 'N/A'}</span>
         ${currentProduct.zone ? `<span><i class="fas fa-map-pin"></i> ${currentProduct.zone}</span>` : ''}
-        <span><i class="fas fa-tag"></i> ID: ${currentProduct.id}</span>
       </div>
       <div class="description">${description}</div>
       <button class="whatsapp-btn" id="productModalWhatsapp">
@@ -1429,6 +1414,16 @@
     }
   }
 
+  // ===== Abrir zoom al hacer clic en la imagen del producto =====
+  productGallery.addEventListener('click', function(e) {
+    // Solo si hay imágenes
+    if (!currentProduct) return;
+    const images = currentProduct.images || [];
+    if (images.length === 0) return;
+    // Abrir el modal de zoom con las imágenes del producto
+    openModal(images, currentProductImageIndex);
+  });
+
   // Navegación del carrusel
   productModalPrev.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -1448,13 +1443,16 @@
     updateProductModal();
   });
 
-  // Cerrar modal
+  // Cerrar modal de producto
   productModalClose.addEventListener('click', closeProductModal);
   productModal.addEventListener('click', function(e) {
     if (e.target === this) closeProductModal();
   });
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeProductModal();
+    if (e.key === 'Escape') {
+      closeProductModal();
+      closeModal(); // también cierra el zoom si está abierto
+    }
     if (e.key === 'ArrowLeft' && productModal.classList.contains('active')) {
       productModalPrev.click();
     }
@@ -1464,121 +1462,7 @@
   });
 
   // ============================================
-  // APLICAR FILTROS
-  // ============================================
-  function applyFilters() {
-    let filtered = [...allProducts];
-
-    if (currentCategoryFilter !== "all") {
-      filtered = filtered.filter((p) => p.category === currentCategoryFilter);
-    }
-
-    if (currentSearchTerm.trim() !== "") {
-      const term = currentSearchTerm.toLowerCase().trim();
-      filtered = filtered.filter((p) => {
-        const carModel = (p.car_model || "").toLowerCase();
-        const model = (p.model || "").toLowerCase();
-        const name = (p.name || "").toLowerCase();
-        return carModel.includes(term) || model.includes(term) || name.includes(term);
-      });
-    }
-
-    renderProductCards("catalogGrid", filtered);
-    updateResultsCount(filtered.length);
-  }
-
-  // ============================================
-  // ACTUALIZAR CONTADOR
-  // ============================================
-  function updateResultsCount(count) {
-    const el = document.getElementById("resultsCount");
-    if (el) {
-      const total = count !== undefined ? count : allProducts.length;
-      el.textContent = `${total} producto${total !== 1 ? "s" : ""}`;
-    }
-  }
-
-  // ============================================
-  // CARGAR REFERENCIAS (sin cambios)
-  // ============================================
-  async function loadReferencias() {
-    const container = document.getElementById("referenciasGrid");
-
-    try {
-      const referencias = ["chat1.jpg", "chat2.jpg", "chat3.jpg", "chat4.jpg", "chat5.jpg", "chat6.jpg"];
-
-      const existingImages = [];
-      for (const img of referencias) {
-        try {
-          const response = await fetch(`Referencias/${img}`, { method: "HEAD" });
-          if (response.ok) existingImages.push(img);
-        } catch (e) {}
-      }
-
-      if (existingImages.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
-            <i class="fas fa-comments text-3xl md:text-4xl mb-3"></i>
-            <p class="text-sm md:text-base">No hay referencias disponibles</p>
-            <p class="text-xs text-gray-500 mt-1">Agrega imagenes en la carpeta <strong>Referencias/</strong></p>
-          </div>
-        `;
-        return;
-      }
-
-      const fragment = document.createDocumentFragment();
-
-      existingImages.forEach((img, index) => {
-        const div = document.createElement("div");
-        div.className = "referencia-container relative group overflow-hidden rounded-xl";
-
-        div.innerHTML = `
-          <img src="Referencias/${img}" alt="Referencia ${index + 1}" 
-               class="referencia-img" 
-               loading="lazy"
-               onerror="this.src='https://via.placeholder.com/500x400/1a1a1a/cc0000?text=Error+al+cargar'">
-          <div class="referencia-overlay">
-            <div class="chat-label text-xs md:text-sm">
-              <i class="fab fa-whatsapp"></i> Conversacion ${index + 1}
-            </div>
-            <button class="btn-ver text-xs md:text-sm py-2 px-4 md:py-3 md:px-6" data-index="${index}">
-              <i class="fas fa-expand"></i> Ver captura
-            </button>
-          </div>
-        `;
-
-        const imgElement = div.querySelector(".referencia-img");
-        imgElement.addEventListener("click", function(e) {
-          e.stopPropagation();
-          const images = existingImages.map((name) => `Referencias/${name}`);
-          openModal(images, index);
-        });
-
-        const btnVer = div.querySelector(".btn-ver");
-        btnVer.addEventListener("click", function(e) {
-          e.stopPropagation();
-          const images = existingImages.map((name) => `Referencias/${name}`);
-          openModal(images, index);
-        });
-
-        fragment.appendChild(div);
-      });
-
-      container.innerHTML = "";
-      container.appendChild(fragment);
-    } catch (error) {
-      console.error("Error cargando referencias:", error);
-      container.innerHTML = `
-        <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
-          <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
-          <p class="text-sm md:text-base">Error al cargar las referencias</p>
-        </div>
-      `;
-    }
-  }
-
-  // ============================================
-  // MODAL DE REFERENCIAS (existente, sin cambios)
+  // MODAL DE ZOOM (referencias + productos)
   // ============================================
   let currentModalImages = [];
   let currentModalIndex = 0;
@@ -1775,6 +1659,120 @@
     if (e.key === "+" || e.key === "=") zoomIn();
     if (e.key === "-") zoomOut();
   });
+
+  // ============================================
+  // APLICAR FILTROS
+  // ============================================
+  function applyFilters() {
+    let filtered = [...allProducts];
+
+    if (currentCategoryFilter !== "all") {
+      filtered = filtered.filter((p) => p.category === currentCategoryFilter);
+    }
+
+    if (currentSearchTerm.trim() !== "") {
+      const term = currentSearchTerm.toLowerCase().trim();
+      filtered = filtered.filter((p) => {
+        const carModel = (p.car_model || "").toLowerCase();
+        const model = (p.model || "").toLowerCase();
+        const name = (p.name || "").toLowerCase();
+        return carModel.includes(term) || model.includes(term) || name.includes(term);
+      });
+    }
+
+    renderProductCards("catalogGrid", filtered);
+    updateResultsCount(filtered.length);
+  }
+
+  // ============================================
+  // ACTUALIZAR CONTADOR
+  // ============================================
+  function updateResultsCount(count) {
+    const el = document.getElementById("resultsCount");
+    if (el) {
+      const total = count !== undefined ? count : allProducts.length;
+      el.textContent = `${total} producto${total !== 1 ? "s" : ""}`;
+    }
+  }
+
+  // ============================================
+  // CARGAR REFERENCIAS
+  // ============================================
+  async function loadReferencias() {
+    const container = document.getElementById("referenciasGrid");
+
+    try {
+      const referencias = ["chat1.jpg", "chat2.jpg", "chat3.jpg", "chat4.jpg", "chat5.jpg", "chat6.jpg"];
+
+      const existingImages = [];
+      for (const img of referencias) {
+        try {
+          const response = await fetch(`Referencias/${img}`, { method: "HEAD" });
+          if (response.ok) existingImages.push(img);
+        } catch (e) {}
+      }
+
+      if (existingImages.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
+            <i class="fas fa-comments text-3xl md:text-4xl mb-3"></i>
+            <p class="text-sm md:text-base">No hay referencias disponibles</p>
+            <p class="text-xs text-gray-500 mt-1">Agrega imagenes en la carpeta <strong>Referencias/</strong></p>
+          </div>
+        `;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      existingImages.forEach((img, index) => {
+        const div = document.createElement("div");
+        div.className = "referencia-container relative group overflow-hidden rounded-xl";
+
+        div.innerHTML = `
+          <img src="Referencias/${img}" alt="Referencia ${index + 1}" 
+               class="referencia-img" 
+               loading="lazy"
+               onerror="this.src='https://via.placeholder.com/500x400/1a1a1a/cc0000?text=Error+al+cargar'">
+          <div class="referencia-overlay">
+            <div class="chat-label text-xs md:text-sm">
+              <i class="fab fa-whatsapp"></i> Conversacion ${index + 1}
+            </div>
+            <button class="btn-ver text-xs md:text-sm py-2 px-4 md:py-3 md:px-6" data-index="${index}">
+              <i class="fas fa-expand"></i> Ver captura
+            </button>
+          </div>
+        `;
+
+        const imgElement = div.querySelector(".referencia-img");
+        imgElement.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const images = existingImages.map((name) => `Referencias/${name}`);
+          openModal(images, index);
+        });
+
+        const btnVer = div.querySelector(".btn-ver");
+        btnVer.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const images = existingImages.map((name) => `Referencias/${name}`);
+          openModal(images, index);
+        });
+
+        fragment.appendChild(div);
+      });
+
+      container.innerHTML = "";
+      container.appendChild(fragment);
+    } catch (error) {
+      console.error("Error cargando referencias:", error);
+      container.innerHTML = `
+        <div class="col-span-full text-center text-gray-400 py-8 md:py-10">
+          <i class="fas fa-exclamation-triangle text-3xl md:text-4xl mb-3"></i>
+          <p class="text-sm md:text-base">Error al cargar las referencias</p>
+        </div>
+      `;
+    }
+  }
 
   // ============================================
   // INICIALIZACIÓN
