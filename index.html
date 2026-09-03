@@ -197,7 +197,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             "use strict";
 
             // ============================================
-            // SOUND & VIBRATION MANAGER (iOS / Android compatible)
+            // SOUND & VIBRATION MANAGER (tenue y sólido)
             // ============================================
             const SoundManager = (() => {
                 let audioCtx = null;
@@ -212,51 +212,131 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                     return audioCtx;
                 };
 
-                const playTone = (freq, duration, type = 'sine', volume = 0.15) => {
+                // Sonido básico "clic sólido" (onda cuadrada, grave y corto)
+                const playSolidClick = (freq = 180, dur = 0.025, vol = 0.06) => {
                     try {
                         const ctx = ensureCtx();
                         const osc = ctx.createOscillator();
                         const gain = ctx.createGain();
-                        osc.type = type;
+                        osc.type = 'square';  // sonido más sólido
                         osc.frequency.setValueAtTime(freq, ctx.currentTime);
-                        gain.gain.setValueAtTime(volume, ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                        gain.gain.setValueAtTime(vol, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
                         osc.connect(gain);
                         gain.connect(ctx.destination);
                         osc.start(ctx.currentTime);
-                        osc.stop(ctx.currentTime + duration);
+                        osc.stop(ctx.currentTime + dur);
                     } catch (_) { /* fallo silencioso */ }
+                };
+
+                // Sonido de apertura (dos golpes graves)
+                const playOpen = () => {
+                    try {
+                        const ctx = ensureCtx();
+                        // Primer golpe
+                        let osc = ctx.createOscillator();
+                        let gain = ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(150, ctx.currentTime);
+                        gain.gain.setValueAtTime(0.07, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime);
+                        osc.stop(ctx.currentTime + 0.08);
+
+                        // Segundo golpe (más agudo, 50ms después)
+                        setTimeout(() => {
+                            try {
+                                let osc2 = ctx.createOscillator();
+                                let gain2 = ctx.createGain();
+                                osc2.type = 'sawtooth';
+                                osc2.frequency.setValueAtTime(220, ctx.currentTime);
+                                gain2.gain.setValueAtTime(0.06, ctx.currentTime);
+                                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+                                osc2.connect(gain2);
+                                gain2.connect(ctx.destination);
+                                osc2.start(ctx.currentTime);
+                                osc2.stop(ctx.currentTime + 0.06);
+                            } catch (_) {}
+                        }, 50);
+                    } catch (_) {}
+                };
+
+                // Sonido de cierre (descendente grave)
+                const playClose = () => {
+                    try {
+                        const ctx = ensureCtx();
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(160, ctx.currentTime);
+                        osc.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.10);
+                        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.10);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime);
+                        osc.stop(ctx.currentTime + 0.10);
+                    } catch (_) {}
+                };
+
+                // Éxito: dos "pops" graves y cortos
+                const playSuccess = () => {
+                    try {
+                        const ctx = ensureCtx();
+                        // Pop 1
+                        let osc1 = ctx.createOscillator();
+                        let gain1 = ctx.createGain();
+                        osc1.type = 'square';
+                        osc1.frequency.setValueAtTime(200, ctx.currentTime);
+                        gain1.gain.setValueAtTime(0.07, ctx.currentTime);
+                        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+                        osc1.connect(gain1);
+                        gain1.connect(ctx.destination);
+                        osc1.start(ctx.currentTime);
+                        osc1.stop(ctx.currentTime + 0.04);
+
+                        // Pop 2 (un poco más alto, 80ms después)
+                        setTimeout(() => {
+                            try {
+                                let osc2 = ctx.createOscillator();
+                                let gain2 = ctx.createGain();
+                                osc2.type = 'square';
+                                osc2.frequency.setValueAtTime(280, ctx.currentTime);
+                                gain2.gain.setValueAtTime(0.07, ctx.currentTime);
+                                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+                                osc2.connect(gain2);
+                                gain2.connect(ctx.destination);
+                                osc2.start(ctx.currentTime);
+                                osc2.stop(ctx.currentTime + 0.05);
+                            } catch (_) {}
+                        }, 80);
+                    } catch (_) {}
                 };
 
                 const vibrate = (pattern) => {
                     try {
                         if (navigator.vibrate) navigator.vibrate(pattern);
-                    } catch (_) { /* fallo silencioso */ }
+                    } catch (_) {}
                 };
 
                 return {
-                    // Click genérico (botones, filtros, navegación)
                     click: () => {
-                        playTone(1200, 0.04, 'sine', 0.10);
-                        vibrate(5);
+                        playSolidClick(180, 0.025, 0.06);
+                        vibrate(3);
                     },
-                    // Abrir modal (ascendente)
                     open: () => {
-                        playTone(400, 0.15, 'sine', 0.12);
-                        setTimeout(() => playTone(600, 0.10, 'sine', 0.10), 50);
-                        vibrate(15);
+                        playOpen();
+                        vibrate(8);
                     },
-                    // Cerrar modal (descendente)
                     close: () => {
-                        playTone(600, 0.12, 'sine', 0.10);
-                        setTimeout(() => playTone(400, 0.15, 'sine', 0.08), 40);
-                        vibrate(10);
+                        playClose();
+                        vibrate(6);
                     },
-                    // Éxito / Cotizar (dos tonos positivos)
                     success: () => {
-                        playTone(880, 0.12, 'sine', 0.15);
-                        setTimeout(() => playTone(1100, 0.15, 'sine', 0.15), 100);
-                        vibrate([10, 20, 10]);
+                        playSuccess();
+                        vibrate([6, 10, 6]);
                     }
                 };
             })();
@@ -340,7 +420,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
                 document.querySelectorAll('.cat-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        SoundManager.click(); // 👈 Sonido al cambiar categoría
+                        SoundManager.click();
                         const index = parseInt(this.dataset.index);
                         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
@@ -377,7 +457,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
                 document.querySelectorAll('.subcat-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        SoundManager.click(); // 👈 Sonido al cambiar subcategoría
+                        SoundManager.click();
                         const categoryId = this.dataset.category;
                         document.querySelectorAll('.subcat-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
@@ -499,7 +579,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                     if (buyBtn) {
                         buyBtn.addEventListener("click", function(e) {
                             e.stopPropagation();
-                            SoundManager.success(); // 👈 Sonido de éxito al cotizar
+                            SoundManager.success();
                             const productId = parseInt(this.dataset.productId);
                             const product = allProducts.find((p) => p.id === productId);
                             if (product) {
@@ -541,7 +621,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             const productGallery = document.getElementById('productGallery');
 
             function openProductModal(product) {
-                SoundManager.open(); // 👈 Sonido de apertura
+                SoundManager.open();
                 currentProduct = product;
                 currentProductImageIndex = 0;
                 updateProductModal();
@@ -555,7 +635,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             }
 
             function closeProductModal() {
-                SoundManager.close(); // 👈 Sonido de cierre
+                SoundManager.close();
                 productModal.classList.remove('active');
                 document.body.style.overflow = "";
                 document.body.style.position = "";
@@ -617,7 +697,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                 const waBtn = document.getElementById('productModalWhatsapp');
                 if (waBtn) {
                     waBtn.addEventListener('click', function() {
-                        SoundManager.success(); // 👈 Sonido de éxito al cotizar desde el modal
+                        SoundManager.success();
                         const formattedPriceMsg = currentProduct.price ? new Intl.NumberFormat('es-MX', {
                             style: 'currency',
                             currency: 'MXN',
@@ -642,7 +722,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             productModalPrev.addEventListener('click', function(e) {
                 e.stopPropagation();
-                SoundManager.click(); // 👈 Sonido de navegación
+                SoundManager.click();
                 if (!currentProduct) return;
                 const images = currentProduct.images || [];
                 if (images.length === 0) return;
@@ -652,7 +732,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             productModalNext.addEventListener('click', function(e) {
                 e.stopPropagation();
-                SoundManager.click(); // 👈 Sonido de navegación
+                SoundManager.click();
                 if (!currentProduct) return;
                 const images = currentProduct.images || [];
                 if (images.length === 0) return;
@@ -695,7 +775,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             function openModal(images, index) {
                 if (!images || images.length === 0) return;
-                SoundManager.open(); // 👈 Sonido de apertura del zoom
+                SoundManager.open();
 
                 scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -718,7 +798,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             }
 
             function closeModal() {
-                SoundManager.close(); // 👈 Sonido de cierre del zoom
+                SoundManager.close();
                 modal.classList.remove("active");
                 document.body.style.overflow = "";
                 document.body.style.position = "";
@@ -730,7 +810,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
             function changeModalImage(delta) {
                 if (currentModalImages.length === 0) return;
-                SoundManager.click(); // 👈 Sonido de navegación en el zoom
+                SoundManager.click();
                 currentModalIndex = (currentModalIndex + delta + currentModalImages.length) % currentModalImages.length;
                 modalImage.src = currentModalImages[currentModalIndex];
                 counter.textContent = `${currentModalIndex + 1} / ${currentModalImages.length}`;
@@ -992,7 +1072,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
                         const btnVer = div.querySelector(".btn-ver");
                         btnVer.addEventListener("click", function(e) {
                             e.stopPropagation();
-                            SoundManager.click(); // 👈 Sonido al hacer clic en "Ver captura"
+                            SoundManager.click();
                             const images = existingImages.map((name) => `Referencias/${name}`);
                             openModal(images, index);
                         });
@@ -1017,7 +1097,6 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
             // EVENTOS GLOBALES (para botones principales)
             // ============================================
             document.addEventListener('click', function(e) {
-                // Botones principales "Explorar catálogo" y "Contacto"
                 if (e.target.closest('.btn-primary') || e.target.closest('.btn-outline')) {
                     SoundManager.click();
                 }
@@ -1047,7 +1126,7 @@ button,a,input{font:inherit}button,a{touch-action:manipulation}a{color:inherit;t
 
                 console.log("REYES PERFORMANCE · Conectado a Supabase");
                 console.log(`${allProducts.length} productos cargados`);
-                console.log("🔊 Sonidos y vibraciones activados");
+                console.log("🔊 Sonidos tenues y sólidos activados");
             }
 
             init();
