@@ -96,7 +96,7 @@
         .logo-wrapper:hover {
             transform: scale(1.05);
         }
-        /* Logo más grande en todos los dispositivos */
+        /* Logo: tamaño grande en móviles/tablets, más pequeño en escritorio */
         .logo-wrapper img {
             height: clamp(110px, 16vw, 200px);
             width: auto;
@@ -107,6 +107,17 @@
         .logo-wrapper:hover img {
             filter: drop-shadow(0 0 70px rgba(204, 0, 0, 0.7));
             transform: scale(1.04);
+        }
+
+        /* Ajuste para pantallas de escritorio */
+        @media (min-width: 1024px) {
+            .logo-wrapper img {
+                height: clamp(80px, 8vw, 130px);
+            }
+            /* También reducimos ligeramente el margen superior del título para dar más espacio */
+            .hero-title {
+                margin-top: clamp(70px, 12vh, 120px);
+            }
         }
 
         .hero-title {
