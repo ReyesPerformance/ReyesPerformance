@@ -504,7 +504,7 @@
       max-width: 900px;
       width: 100%;
       max-height: 92vh;
-      overflow-y: auto; /* Scroll interno */
+      overflow-y: auto;
       border: 1px solid rgba(255,255,255,0.05);
       box-shadow: 0 30px 80px rgba(0,0,0,0.8);
       display: flex;
@@ -1316,11 +1316,12 @@
   }
 
   // ============================================
-  // MODAL DE PRODUCTO (CON BLOQUEO DE SCROLL MEJORADO)
+  // MODAL DE PRODUCTO (CON BLOQUEO DE SCROLL MEJORADO Y REAPERTURA AL CERRAR ZOOM)
   // ============================================
   let currentProduct = null;
   let currentProductImageIndex = 0;
-  let productScrollPosition = 0; // Guardar posición para restaurar
+  let productScrollPosition = 0;
+  let zoomFromProduct = false; // ← indicador de que el zoom se abrió desde el producto
 
   const productModal = document.getElementById('productModal');
   const productModalImage = document.getElementById('productModalImage');
@@ -1337,7 +1338,6 @@
     updateProductModal();
     productModal.classList.add('active');
 
-    // === BLOQUEO DE SCROLL (igual que en el zoom) ===
     productScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
@@ -1348,12 +1348,13 @@
   function closeProductModal() {
     productModal.classList.remove('active');
 
-    // === RESTAURAR SCROLL ===
     document.body.style.overflow = "";
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.width = "";
     window.scrollTo(0, productScrollPosition);
+    // Resetear flag de zoom, por si acaso
+    zoomFromProduct = false;
   }
 
   function updateProductModal() {
@@ -1418,14 +1419,20 @@
     }
   }
 
+  // Al hacer clic en la imagen del producto, abrir el zoom
   productGallery.addEventListener('click', function(e) {
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    closeProductModal(); // Cierra producto para que el zoom se vea encima
+    // Indicar que el zoom viene de producto
+    zoomFromProduct = true;
+    // Cerrar producto (se guarda la posición y se restaura al cerrar el zoom)
+    closeProductModal();
+    // Abrir el zoom
     openModal(images, currentProductImageIndex);
   });
 
+  // Navegación del carrusel de producto
   productModalPrev.addEventListener('click', function(e) {
     e.stopPropagation();
     if (!currentProduct) return;
@@ -1447,18 +1454,6 @@
   productModalClose.addEventListener('click', closeProductModal);
   productModal.addEventListener('click', function(e) {
     if (e.target === this) closeProductModal();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      closeProductModal();
-      closeModal(); // cierra el zoom si está abierto
-    }
-    if (e.key === 'ArrowLeft' && productModal.classList.contains('active')) {
-      productModalPrev.click();
-    }
-    if (e.key === 'ArrowRight' && productModal.classList.contains('active')) {
-      productModalNext.click();
-    }
   });
 
   // ============================================
@@ -1515,6 +1510,15 @@
     document.body.style.width = "";
     window.scrollTo(0, scrollPosition);
     resetZoom();
+
+    // Si el zoom se abrió desde un producto, reabrir el producto
+    if (zoomFromProduct && currentProduct) {
+      zoomFromProduct = false; // resetear
+      // Reabrir el modal de producto (con un pequeño retraso para evitar conflictos)
+      setTimeout(() => {
+        openProductModal(currentProduct);
+      }, 50);
+    }
   }
 
   function changeModalImage(delta) {
@@ -1653,7 +1657,14 @@
   modal.addEventListener("click", function(e) { if (e.target === this) closeModal(); });
 
   document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") closeModal();
+    if (e.key === "Escape") {
+      closeModal();
+      // Si el zoom se cerró con Escape y venía de producto, también cerramos producto
+      if (zoomFromProduct) {
+        zoomFromProduct = false;
+        // No reabrimos producto, simplemente cerramos el zoom y dejamos la vista de catálogo.
+      }
+    }
     if (e.key === "ArrowLeft") changeModalImage(-1);
     if (e.key === "ArrowRight") changeModalImage(1);
     if (e.key === "+" || e.key === "=") zoomIn();
