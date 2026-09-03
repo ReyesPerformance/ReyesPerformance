@@ -700,7 +700,7 @@
     .modal {
       display: none;
       position: fixed;
-      z-index: 100001; /* Por encima del producto */
+      z-index: 100001;
       inset: 0;
       width: 100%;
       height: 100%;
@@ -1051,7 +1051,8 @@
   // ============================================
   // SUPABASE + CONFIGURACIÓN
   // ============================================
-  const WHATSAPP_NUMBER = "528662569229";
+  // ✅ NUEVO NÚMERO DE WHATSAPP ACTUALIZADO
+  const WHATSAPP_NUMBER = "528661760344";
   const SUPABASE_URL = "https://frpycdvqavqsbzbqmugr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
@@ -1423,7 +1424,6 @@
     if (!currentProduct) return;
     const images = currentProduct.images || [];
     if (images.length === 0) return;
-    // No cerramos el producto, solo abrimos el zoom encima
     openModal(images, currentProductImageIndex);
   });
 
@@ -1642,15 +1642,13 @@
   modal.addEventListener("click", function(e) { if (e.target === this) closeModal(); });
 
   // ============================================
-  // MANEJADOR DE TECLA ESC (mejorado)
+  // MANEJADOR DE TECLA ESC
   // ============================================
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-      // Si el zoom está abierto, cerrar solo el zoom
       if (modal.classList.contains('active')) {
         closeModal();
       } else {
-        // Si no hay zoom, cerrar el producto si está abierto
         if (productModal.classList.contains('active')) {
           closeProductModal();
         }
