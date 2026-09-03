@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* === RESET Y FUENTES === */
+    /* ===== RESET Y FUENTES ===== */
     @font-face {
       font-family: "Hauser Bold";
       src: url("fonts/Hauser Bold.otf") format("opentype");
@@ -23,7 +23,6 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    /* === PREVENIR ZOOM EN INPUTS (iPhone) === */
     input, textarea, select {
       font-size: 16px !important;
     }
@@ -55,7 +54,7 @@
     .glow-red:hover { box-shadow: 0 0 35px #ff1e1e, 0 0 70px #cc0000; }
     .text-glow { text-shadow: 0 0 12px rgba(255,30,30,0.7), 0 0 30px rgba(204,0,0,0.4); }
 
-    /* === HEADER === */
+    /* ===== HEADER ===== */
     .header-with-logo {
       position: relative;
       width: 100%;
@@ -68,7 +67,6 @@
       padding: 1rem;
     }
 
-    /* === LOGO === */
     .logo-container {
       position: absolute;
       top: 20px;
@@ -95,7 +93,6 @@
     @media (max-width: 768px) { .logo-container { top: 10px; left: 10px; } .logo-container img { height: 70px; } }
     @media (max-width: 480px) { .logo-container { top: 8px; left: 8px; } .logo-container img { height: 75px; } }
 
-    /* === TÍTULO === */
     .hero-title {
       font-family: "Hauser Bold", "Orbitron", sans-serif;
       font-size: clamp(2.2rem, 8vw, 5.5rem);
@@ -129,7 +126,7 @@
       .hero-subtitle { font-size: clamp(0.6rem, 2vw, 0.8rem); letter-spacing: 0.1em; }
     }
 
-    /* === TARJETAS === */
+    /* ===== TARJETAS DE PRODUCTO ===== */
     .card-racing {
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       background: linear-gradient(145deg, #111, #0d0d0d);
@@ -140,15 +137,63 @@
       overflow: hidden;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      cursor: pointer;
     }
     .card-racing:hover {
-      transform: translateY(-8px) scale(1.01);
+      transform: translateY(-6px) scale(1.01);
       background: linear-gradient(145deg, #1a1a1a, #141414);
       border-left: 6px solid #ff1e1e;
       box-shadow: 0 20px 40px -10px rgba(255,0,0,0.25), 0 0 60px rgba(204,0,0,0.05);
     }
+    .card-racing:active {
+      transform: scale(0.98);
+    }
 
-    /* === BOTONES === */
+    .card-racing .product-img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      background: #0a0a0a;
+      border-radius: 8px;
+      padding: 10px;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+    }
+    .card-racing:hover .product-img { transform: scale(1.02); }
+    @media (max-width: 768px) { .card-racing .product-img { height: 200px; padding: 8px; } }
+    @media (max-width: 480px) { .card-racing .product-img { height: 180px; padding: 6px; } }
+
+    .card-racing .tech-badge {
+      background: #1a1a1a;
+      color: #bbb;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      border-left: 2px solid #cc0000;
+      font-size: 0.65rem;
+      font-weight: 500;
+      white-space: nowrap;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    .card-racing .tech-badge:hover { border-left-color: #ff1e1e; color: #fff; }
+
+    .card-racing .image-counter {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.85);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      border: 1px solid rgba(204,0,0,0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    /* ===== BOTONES ===== */
     .btn-racing {
       background: linear-gradient(135deg, #cc0000, #990000);
       color: white;
@@ -205,15 +250,9 @@
     }
     .btn-outline-racing:hover { background: rgba(204,0,0,0.15); border-color: #ff1e1e; box-shadow: 0 0 30px rgba(204,0,0,0.2); transform: translateY(-2px); }
 
-    /* ============================================
-       FILTROS - ESTILO "MUEBLERIA" (BOTONES MÁS GRANDES)
-       ============================================ */
-    .filters-wrapper {
-      width: 100%;
-      margin-bottom: 16px;
-    }
+    /* ===== FILTROS ===== */
+    .filters-wrapper { width: 100%; margin-bottom: 16px; }
 
-    /* === Categorías principales (scroll horizontal) === */
     .categories-scroll {
       display: flex;
       overflow-x: auto;
@@ -225,16 +264,9 @@
       -webkit-overflow-scrolling: touch;
       white-space: nowrap;
     }
-    .categories-scroll::-webkit-scrollbar {
-      height: 4px;
-    }
-    .categories-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .categories-scroll::-webkit-scrollbar-thumb {
-      background: #cc0000;
-      border-radius: 10px;
-    }
+    .categories-scroll::-webkit-scrollbar { height: 4px; }
+    .categories-scroll::-webkit-scrollbar-track { background: transparent; }
+    .categories-scroll::-webkit-scrollbar-thumb { background: #cc0000; border-radius: 10px; }
 
     .cat-btn {
       flex-shrink: 0;
@@ -253,19 +285,9 @@
       user-select: none;
       min-height: 52px;
     }
-    .cat-btn:hover {
-      border-color: #cc0000;
-      color: #fff;
-      background: rgba(40,40,40,0.8);
-    }
-    .cat-btn.active {
-      background: rgba(204,0,0,0.2);
-      color: #ff1e1e;
-      border-color: #cc0000;
-      box-shadow: 0 0 30px rgba(204,0,0,0.15);
-    }
+    .cat-btn:hover { border-color: #cc0000; color: #fff; background: rgba(40,40,40,0.8); }
+    .cat-btn.active { background: rgba(204,0,0,0.2); color: #ff1e1e; border-color: #cc0000; box-shadow: 0 0 30px rgba(204,0,0,0.15); }
 
-    /* === Subcategorías (scroll horizontal) === */
     .subcategories-scroll {
       display: flex;
       overflow-x: auto;
@@ -281,16 +303,9 @@
       padding-top: 12px;
       margin-top: 4px;
     }
-    .subcategories-scroll::-webkit-scrollbar {
-      height: 3px;
-    }
-    .subcategories-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .subcategories-scroll::-webkit-scrollbar-thumb {
-      background: #555;
-      border-radius: 10px;
-    }
+    .subcategories-scroll::-webkit-scrollbar { height: 3px; }
+    .subcategories-scroll::-webkit-scrollbar-track { background: transparent; }
+    .subcategories-scroll::-webkit-scrollbar-thumb { background: #555; border-radius: 10px; }
 
     .subcat-btn {
       flex-shrink: 0;
@@ -307,59 +322,25 @@
       user-select: none;
       min-height: 42px;
     }
-    .subcat-btn:hover {
-      border-color: #cc0000;
-      color: #ddd;
-      background: rgba(40,40,40,0.6);
-    }
-    .subcat-btn.active {
-      background: rgba(204,0,0,0.15);
-      color: #ff1e1e;
-      border-color: #cc0000;
-    }
+    .subcat-btn:hover { border-color: #cc0000; color: #ddd; background: rgba(40,40,40,0.6); }
+    .subcat-btn.active { background: rgba(204,0,0,0.15); color: #ff1e1e; border-color: #cc0000; }
 
-    .subcat-placeholder {
-      color: #555;
-      font-size: 0.85rem;
-      padding: 8px 0;
-      font-style: italic;
-    }
+    .subcat-placeholder { color: #555; font-size: 0.85rem; padding: 8px 0; font-style: italic; }
 
-    /* === AJUSTES RESPONSIVE === */
     @media (max-width: 768px) {
-      .cat-btn {
-        padding: 12px 22px;
-        font-size: 0.9rem;
-        min-height: 46px;
-      }
-      .subcat-btn {
-        padding: 8px 18px;
-        font-size: 0.8rem;
-        min-height: 38px;
-      }
+      .cat-btn { padding: 12px 22px; font-size: 0.9rem; min-height: 46px; }
+      .subcat-btn { padding: 8px 18px; font-size: 0.8rem; min-height: 38px; }
       .categories-scroll { gap: 10px; padding: 8px 2px 12px 2px; }
       .subcategories-scroll { gap: 8px; padding: 8px 2px 10px 2px; min-height: 42px; }
     }
-
     @media (max-width: 480px) {
-      .cat-btn {
-        padding: 10px 18px;
-        font-size: 0.8rem;
-        min-height: 40px;
-        letter-spacing: 0.05em;
-        border-width: 2px;
-      }
-      .subcat-btn {
-        padding: 8px 14px;
-        font-size: 0.75rem;
-        min-height: 36px;
-        border-width: 2px;
-      }
+      .cat-btn { padding: 10px 18px; font-size: 0.8rem; min-height: 40px; letter-spacing: 0.05em; border-width: 2px; }
+      .subcat-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 36px; border-width: 2px; }
       .categories-scroll { gap: 8px; padding: 6px 2px 10px 2px; }
       .subcategories-scroll { gap: 6px; padding: 6px 2px 8px 2px; min-height: 36px; }
     }
 
-    /* === BUSCADOR === */
+    /* ===== BUSCADOR ===== */
     .search-wrapper {
       display: flex;
       flex-wrap: wrap;
@@ -386,47 +367,13 @@
     .search-input::placeholder { color: #666; font-weight: 300; font-size: 15px; }
     .search-input:focus { border-color: #cc0000; box-shadow: 0 0 30px rgba(204,0,0,0.1); background: rgba(30,30,30,0.9); }
     .search-results-count { color: #888; font-size: 0.85rem; font-weight: 500; white-space: nowrap; }
-
     @media (max-width: 480px) {
       .search-wrapper { flex-direction: column; align-items: stretch; gap: 6px; }
       .search-input { padding: 10px 16px; font-size: 16px !important; min-width: 100%; min-height: 44px; }
       .search-results-count { text-align: center; font-size: 0.75rem; }
     }
 
-    /* === IMÁGENES === */
-    .product-img {
-      width: 100%;
-      height: 260px;
-      object-fit: contain;
-      background: #0a0a0a;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      touch-action: manipulation;
-      display: block;
-      padding: 10px;
-    }
-    .product-img:hover { transform: scale(1.04); }
-    @media (max-width: 768px) { .product-img { height: 200px; padding: 8px; } }
-    @media (max-width: 480px) { .product-img { height: 180px; padding: 6px; } }
-
-    .image-counter {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0,0,0,0.85);
-      color: white;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      border: 1px solid rgba(204,0,0,0.5);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      font-weight: 600;
-      pointer-events: none;
-    }
-
-    /* === REFERENCIAS === */
+    /* ===== REFERENCIAS ===== */
     .referencia-img {
       width: 100%;
       height: 350px;
@@ -492,198 +439,13 @@
     }
     .referencia-overlay .chat-label i { color: #25d366; font-size: 13px; }
 
-    /* === MODAL === */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 99999;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      animation: modalFade 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      overscroll-behavior: contain;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .modal.active { display: flex; }
-    @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-
-    .modal-content {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      touch-action: none;
-    }
-
-    .modal-image-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      touch-action: none;
-      cursor: grab;
-    }
-    .modal-image-wrapper:active { cursor: grabbing; }
-
-    .modal-image-wrapper img {
-      max-width: 95%;
-      max-height: 90vh;
-      width: auto;
-      height: auto;
-      border-radius: 16px;
-      border: 3px solid rgba(204,0,0,0.6);
-      box-shadow: 0 0 80px rgba(204,0,0,0.4), inset 0 0 80px rgba(204,0,0,0.1);
-      object-fit: contain;
-      transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      transform-origin: center center;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: none;
-      will-change: transform;
-      background: rgba(0,0,0,0.5);
-    }
-
-    .modal-controls {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      background: rgba(0,0,0,0.8);
-      padding: 10px 20px;
-      border-radius: 60px;
-      border: 1px solid rgba(204,0,0,0.4);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 20;
-    }
-    .modal-controls button {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: white;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      touch-action: manipulation;
-    }
-    .modal-controls button:hover { background: rgba(204,0,0,0.4); border-color: #cc0000; }
-    .modal-controls .counter { color: white; font-size: 14px; font-weight: 600; min-width: 55px; text-align: center; padding: 0 8px; }
-    .modal-controls .zoom-indicator { color: #ff6b6b; font-size: 12px; min-width: 42px; text-align: center; font-weight: 600; }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: rgba(204,0,0,0.7);
-      border: 2px solid rgba(204,0,0,0.5);
-      border-radius: 50%;
-      z-index: 20;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      touch-action: manipulation;
-      font-weight: 300;
-      box-shadow: 0 0 40px rgba(204,0,0,0.3);
-    }
-    .modal-close:hover { background: #ff1e1e; transform: rotate(90deg) scale(1.1); }
-
-    .modal-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.7);
-      color: white;
-      border: 2px solid rgba(204,0,0,0.5);
-      padding: 16px 22px;
-      cursor: pointer;
-      font-size: 20px;
-      border-radius: 50%;
-      transition: all 0.3s ease;
-      touch-action: manipulation;
-      min-width: 54px;
-      min-height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 15;
-      box-shadow: 0 0 40px rgba(0,0,0,0.5);
-    }
-    .modal-nav:hover { background: #cc0000; border-color: #ff1e1e; }
-    .modal-nav.prev { left: 20px; }
-    .modal-nav.next { right: 20px; }
-
-    @media (max-width: 768px) {
-      .modal { padding: 8px; }
-      .modal-image-wrapper img { max-height: 80vh; }
-      .modal-nav { padding: 12px 16px; font-size: 16px; min-width: 44px; min-height: 44px; }
-      .modal-nav.prev { left: 10px; }
-      .modal-nav.next { right: 10px; }
-      .modal-close { top: 14px; right: 14px; font-size: 22px; width: 44px; height: 44px; }
-      .modal-controls { bottom: 18px; padding: 8px 16px; gap: 8px; }
-      .modal-controls button { width: 36px; height: 36px; font-size: 14px; }
-    }
-
-    @media (max-width: 480px) {
-      .modal { padding: 5px; }
-      .modal-image-wrapper img { max-height: 72vh; }
-      .modal-nav { padding: 8px 12px; font-size: 14px; min-width: 36px; min-height: 36px; }
-      .modal-nav.prev { left: 5px; }
-      .modal-nav.next { right: 5px; }
-      .modal-close { top: 10px; right: 10px; font-size: 18px; width: 36px; height: 36px; }
-      .modal-controls { bottom: 12px; padding: 6px 12px; gap: 6px; }
-      .modal-controls button { width: 30px; height: 30px; font-size: 12px; }
-      .modal-controls .counter { font-size: 11px; min-width: 40px; }
-      .modal-controls .zoom-indicator { font-size: 9px; min-width: 30px; }
-    }
-
-    /* === FOOTER === */
+    /* ===== FOOTER ===== */
     .footer-racing { border-top: 2px solid #cc0000; background: linear-gradient(180deg, #050505, #0a0a0a); position: relative; z-index: 1; }
     .direccion-text { color: #bbb; transition: color 0.3s ease; }
     .direccion-text:hover { color: #ff1e1e; }
     .direccion-icon { color: #cc0000; width: 24px; text-align: center; }
     .social-icon { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); color: #aaa; touch-action: manipulation; display: inline-block; }
     .social-icon:hover { color: #ff1e1e; transform: scale(1.2) translateY(-2px); text-shadow: 0 0 30px #ff1e1e; }
-
-    .tech-badge {
-      background: #1a1a1a;
-      color: #bbb;
-      padding: 0.2rem 0.9rem;
-      border-radius: 20px;
-      border-left: 2px solid #cc0000;
-      font-size: 0.65rem;
-      font-weight: 500;
-      white-space: nowrap;
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-    .tech-badge:hover { border-left-color: #ff1e1e; color: #fff; }
 
     .loading-spinner {
       display: flex;
@@ -721,6 +483,383 @@
     }
     @media (max-width: 640px) { .referencias-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; } }
     @media (max-width: 420px) { .referencias-grid { grid-template-columns: 1fr; gap: 0.75rem; } }
+
+    /* ============================================
+       MODAL DE PRODUCTO (nuevo)
+       ============================================ */
+    .product-modal {
+      display: none;
+      position: fixed;
+      z-index: 100000;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      animation: modalFade 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .product-modal.active { display: flex; }
+
+    .product-modal-content {
+      background: #1a1a1a;
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .product-modal-close {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      align-self: flex-end;
+      background: rgba(0,0,0,0.7);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 12px 12px 0 0;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .product-modal-close:hover { background: #cc0000; transform: rotate(90deg) scale(1.1); }
+
+    .product-modal-body {
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 20px;
+    }
+
+    .product-modal-gallery {
+      width: 100%;
+      position: relative;
+      background: #0a0a0a;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-modal-gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-modal-gallery .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.7);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+    .product-modal-gallery .nav-btn:hover { background: #cc0000; }
+    .product-modal-gallery .nav-btn.prev { left: 10px; }
+    .product-modal-gallery .nav-btn.next { right: 10px; }
+    .product-modal-gallery .gallery-counter {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .product-modal-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .product-modal-info h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: white;
+      margin: 0;
+    }
+    .product-modal-info .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ff1e1e;
+    }
+    .product-modal-info .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .badge.nuevo { background: #10b981; color: white; }
+    .badge.usado { background: #f59e0b; color: white; }
+    .badge.agotado { background: #ef4444; color: white; }
+
+    .product-modal-info .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 4px;
+    }
+    .product-modal-info .meta span { display: flex; align-items: center; gap: 6px; }
+    .product-modal-info .meta i { color: #cc0000; width: 18px; }
+
+    .product-modal-info .description {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 8px 0 12px;
+    }
+
+    .product-modal-info .whatsapp-btn {
+      background: linear-gradient(135deg, #25d366, #1da851);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      align-self: flex-start;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+    .product-modal-info .whatsapp-btn:hover { transform: scale(1.03); box-shadow: 0 6px 30px rgba(37,211,102,0.4); }
+
+    @media (min-width: 768px) {
+      .product-modal-body {
+        flex-direction: row;
+        gap: 24px;
+        padding: 0 24px 24px;
+      }
+      .product-modal-gallery {
+        flex: 1.2;
+        aspect-ratio: 4/3;
+        margin-bottom: 0;
+      }
+      .product-modal-info {
+        flex: 1;
+      }
+      .product-modal-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-modal-gallery { aspect-ratio: 16/9; }
+      .product-modal-gallery .nav-btn { width: 32px; height: 32px; font-size: 14px; }
+      .product-modal-info h2 { font-size: 1.3rem; }
+      .product-modal-info .price { font-size: 1.6rem; }
+    }
+
+    /* ===== MODAL DE REFERENCIAS (existente, sin cambios) ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      animation: modalFade 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overscroll-behavior: contain;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .modal.active { display: flex; }
+    @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+
+    .modal-content {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      touch-action: none;
+    }
+    .modal-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      touch-action: none;
+      cursor: grab;
+    }
+    .modal-image-wrapper:active { cursor: grabbing; }
+    .modal-image-wrapper img {
+      max-width: 95%;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      border: 3px solid rgba(204,0,0,0.6);
+      box-shadow: 0 0 80px rgba(204,0,0,0.4), inset 0 0 80px rgba(204,0,0,0.1);
+      object-fit: contain;
+      transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transform-origin: center center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      will-change: transform;
+      background: rgba(0,0,0,0.5);
+    }
+    .modal-controls {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      padding: 10px 20px;
+      border-radius: 60px;
+      border: 1px solid rgba(204,0,0,0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+    .modal-controls button {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      touch-action: manipulation;
+    }
+    .modal-controls button:hover { background: rgba(204,0,0,0.4); border-color: #cc0000; }
+    .modal-controls .counter { color: white; font-size: 14px; font-weight: 600; min-width: 55px; text-align: center; padding: 0 8px; }
+    .modal-controls .zoom-indicator { color: #ff6b6b; font-size: 12px; min-width: 42px; text-align: center; font-weight: 600; }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(204,0,0,0.7);
+      border: 2px solid rgba(204,0,0,0.5);
+      border-radius: 50%;
+      z-index: 20;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      touch-action: manipulation;
+      font-weight: 300;
+      box-shadow: 0 0 40px rgba(204,0,0,0.3);
+    }
+    .modal-close:hover { background: #ff1e1e; transform: rotate(90deg) scale(1.1); }
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: 2px solid rgba(204,0,0,0.5);
+      padding: 16px 22px;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+      min-width: 54px;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+    .modal-nav:hover { background: #cc0000; border-color: #ff1e1e; }
+    .modal-nav.prev { left: 20px; }
+    .modal-nav.next { right: 20px; }
+    @media (max-width: 768px) {
+      .modal { padding: 8px; }
+      .modal-image-wrapper img { max-height: 80vh; }
+      .modal-nav { padding: 12px 16px; font-size: 16px; min-width: 44px; min-height: 44px; }
+      .modal-nav.prev { left: 10px; }
+      .modal-nav.next { right: 10px; }
+      .modal-close { top: 14px; right: 14px; font-size: 22px; width: 44px; height: 44px; }
+      .modal-controls { bottom: 18px; padding: 8px 16px; gap: 8px; }
+      .modal-controls button { width: 36px; height: 36px; font-size: 14px; }
+    }
+    @media (max-width: 480px) {
+      .modal { padding: 5px; }
+      .modal-image-wrapper img { max-height: 72vh; }
+      .modal-nav { padding: 8px 12px; font-size: 14px; min-width: 36px; min-height: 36px; }
+      .modal-nav.prev { left: 5px; }
+      .modal-nav.next { right: 5px; }
+      .modal-close { top: 10px; right: 10px; font-size: 18px; width: 36px; height: 36px; }
+      .modal-controls { bottom: 12px; padding: 6px 12px; gap: 6px; }
+      .modal-controls button { width: 30px; height: 30px; font-size: 12px; }
+      .modal-controls .counter { font-size: 11px; min-width: 40px; }
+      .modal-controls .zoom-indicator { font-size: 9px; min-width: 30px; }
+    }
   </style>
 </head>
 <body>
@@ -775,16 +914,10 @@
       <span id="resultsCount" class="search-results-count">0 productos</span>
     </div>
 
-    <!-- ===== FILTROS - ESTILO "MUEBLERIA" (TODOS AL PRINCIPIO) ===== -->
+    <!-- ===== FILTROS ===== -->
     <div class="filters-wrapper" id="filtersWrapper">
-      <!-- Categorías principales (scroll horizontal) -->
-      <div class="categories-scroll" id="categoriesScroll">
-        <!-- Generado desde JavaScript -->
-      </div>
-      <!-- Subcategorías (scroll horizontal) -->
-      <div class="subcategories-scroll" id="subcategoriesScroll">
-        <!-- Generado desde JavaScript -->
-      </div>
+      <div class="categories-scroll" id="categoriesScroll"></div>
+      <div class="subcategories-scroll" id="subcategoriesScroll"></div>
     </div>
 
     <!-- ===== PRODUCTOS ===== -->
@@ -866,7 +999,7 @@
     </div>
   </footer>
 
-  <!-- ===== MODAL ===== -->
+  <!-- ===== MODAL DE REFERENCIAS (existente) ===== -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
@@ -884,93 +1017,63 @@
       </div>
     </div>
   </div>
+
+  <!-- ===== NUEVO MODAL DE PRODUCTO ===== -->
+  <div id="productModal" class="product-modal">
+    <div class="product-modal-content" id="productModalContent">
+      <button class="product-modal-close" id="productModalClose">&times;</button>
+      <div class="product-modal-body">
+        <div class="product-modal-gallery" id="productGallery">
+          <img id="productModalImage" src="" alt="Producto" loading="lazy" />
+          <button class="nav-btn prev" id="productModalPrev"><i class="fas fa-chevron-left"></i></button>
+          <button class="nav-btn next" id="productModalNext"><i class="fas fa-chevron-right"></i></button>
+          <span class="gallery-counter" id="productModalCounter">1 / 1</span>
+        </div>
+        <div class="product-modal-info" id="productModalInfo">
+          <!-- Se llena desde JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- ===== JAVASCRIPT CORREGIDO ===== -->
+<!-- ===== JAVASCRIPT ===== -->
 <script>
 (function() {
   "use strict";
 
   // ============================================
-  // FORZAR SCROLL AL INICIO - CORREGIDO (SOLO UNA VEZ)
+  // SCROLL AL INICIO (corregido)
   // ============================================
-
-  // Desactivar restauración de scroll
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-
-  // Eliminar cualquier #hash de la URL
-  if (window.location.hash) {
-    history.replaceState(null, null, window.location.pathname + window.location.search);
-  }
+  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  if (window.location.hash) { history.replaceState(null, null, window.location.pathname + window.location.search); }
 
   let initialScrollDone = false;
-
-  const forceScrollTop = () => {
-    if (window.scrollY !== 0) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    }
-  };
-
-  // Ejecutar inmediatamente
+  const forceScrollTop = () => { if (window.scrollY !== 0) { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } };
   forceScrollTop();
-
-  // Ejecutar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', () => {
-    if (!initialScrollDone) {
-      forceScrollTop();
-    }
-  });
-
-  // Ejecutar cuando todo haya cargado, pero solo si aún no se ha hecho scroll
+  document.addEventListener('DOMContentLoaded', () => { if (!initialScrollDone) forceScrollTop(); });
   window.addEventListener('load', () => {
     if (!initialScrollDone) {
       requestAnimationFrame(() => {
         if (window.scrollY === 0) {
           forceScrollTop();
-          setTimeout(() => {
-            if (window.scrollY === 0) {
-              forceScrollTop();
-            }
-            initialScrollDone = true;
-          }, 100);
-        } else {
-          initialScrollDone = true;
-        }
+          setTimeout(() => { if (window.scrollY === 0) { forceScrollTop(); } initialScrollDone = true; }, 100);
+        } else { initialScrollDone = true; }
       });
     }
   });
-
-  // Si el usuario hace scroll, marcar como hecho para que no se repita
-  window.addEventListener('scroll', () => {
-    if (!initialScrollDone && window.scrollY > 0) {
-      initialScrollDone = true;
-    }
-  }, { once: true, passive: true });
+  window.addEventListener('scroll', () => { if (!initialScrollDone && window.scrollY > 0) initialScrollDone = true; }, { once: true, passive: true });
 
   // ============================================
-  // RESTO DEL CÓDIGO (con correcciones)
+  // SUPABASE + CONFIGURACIÓN
   // ============================================
-
   const WHATSAPP_NUMBER = "528662569229";
-
-  // ============================================
-  // CONFIGURACIÓN DE SUPABASE
-  // ============================================
   const SUPABASE_URL = "https://frpycdvqavqsbzbqmugr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
-  // ============================================
-  // ESTRUCTURA DE CATEGORÍAS - TODOS AL PRINCIPIO
-  // ============================================
   const categoryGroups = [
-    {
-      name: "TODOS",
-      subcategories: [
-        { id: "all", label: "Todos" }
-      ]
-    },
+    { name: "TODOS", subcategories: [ { id: "all", label: "Todos" } ] },
     {
       name: "EXTERIOR",
       subcategories: [
@@ -1016,7 +1119,6 @@
     }
   ];
 
-  // Mapeo para mostrar nombre en tarjetas
   const categoryDisplayNames = {};
   categoryGroups.forEach(group => {
     group.subcategories.forEach(sub => {
@@ -1024,43 +1126,30 @@
     });
   });
 
-  // ============================================
-  // ESTADO
-  // ============================================
   let allProducts = [];
   let currentCategoryFilter = "all";
   let currentSearchTerm = "";
   let activeCategoryIndex = 0;
 
-  // ============================================
-  // SUPABASE CLIENT
-  // ============================================
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // ============================================
-  // RENDER FILTROS (Estilo Muebleria - TODOS al inicio)
+  // RENDER FILTROS
   // ============================================
   function renderFilters() {
     const categoriesContainer = document.getElementById("categoriesScroll");
     const subcategoriesContainer = document.getElementById("subcategoriesScroll");
-
     if (!categoriesContainer || !subcategoriesContainer) return;
 
-    // --- Categorías principales (TODOS primero) ---
     let catHtml = '';
     categoryGroups.forEach((group, index) => {
-      // "TODOS" activo por defecto (index 0)
       const isActive = index === 0 ? 'active' : '';
-      catHtml += `
-        <button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>
-      `;
+      catHtml += `<button class="cat-btn ${isActive}" data-index="${index}">${group.name}</button>`;
     });
     categoriesContainer.innerHTML = catHtml;
 
-    // --- Subcategorías (mostrar las de "TODOS" primero) ---
     renderSubcategories(0);
 
-    // --- Eventos para categorías principales ---
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const index = parseInt(this.dataset.index);
@@ -1068,7 +1157,6 @@
         this.classList.add('active');
         activeCategoryIndex = index;
         renderSubcategories(index);
-        // Resetear filtro a "all" al cambiar de categoría
         currentCategoryFilter = "all";
         applyFilters();
       });
@@ -1088,16 +1176,11 @@
     let html = '';
     group.subcategories.forEach((sub, subIndex) => {
       const isAll = sub.id === "all";
-      // Si es la categoría "TODOS", activar el botón "Todos"
       const activeClass = isAll ? 'active' : (subIndex === 0 && group.name !== "TODOS" ? 'active' : '');
-      html += `
-        <button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>
-      `;
+      html += `<button class="subcat-btn ${activeClass}" data-category="${sub.id}">${sub.label}</button>`;
     });
-
     subcategoriesContainer.innerHTML = html;
 
-    // --- Eventos para subcategorías ---
     document.querySelectorAll('.subcat-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const categoryId = this.dataset.category;
@@ -1108,7 +1191,6 @@
       });
     });
 
-    // Si la categoría es "TODOS", aplicar filtro "all" automáticamente
     if (group.name === "TODOS") {
       currentCategoryFilter = "all";
       applyFilters();
@@ -1116,7 +1198,7 @@
   }
 
   // ============================================
-  // CARGAR PRODUCTOS (CORREGIDO: orden por id)
+  // CARGAR PRODUCTOS
   // ============================================
   async function loadProducts() {
     const container = document.getElementById("catalogGrid");
@@ -1125,7 +1207,7 @@
       const { data, error } = await supabase
         .from("products")
         .select("*")
-        .order("id", { ascending: false }); // ✅ Cambio: orden por id
+        .order("id", { ascending: false });
 
       if (error) throw error;
 
@@ -1146,7 +1228,7 @@
   }
 
   // ============================================
-  // RENDER PRODUCTOS (CORREGIDO: botón con clase "buy-btn")
+  // RENDER PRODUCTOS (con modal de detalle)
   // ============================================
   function renderProductCards(containerId, data) {
     const container = document.getElementById(containerId);
@@ -1182,7 +1264,9 @@
         maximumFractionDigits: 2
       }).format(p.price) : "$0.00";
 
-      // ✅ Agregada la clase "buy-btn" al botón
+      const conditionClass = p.condition === 'nuevo' ? 'nuevo' : (p.condition === 'usado' ? 'usado' : 'agotado');
+      const conditionLabel = p.condition === 'nuevo' ? 'Nuevo' : (p.condition === 'usado' ? 'Usado' : 'Agotado');
+
       card.innerHTML = `
         <div class="relative">
           ${firstImage ? `
@@ -1203,8 +1287,8 @@
         <div class="flex flex-wrap gap-1.5 mt-1.5">
           <span class="tech-badge text-[0.5rem] md:text-xs"><i class="far fa-calendar-alt mr-1"></i> ${p.year || "N/A"}</span>
           <span class="tech-badge text-[0.5rem] md:text-xs"><i class="fas fa-car mr-1"></i> ${p.model || p.car_model || "N/A"}</span>
-          <span class="tech-badge text-[0.5rem] md:text-xs ${p.condition === "nuevo" ? "border-green-500 text-green-300" : "border-yellow-500 text-yellow-300"}">
-            <i class="fas ${p.condition === "nuevo" ? "fa-check-circle" : "fa-history"} mr-1"></i> ${p.condition === "nuevo" ? "Nuevo" : "Usado"}
+          <span class="tech-badge text-[0.5rem] md:text-xs ${conditionClass === 'nuevo' ? 'border-green-500 text-green-300' : (conditionClass === 'usado' ? 'border-yellow-500 text-yellow-300' : 'border-red-500 text-red-300')}">
+            <i class="fas ${conditionClass === 'nuevo' ? 'fa-check-circle' : (conditionClass === 'usado' ? 'fa-history' : 'fa-times-circle')} mr-1"></i> ${conditionLabel}
           </span>
         </div>
 
@@ -1216,14 +1300,15 @@
         </div>
       `;
 
-      const imgElement = card.querySelector(".product-img");
-      if (imgElement && images.length > 0) {
-        imgElement.addEventListener("click", function(e) {
-          e.stopPropagation();
-          if (images.length > 0) openModal(images, 0);
-        });
-      }
+      // ===== Hacer clic en toda la tarjeta =====
+      card.addEventListener('click', function(e) {
+        // Evitar que si el clic es en el botón de WhatsApp se abra dos veces
+        if (e.target.closest('.buy-btn')) return;
+        const product = allProducts.find(prod => prod.id === p.id);
+        if (product) openProductModal(product);
+      });
 
+      // Evento de WhatsApp
       const buyBtn = card.querySelector(".buy-btn");
       if (buyBtn) {
         buyBtn.addEventListener("click", function(e) {
@@ -1249,6 +1334,134 @@
 
     container.appendChild(fragment);
   }
+
+  // ============================================
+  // MODAL DE PRODUCTO
+  // ============================================
+  let currentProduct = null;
+  let currentProductImageIndex = 0;
+  const productModal = document.getElementById('productModal');
+  const productModalImage = document.getElementById('productModalImage');
+  const productModalInfo = document.getElementById('productModalInfo');
+  const productModalCounter = document.getElementById('productModalCounter');
+  const productModalPrev = document.getElementById('productModalPrev');
+  const productModalNext = document.getElementById('productModalNext');
+  const productModalClose = document.getElementById('productModalClose');
+
+  function openProductModal(product) {
+    currentProduct = product;
+    currentProductImageIndex = 0;
+    updateProductModal();
+    productModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProductModal() {
+    productModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function updateProductModal() {
+    if (!currentProduct) return;
+
+    const images = currentProduct.images && currentProduct.images.length > 0 ? currentProduct.images : [];
+    const totalImages = images.length;
+
+    // Imagen
+    if (totalImages > 0) {
+      productModalImage.src = images[currentProductImageIndex] || '';
+      productModalImage.alt = currentProduct.name || 'Producto';
+    } else {
+      productModalImage.src = 'https://via.placeholder.com/600x400/1a1a1a/cc0000?text=Sin+imagen';
+    }
+
+    // Contador
+    productModalCounter.textContent = totalImages > 0 ? `${currentProductImageIndex + 1} / ${totalImages}` : '0 / 0';
+
+    // Navegación
+    productModalPrev.style.display = totalImages > 1 ? 'flex' : 'none';
+    productModalNext.style.display = totalImages > 1 ? 'flex' : 'none';
+
+    // Información
+    const conditionClass = currentProduct.condition === 'nuevo' ? 'nuevo' : (currentProduct.condition === 'usado' ? 'usado' : 'agotado');
+    const conditionLabel = currentProduct.condition === 'nuevo' ? 'Nuevo' : (currentProduct.condition === 'usado' ? 'Usado' : 'Agotado');
+    const formattedPrice = currentProduct.price ? new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(currentProduct.price) : "$0.00";
+
+    const description = currentProduct.description || 'Sin descripción disponible.';
+
+    productModalInfo.innerHTML = `
+      <h2>${currentProduct.name || 'Sin nombre'}</h2>
+      <div class="price">${formattedPrice}</div>
+      <div>
+        <span class="badge ${conditionClass}">${conditionLabel}</span>
+        <span class="badge" style="background:#333;color:#ccc;margin-left:6px;">${categoryDisplayNames[currentProduct.category] || currentProduct.category || 'Categoría'}</span>
+      </div>
+      <div class="meta">
+        <span><i class="fas fa-car"></i> ${currentProduct.model || currentProduct.car_model || 'N/A'}</span>
+        <span><i class="far fa-calendar-alt"></i> ${currentProduct.year || 'N/A'}</span>
+        ${currentProduct.zone ? `<span><i class="fas fa-map-pin"></i> ${currentProduct.zone}</span>` : ''}
+        <span><i class="fas fa-tag"></i> ID: ${currentProduct.id}</span>
+      </div>
+      <div class="description">${description}</div>
+      <button class="whatsapp-btn" id="productModalWhatsapp">
+        <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+      </button>
+    `;
+
+    // Evento WhatsApp dentro del modal
+    const waBtn = document.getElementById('productModalWhatsapp');
+    if (waBtn) {
+      waBtn.addEventListener('click', function() {
+        const formattedPriceMsg = currentProduct.price ? new Intl.NumberFormat('es-MX', {
+          style: 'currency',
+          currency: 'MXN',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        }).format(currentProduct.price) : "$0.00";
+        const message = `Hola, me interesa la pieza: ${currentProduct.name} para ${currentProduct.model || currentProduct.car_model || ""} (${currentProduct.year || ""}) - Condicion: ${currentProduct.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+      });
+    }
+  }
+
+  // Navegación del carrusel
+  productModalPrev.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!currentProduct) return;
+    const images = currentProduct.images || [];
+    if (images.length === 0) return;
+    currentProductImageIndex = (currentProductImageIndex - 1 + images.length) % images.length;
+    updateProductModal();
+  });
+
+  productModalNext.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!currentProduct) return;
+    const images = currentProduct.images || [];
+    if (images.length === 0) return;
+    currentProductImageIndex = (currentProductImageIndex + 1) % images.length;
+    updateProductModal();
+  });
+
+  // Cerrar modal
+  productModalClose.addEventListener('click', closeProductModal);
+  productModal.addEventListener('click', function(e) {
+    if (e.target === this) closeProductModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeProductModal();
+    if (e.key === 'ArrowLeft' && productModal.classList.contains('active')) {
+      productModalPrev.click();
+    }
+    if (e.key === 'ArrowRight' && productModal.classList.contains('active')) {
+      productModalNext.click();
+    }
+  });
 
   // ============================================
   // APLICAR FILTROS
@@ -1365,7 +1578,7 @@
   }
 
   // ============================================
-  // MODAL (código completo, sin cambios)
+  // MODAL DE REFERENCIAS (existente, sin cambios)
   // ============================================
   let currentModalImages = [];
   let currentModalIndex = 0;
