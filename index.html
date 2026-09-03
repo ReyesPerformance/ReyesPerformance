@@ -12,7 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* === RESET Y FUENTES === */
+    /* ===== RESET Y FUENTES ===== */
     @font-face {
       font-family: "Hauser Bold";
       src: url("fonts/Hauser Bold.otf") format("opentype");
@@ -885,9 +885,25 @@
 (function() {
   "use strict";
 
-  // Forzar scroll al inicio
-  if (window.location.hash === '') window.scrollTo(0, 0);
-  window.addEventListener('load', function() { if (window.location.hash === '') window.scrollTo(0, 0); });
+  // ============================================
+  // FORZAR SCROLL AL INICIO (ARRIBA DEL TODO)
+  // ============================================
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  // Forzar scroll a la posición (0,0) inmediatamente
+  window.scrollTo(0, 0);
+
+  // También al cargar completamente la página
+  window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+  });
+
+  // Y también cuando el DOM esté listo (por si acaso)
+  document.addEventListener('DOMContentLoaded', function() {
+    window.scrollTo(0, 0);
+  });
 
   const WHATSAPP_NUMBER = "528662569229";
 
@@ -1032,7 +1048,7 @@
   }
 
   // ============================================
-  // CARGAR PRODUCTOS (CORREGIDO: orden por id)
+  // CARGAR PRODUCTOS (orden por id)
   // ============================================
   async function loadProducts() {
     const container = document.getElementById("catalogGrid");
@@ -1063,7 +1079,7 @@
   }
 
   // ============================================
-  // RENDER PRODUCTOS (CORREGIDO: botón con clase "buy-btn")
+  // RENDER PRODUCTOS (corregido)
   // ============================================
   function renderProductCards(containerId, data) {
     const container = document.getElementById(containerId);
@@ -1132,7 +1148,6 @@
         </div>
       `;
 
-      // Evento para abrir modal con imágenes
       const imgElement = card.querySelector(".product-img");
       if (imgElement && images.length > 0) {
         imgElement.addEventListener("click", function(e) {
@@ -1141,7 +1156,6 @@
         });
       }
 
-      // Evento para WhatsApp (con verificación de existencia)
       const buyBtn = card.querySelector(".buy-btn");
       if (buyBtn) {
         buyBtn.addEventListener("click", function(e) {
