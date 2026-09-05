@@ -34,7 +34,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 40px; /* espacio para el banner fijo */
+      padding-top: 40px;
       transition: padding-top 0.3s ease;
     }
     body.banner-hidden {
@@ -69,7 +69,7 @@
       --edge: clamp(16px, 4vw, 64px);
     }
 
-    /* ----- TOP BANNER (NUEVO) ----- */
+    /* ----- TOP BANNER ----- */
     #top-banner {
       position: fixed;
       top: 0;
@@ -83,7 +83,6 @@
       align-items: center;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-      /* gradiente animado en rojos */
       background: linear-gradient(135deg, #2a0a0d, #4d0f15, #2a0a0d);
       background-size: 300% 300%;
       animation: gradientShift 6s ease-in-out infinite alternate;
@@ -121,47 +120,17 @@
       color: #25d366;
       margin-right: 8px;
     }
-    /* Efecto de destello sutil en el texto */
     #top-banner .banner-track span em {
       font-style: normal;
       color: #ff7a82;
       font-weight: 600;
     }
-
     @keyframes marquee {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* Ajuste para que el header no quede tapado */
-    .header-modern {
-      margin-top: 0;
-      padding-top: clamp(32px, 6vw, 72px);
-    }
-
-    /* ----- utilidades ----- */
-    .glass {
-      background: rgba(255,255,255,.6);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid rgba(0,0,0,.08);
-      box-shadow: 0 4px 20px rgba(0,0,0,.04);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .8s var(--ease-fluid), transform .8s var(--ease-fluid);
-    }
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-stagger.is-visible {
-      transition-delay: calc(var(--stagger-i, 0) * 60ms);
-    }
-
-    /* ----- HEADER ----- */
+    /* ----- HEADER CON IMAGEN DE FONDO ÉPICA ----- */
     .header-modern {
       position: relative;
       isolation: isolate;
@@ -172,25 +141,56 @@
       text-align: center;
       overflow: hidden;
       padding: clamp(32px, 6vw, 72px) var(--edge);
-      background: radial-gradient(circle at 50% -10%, rgba(229, 9, 20, .12), transparent 34%), #070707;
+      background: #050505; /* fondo de respaldo oscuro */
     }
+
+    .hero-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+      -webkit-mask-composite: source-over;
+      mask-composite: add;
+    }
+    .hero-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.6) saturate(1.2);
+      transition: transform 0.6s ease;
+    }
+    .hero-backdrop::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+      pointer-events: none;
+    }
+
     .header-modern:before {
       content: "";
       position: absolute;
       inset: 0;
-      z-index: -2;
-      background: linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .72)), radial-gradient(circle at 50% 42%, rgba(229, 9, 20, .16), transparent 42%), linear-gradient(135deg, #090909, #050505 60%, #0b0b0b);
+      z-index: 1;
+      opacity: 0.5;
+      background: radial-gradient(circle at 50% 50%, rgba(229,9,20,0.15), transparent 70%), linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
+      pointer-events: none;
     }
     .header-modern:after {
       content: "";
       position: absolute;
       inset: 0;
-      z-index: -1;
-      opacity: .38;
-      background-image: linear-gradient(90deg, transparent 49.5%, rgba(255, 255, 255, .025) 50%, transparent 50.5%), linear-gradient(0deg, transparent 49.5%, rgba(255, 255, 255, .025) 50%, transparent 50.5%);
+      z-index: 2;
+      opacity: 0.12;
+      background-image: linear-gradient(90deg, transparent 49.5%, rgba(255, 255, 255, .05) 50%, transparent 50.5%), linear-gradient(0deg, transparent 49.5%, rgba(255, 255, 255, .05) 50%, transparent 50.5%);
       background-size: 44px 44px;
       mask-image: linear-gradient(to bottom, black, transparent 90%);
+      pointer-events: none;
     }
+
     .header-glow {
       position: absolute;
       top: -20%;
@@ -200,22 +200,27 @@
       aspect-ratio: 1;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(229, 9, 20, .22), transparent 62%);
-      z-index: -1;
+      z-index: 1;
       filter: blur(10px);
       animation: driftGlow 14s ease-in-out infinite;
       will-change: transform;
+      pointer-events: none;
     }
     @keyframes driftGlow {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(24px) scale(1.06); }
     }
+
     .hero-inner {
+      position: relative;
+      z-index: 3;
       width: min(900px, 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       color: #fff;
     }
+
     .logo-wrapper {
       position: relative;
       display: flex;
@@ -378,7 +383,7 @@
       50% { transform: translateY(5px); }
     }
 
-    /* ----- SECTION común ----- */
+    /* ----- El resto del CSS se mantiene igual (catalogo, referencias, footer, modales, etc.) ----- */
     .section {
       padding: clamp(40px, 6vw, 80px) 0;
     }
@@ -415,7 +420,6 @@
       line-height: 1.6;
     }
 
-    /* ----- CATALOGO ----- */
     .catalog-shell {
       border-radius: 16px;
       padding: clamp(16px, 2.5vw, 32px);
@@ -476,7 +480,6 @@
       background: #f9f9f9;
     }
 
-    /* ----- NUEVA SECCIÓN: SELECTOR DE VEHÍCULO ----- */
     .vehicle-selector {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -535,7 +538,6 @@
       cursor: not-allowed;
     }
 
-    /* ----- FILTROS (categorías) ----- */
     .filters-wrapper {
       border-top: 1px solid #eee;
       padding-top: 12px;
@@ -597,7 +599,6 @@
       box-shadow: 0 4px 12px rgba(229,9,20,.15);
     }
 
-    /* ----- PRODUCTOS ----- */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -817,7 +818,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ----- NUEVO: BOTÓN CARGAR MÁS ----- */
     .load-more-wrapper {
       text-align: center;
       margin-top: 20px;
@@ -851,7 +851,6 @@
       animation: spin 1s linear infinite;
     }
 
-    /* ----- REFERENCIAS ----- */
     .referencias-toggle {
       display: inline-flex;
       align-items: center;
@@ -963,7 +962,6 @@
       }
     }
 
-    /* ----- FOOTER ----- */
     .footer-modern {
       border-top: 1px solid #e0e0e0;
       background: #fff;
@@ -1066,7 +1064,6 @@
       letter-spacing: .04em;
     }
 
-    /* ----- MODALES ----- */
     .product-modal {
       display: none;
       position: fixed;
@@ -1420,7 +1417,6 @@
     .modal-nav.prev { left: max(8px, env(safe-area-inset-left)); }
     .modal-nav.next { right: max(8px, env(safe-area-inset-right)); }
 
-    /* ----- BURBUJAS FLOTANTES ----- */
     #floatingButtons {
       position: fixed;
       bottom: 30px;
@@ -1483,7 +1479,7 @@
         padding: 0 var(--edge);
       }
       body {
-        padding-top: 36px; /* banner más pequeño en móviles */
+        padding-top: 36px;
       }
       #top-banner {
         height: 36px;
@@ -1496,6 +1492,10 @@
       .header-modern {
         min-height: 60svh;
         padding: 24px var(--edge);
+      }
+      .hero-backdrop {
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
       }
       .logo-wrapper img {
         height: clamp(90px, 25vw, 140px);
@@ -1549,7 +1549,6 @@
         min-height: 38px;
         font-size: 13px;
       }
-      /* Tamaño de fuente mínimo para evitar zoom en iOS */
       input, select, textarea {
         font-size: 16px;
       }
@@ -1683,18 +1682,22 @@
   </style>
 </head>
 <body>
-  <!-- ========== TOP BANNER (NUEVO) ========== -->
+  <!-- ========== TOP BANNER ========== -->
   <div id="top-banner" role="banner" aria-label="Anuncio promocional">
     <div class="banner-track">
       <span><i class="fas fa-truck"></i> Realizamos envíos a toda la república. <em>Cotice con nosotros por WhatsApp.</em></span>
       <span><i class="fas fa-truck"></i> Realizamos envíos a toda la república. <em>Cotice con nosotros por WhatsApp.</em></span>
-      <!-- duplicado para efecto continuo -->
     </div>
   </div>
 
   <div class="main-wrapper">
-    <!-- ========== HEADER ========== -->
+    <!-- ========== HEADER CON IMAGEN DE FONDO (fondo.jpg) ========== -->
     <header class="header-modern" id="inicio">
+      <!-- Contenedor de la imagen de fondo con fade -->
+      <div class="hero-backdrop">
+        <!-- La imagen se carga desde la raíz del proyecto (junto al index.html) -->
+        <img src="fondo.jpg" alt="Fondo épico de autopartes" loading="lazy" />
+      </div>
       <div class="header-glow" aria-hidden="true"></div>
       <div class="hero-inner">
         <div class="logo-wrapper"><img src="logo.jpg" alt="REYES PERFORMANCE" fetchpriority="high" /></div>
@@ -1730,7 +1733,6 @@
               <span id="resultsCount" class="search-count">0 productos</span>
             </div>
 
-            <!-- NUEVA SECCIÓN: SELECTOR DE VEHÍCULO -->
             <div class="vehicle-selector" id="vehicleSelector">
               <div class="select-group">
                 <label for="brandSelect"><i class="fas fa-car"></i> Marca</label>
@@ -1759,7 +1761,6 @@
             <div class="products-grid" id="catalogGrid">
               <div class="loading-spinner"><i class="fas fa-spinner"></i> Cargando productos...</div>
             </div>
-            <!-- NUEVO: Botón Cargar más -->
             <div class="load-more-wrapper" id="loadMoreWrapper" style="display:none;">
               <button class="load-more-btn" id="loadMoreBtn">
                 <i class="fas fa-chevron-down"></i> Cargar más
@@ -1799,7 +1800,6 @@
           <div>
             <div class="footer-brand"><span>REYES</span> PERFORMANCE</div>
             <p class="footer-text">Venta de autopartes nuevas, partes de colisión y accesorios para todo vehículo.</p>
-
             <div class="social-wrapper">
               <div class="social-text">¡Visita nuestras redes sociales!</div>
               <div class="social">
@@ -1812,7 +1812,6 @@
               </div>
             </div>
           </div>
-
           <div>
             <h3 class="footer-heading">CONTACTO</h3>
             <ul class="contact-list">
@@ -1822,7 +1821,6 @@
               <li class="contact-item"><i class="fab fa-tiktok"></i><span>@reyes_performance0</span></li>
             </ul>
           </div>
-
           <div>
             <h3 class="footer-heading">SERVICIO</h3>
             <ul class="contact-list">
@@ -1882,6 +1880,7 @@
     </div>
   </div>
 
+  <!-- ========== SCRIPT (sin cambios) ========== -->
   <script>
     (function() {
       "use strict";
@@ -1963,7 +1962,6 @@
 
       function handleScroll() {
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-        // Umbral: ocultar si scroll > 100px, mostrar si scroll < 50px (con histéresis)
         if (scrollY > 100 && !topBanner.classList.contains('hidden')) {
           topBanner.classList.add('hidden');
           document.body.classList.add('banner-hidden');
@@ -2255,11 +2253,8 @@
           }
           offset += newProducts.length;
 
-          // Actualizar selectores de vehículo con los productos cargados
           populateVehicleSelectors();
-          // Aplicar filtros a todos los productos cargados
           applyFilters();
-          // Actualizar visibilidad del botón
           updateLoadMoreButton();
         } catch (error) {
           console.error("Error cargando productos:", error);
@@ -2305,9 +2300,7 @@
           }
           offset += newProducts.length;
 
-          // Actualizar selectores de vehículo
           populateVehicleSelectors();
-          // Filtrar solo los nuevos productos y agregarlos al DOM
           appendFilteredProducts(newProducts);
           updateResultsCount(filteredProducts.length);
           updateLoadMoreButton();
@@ -2320,14 +2313,12 @@
         }
       }
 
-      // Función para agregar productos filtrados al DOM (sin re-renderizar todo)
       function appendFilteredProducts(newProducts) {
         const filtered = filterProducts(newProducts);
         if (filtered.length === 0) return;
         renderProductCardsToContainer(catalogGrid, filtered, true);
       }
 
-      // Filtra un array de productos según los filtros actuales
       function filterProducts(products) {
         let filtered = products;
         if (currentCategoryFilter !== "all") {
@@ -2363,7 +2354,6 @@
         return filtered;
       }
 
-      // Aplica filtros a todos los productos cargados y re-renderiza el grid
       function applyFilters() {
         const filtered = filterProducts(allProducts);
         filteredProducts = filtered;
@@ -2372,7 +2362,6 @@
         updateLoadMoreButton();
       }
 
-      // Renderiza productos en un contenedor (append si es true, replace si es false)
       function renderProductCardsToContainer(container, data, append = false) {
         if (!container) return;
         if (!append) {
@@ -2393,7 +2382,6 @@
         }
 
         const fragment = document.createDocumentFragment();
-        // Determinar el índice base para asignar fetchpriority a las primeras imágenes
         const baseIndex = append ? container.children.length : 0;
 
         data.forEach((p, index) => {
@@ -2422,7 +2410,6 @@
           const model = p.model || p.car_model || '';
           const brand = p.brand || p.make || '';
 
-          // Optimización de imágenes: primeras 6 imágenes con fetchpriority="high" y loading="eager"
           const isPriority = globalIndex < 6;
           const loadingAttr = isPriority ? 'eager' : 'lazy';
           const fetchPriorityAttr = isPriority ? 'fetchpriority="high"' : '';
@@ -2495,7 +2482,6 @@
         if (!append) {
           primeRevealGroup(container, '.card-product');
         } else {
-          // Solo observar los nuevos elementos
           const newItems = container.querySelectorAll('.card-product:not(.is-visible)');
           newItems.forEach((el, i) => {
             el.classList.add('reveal', 'reveal-stagger');
@@ -2518,7 +2504,7 @@
         }
       }
 
-      // Modal de producto (sin cambios mayores)
+      // Modal de producto (sin cambios)
       let currentProduct = null;
       let currentProductImageIndex = 0;
       let productScrollPosition = 0;
@@ -2989,10 +2975,8 @@
         }
       });
 
-      // Evento para el botón "Cargar más"
       loadMoreBtn.addEventListener('click', loadMoreProducts);
 
-      // Inicio
       async function init() {
         renderFilters();
         const initialActiveSub = document.querySelector('.subcat-btn.active');
@@ -3005,11 +2989,9 @@
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", function() {
           currentSearchTerm = this.value;
-          // Al cambiar búsqueda, re-aplicar filtros sobre todos los productos cargados
           applyFilters();
         });
 
-        // Cargar el primer bloque de productos
         await loadProducts();
         console.log("REYES PERFORMANCE · Conectado a Supabase");
         console.log(`${allProducts.length} productos cargados inicialmente`);
