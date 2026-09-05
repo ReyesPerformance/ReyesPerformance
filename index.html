@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Meta viewport optimizado para evitar zoom en iOS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#080808" />
   <title>REYES PERFORMANCE · Autopartes Racing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1428,6 +1429,16 @@
         min-height: 38px;
         font-size: 13px;
       }
+      /* Tamaño de fuente mínimo para evitar zoom en iOS */
+      input, select, textarea {
+        font-size: 16px;
+      }
+      .search-input {
+        font-size: 16px;
+      }
+      .vehicle-selector select {
+        font-size: 16px;
+      }
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
@@ -1548,7 +1559,6 @@
 </head>
 <body>
   <div class="main-wrapper">
-
     <!-- ========== HEADER ========== -->
     <header class="header-modern" id="inicio">
       <div class="header-glow" aria-hidden="true"></div>
@@ -1567,7 +1577,6 @@
 
     <!-- ========== MAIN ========== -->
     <main>
-
       <!-- CATÁLOGO -->
       <section class="section" id="catalogo">
         <div class="container">
@@ -1641,7 +1650,6 @@
           </div>
         </div>
       </section>
-
     </main>
 
     <!-- ========== FOOTER ========== -->
@@ -1732,7 +1740,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <script>
@@ -1763,6 +1770,23 @@
         once: true,
         passive: true
       });
+
+      // Parche adicional para iOS: restablecer zoom al perder foco
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        document.addEventListener('focusout', function(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+            // Pequeño retraso para asegurar que el viewport se restablezca
+            setTimeout(function() {
+              const viewport = document.querySelector('meta[name=viewport]');
+              if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+              }
+              // Forzar scroll a la posición actual para evitar desajustes
+              window.scrollTo(0, window.scrollY);
+            }, 100);
+          }
+        });
+      }
 
       // Animaciones de entrada
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1800,7 +1824,7 @@
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
-      // Categorías y subcategorías (sin cambios)
+      // Categorías y subcategorías
       const categoryGroups = [
         { name: "TODOS", subcategories: [{ id: "all", label: "Todos" }] },
         { 
@@ -1856,15 +1880,12 @@
       let currentCategoryFilter = "all";
       let currentSearchTerm = "";
       let activeCategoryIndex = 0;
-
-      // Nuevas variables para filtro de vehículo
       let currentBrand = "";
       let currentModel = "";
       let currentYear = "";
 
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // Render de filtros de categorías (sin cambios)
       function renderFilters() {
         const categoriesContainer = document.getElementById("categoriesScroll");
         const subcategoriesContainer = document.getElementById("subcategoriesScroll");
@@ -1923,15 +1944,11 @@
         });
       }
 
-      // ============================================
-      // NUEVA FUNCIONALIDAD: SELECTOR DE VEHÍCULO
-      // ============================================
       function populateVehicleSelectors() {
         const brandSelect = document.getElementById('brandSelect');
         const modelSelect = document.getElementById('modelSelect');
         const yearSelect = document.getElementById('yearSelect');
 
-        // Resetear selectores
         brandSelect.innerHTML = '<option value="">Todas las marcas</option>';
         modelSelect.innerHTML = '<option value="">Todos los modelos</option>';
         yearSelect.innerHTML = '<option value="">Todos los años</option>';
@@ -1941,7 +1958,6 @@
 
         if (allProducts.length === 0) return;
 
-        // Obtener marcas únicas (campo "brand" o "make", si no existe usar "Sin marca")
         const brands = new Set();
         allProducts.forEach(p => {
           const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
@@ -1950,7 +1966,6 @@
 
         if (brands.size === 0) return;
 
-        // Llenar marcas
         const sortedBrands = Array.from(brands).sort();
         sortedBrands.forEach(brand => {
           const option = document.createElement('option');
@@ -1961,7 +1976,6 @@
 
         brandSelect.disabled = false;
 
-        // Función para poblar modelos según marca seleccionada
         function populateModels(brand) {
           modelSelect.innerHTML = '<option value="">Todos los modelos</option>';
           modelSelect.disabled = true;
@@ -1993,7 +2007,6 @@
           modelSelect.disabled = false;
         }
 
-        // Función para poblar años según marca y modelo
         function populateYears(brand, model) {
           yearSelect.innerHTML = '<option value="">Todos los años</option>';
           yearSelect.disabled = true;
@@ -2012,7 +2025,7 @@
 
           if (years.size === 0) return;
 
-          const sortedYears = Array.from(years).sort((a, b) => b - a); // descendente
+          const sortedYears = Array.from(years).sort((a, b) => b - a);
           sortedYears.forEach(year => {
             const option = document.createElement('option');
             option.value = year;
@@ -2022,33 +2035,24 @@
           yearSelect.disabled = false;
         }
 
-        // Evento cambio de marca
         brandSelect.addEventListener('change', function() {
           currentBrand = this.value;
           populateModels(currentBrand);
           applyFilters();
         });
 
-        // Evento cambio de modelo
         modelSelect.addEventListener('change', function() {
           currentModel = this.value;
           populateYears(currentBrand, currentModel);
           applyFilters();
         });
 
-        // Evento cambio de año
         yearSelect.addEventListener('change', function() {
           currentYear = this.value;
           applyFilters();
         });
-
-        // Inicialmente deshabilitados hasta que se carguen datos
-        // Ya se llenaron las marcas, los demás quedan deshabilitados
       }
 
-      // ============================================
-      // CARGAR PRODUCTOS
-      // ============================================
       async function loadProducts() {
         const container = document.getElementById("catalogGrid");
         try {
@@ -2059,7 +2063,7 @@
 
           if (error) throw error;
           allProducts = data || [];
-          populateVehicleSelectors(); // Llenar selectores de vehículo
+          populateVehicleSelectors();
           applyFilters();
           updateResultsCount();
         } catch (error) {
@@ -2074,9 +2078,6 @@
         }
       }
 
-      // ============================================
-      // RENDER PRODUCTOS (actualizado para incluir marca/modelo/año)
-      // ============================================
       function renderProductCards(containerId, data) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -2187,9 +2188,7 @@
         primeRevealGroup(container, '.card-product');
       }
 
-      // ============================================
-      // MODAL DE PRODUCTO (sin cambios, salvo incluir marca en mensaje)
-      // ============================================
+      // Modal de producto (sin cambios mayores)
       let currentProduct = null;
       let currentProductImageIndex = 0;
       let productScrollPosition = 0;
@@ -2292,7 +2291,6 @@
         }
       }
 
-      // Eventos del modal de producto (sin cambios)
       productGallery.addEventListener('click', function(e) {
         if (!currentProduct) return;
         const images = currentProduct.images || [];
@@ -2323,9 +2321,7 @@
         if (e.target === this) closeProductModal();
       });
 
-      // ============================================
-      // MODAL DE ZOOM (sin cambios)
-      // ============================================
+      // Modal de zoom (sin cambios)
       let currentModalImages = [];
       let currentModalIndex = 0;
       let currentZoom = 1;
@@ -2525,9 +2521,7 @@
         changeModalImage(1); });
       modal.addEventListener("click", function(e) { if (e.target === this) closeModal(); });
 
-      // ============================================
-      // TECLA ESC (sin cambios)
-      // ============================================
+      // Teclas
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           if (modal.classList.contains('active')) {
@@ -2546,9 +2540,7 @@
         }
       });
 
-      // ============================================
-      // APLICAR FILTROS (actualizado con marca, modelo, año)
-      // ============================================
+      // Aplicar filtros (incluye marca, modelo, año)
       function applyFilters() {
         let filtered = [...allProducts];
         if (currentCategoryFilter !== "all") {
@@ -2565,7 +2557,6 @@
               term);
           });
         }
-        // Filtros de vehículo
         if (currentBrand) {
           filtered = filtered.filter((p) => {
             const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
@@ -2595,9 +2586,7 @@
         }
       }
 
-      // ============================================
-      // PESTAÑA DE REFERENCIAS (sin cambios)
-      // ============================================
+      // Referencias
       const toggleBtn = document.getElementById('referenciasToggle');
       const wrapperRef = document.getElementById('referenciasWrapper');
       let referenciasCargadas = false;
@@ -2677,9 +2666,7 @@
         }
       }
 
-      // ============================================
-      // BURBUJAS FLOTANTES (sin cambios)
-      // ============================================
+      // Burbujas flotantes
       const floating = document.getElementById('floatingButtons');
       const scrollTopBtn = document.getElementById('scrollTopBtn');
       const contactBtn = document.getElementById('contactBtn');
@@ -2718,9 +2705,7 @@
         }
       });
 
-      // ============================================
-      // INICIO
-      // ============================================
+      // Inicio
       async function init() {
         renderFilters();
         const initialActiveSub = document.querySelector('.subcat-btn.active');
