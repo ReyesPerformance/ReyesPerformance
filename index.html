@@ -1729,21 +1729,50 @@
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
       // ============================================
-      // CATEGORÍAS ACTUALIZADAS (ELIMINADO "LATERALES")
+      // CATEGORÍAS Y SUBCATEGORÍAS (actualizado 2026)
       // ============================================
       const categoryGroups = [
         { name: "TODOS", subcategories: [{ id: "all", label: "Todos" }] },
-        { name: "EXTERIOR", subcategories: [{ id: "defensa-frontal", label: "Frontales" }, { id: "parrillas",
-            label: "Parrillas" }, { id: "cofres", label: "Cofres" }, { id: "salpicaderas-delanteras",
-            label: "Salpicaderas" }, { id: "defensa-trasera", label: "Traseras" }, { id: "tapa-cajuela",
-            label: "Cajuelas" }, { id: "difusores", label: "Difusores" }] },
-        // LATERALES ELIMINADO COMPLETAMENTE
-        { name: "LUCES", subcategories: [{ id: "iluminacion", label: "Iluminacion" }, { id: "enfriamiento",
-            label: "Radiadores" }] },
-        { name: "INTERIORES", subcategories: [{ id: "tablero-y-consola", label: "Tableros" }, { id: "bolsas-de-aire",
-            label: "Airbags" }, { id: "cinturones-y-volantes", label: "Cinturones" }, { id: "asientos-y-tapiceria",
-            label: "Asientos" }] },
-        { name: "EXTRAS", subcategories: [{ id: "accesorio", label: "Accesorios" }] }
+        { 
+          name: "Estética y Carrocería Exterior", 
+          subcategories: [
+            { id: "defensa-frontal", label: "Defensa Delantera" },
+            { id: "defensa-trasera", label: "Defensa Trasera" },
+            { id: "parrillas", label: "Parrillas" },
+            { id: "cofres", label: "Cofres" },
+            { id: "salpicaderas-delanteras", label: "Salpicaderas" },
+            { id: "faldones-laterales", label: "Faldones Laterales" },
+            { id: "espejos", label: "Espejos" }
+          ]
+        },
+        { 
+          name: "Cristales e Iluminación", 
+          subcategories: [
+            { id: "vidrios", label: "Vidrios" },
+            { id: "iluminacion", label: "Iluminación" }
+          ]
+        },
+        { 
+          name: "Enfriamiento y Motor", 
+          subcategories: [
+            { id: "enfriamiento", label: "Radiadores" }
+          ]
+        },
+        { 
+          name: "Interior, Seguridad y Confort", 
+          subcategories: [
+            { id: "tablero-y-consola", label: "Tableros" },
+            { id: "bolsas-de-aire", label: "Airbags" },
+            { id: "cinturones-y-volantes", label: "Cinturones & Volantes" },
+            { id: "asientos-y-tapiceria", label: "Asientos & Tapicería" }
+          ]
+        },
+        { 
+          name: "Accesorios", 
+          subcategories: [
+            { id: "accesorio", label: "Accesorios" }
+          ]
+        }
       ];
 
       const categoryDisplayNames = {};
