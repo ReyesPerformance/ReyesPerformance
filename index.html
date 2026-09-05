@@ -599,6 +599,8 @@
       cursor: pointer;
       transition: background .3s ease, transform .3s ease;
       will-change: transform;
+      white-space: nowrap;
+      box-sizing: border-box;
     }
     @media (hover: hover) and (pointer: fine) {
       .card-product .btn-whatsapp-card:hover {
@@ -611,6 +613,28 @@
     }
     .card-product .btn-whatsapp-card i {
       font-size: 18px;
+      line-height: 1;
+    }
+
+    /* ----- CORRECCIÓN DESKTOP: Botón WhatsApp sin desbordamiento ----- */
+    @media (min-width: 1024px) {
+      .card-product .btn-whatsapp-card {
+        padding: 10px 10px;
+        font-size: clamp(11px, 1.1vw, 7px);
+        gap: 6px;
+        width: 100%;
+        white-space: nowrap;
+        border-radius: 8px;
+        line-height: 1.2;
+        box-sizing: border-box;
+      }
+      .card-product .btn-whatsapp-card i {
+        font-size: clamp(16px, 1.4vw, 20px);
+        flex-shrink: 0;
+      }
+      .card-product .footer-card {
+        padding-top: 12px;
+      }
     }
 
     /* badges en imagen */
@@ -1564,7 +1588,7 @@
               <li class="contact-item"><i class="fab fa-facebook"></i><span>Reyes Performance</span></li>
               <li class="contact-item"><i class="fab fa-tiktok"></i><span>@reyes_performance0</span></li>
               <!-- Nueva dirección -->
-             
+              <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
             </ul>
           </div>
 
@@ -1575,8 +1599,7 @@
               <li class="contact-item"><i class="far fa-clock"></i><span>Lun - Vie: 9:00 a.m. - 7:30 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Sábados: 9:00 a.m. - 4:00 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Domingos: Cerrado</span></li>
-               <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
-              
+              <li class="contact-item"><i class="fas fa-shield-alt"></i><span>Garantía en todas las piezas</span></li>
             </ul>
           </div>
         </div>
