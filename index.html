@@ -85,7 +85,7 @@
       transition-delay: calc(var(--stagger-i, 0) * 60ms);
     }
 
-    /* ----- HEADER (mantengo estilo oscuro para identidad) ----- */
+    /* ----- HEADER ----- */
     .header-modern {
       position: relative;
       isolation: isolate;
@@ -175,7 +175,6 @@
       margin-bottom: 16px;
       will-change: transform, opacity;
     }
-    /* ---- CORRECCIÓN: evita que "PERFORMANCE" se divida ---- */
     .hero-title {
       font-family: "Hauser Bold", Orbitron, sans-serif;
       font-size: clamp(2.45rem, 9.5vw, 6.4rem);
@@ -186,7 +185,7 @@
       max-width: 100%;
       font-weight: 700;
       will-change: transform, opacity;
-      word-break: keep-all;      /* evita división de palabras */
+      word-break: keep-all;
       overflow: hidden;
     }
     .hero-title .reyes {
@@ -196,10 +195,10 @@
     .hero-title .performance {
       display: block;
       color: #fff;
-      word-break: keep-all;      /* fuerza a que "PERFORMANCE" no se rompa */
-      white-space: nowrap;       /* mantiene la palabra en una sola línea */
+      word-break: keep-all;
+      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;   /* fallback si es demasiado larga (no debería) */
+      text-overflow: ellipsis;
     }
     .hero-sub {
       margin-top: 20px;
@@ -400,6 +399,67 @@
       white-space: nowrap;
       background: #f9f9f9;
     }
+
+    /* ----- NUEVA SECCIÓN: SELECTOR DE VEHÍCULO ----- */
+    .vehicle-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 12px;
+    }
+    .vehicle-selector .select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .vehicle-selector label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .vehicle-selector label i {
+      color: #e50914;
+      font-size: 12px;
+    }
+    .vehicle-selector select {
+      width: 100%;
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fff;
+      color: #222;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color .25s ease, box-shadow .25s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 14px;
+    }
+    .vehicle-selector select:focus {
+      border-color: #e50914;
+      box-shadow: 0 0 0 3px rgba(229,9,20,.06);
+    }
+    .vehicle-selector select:disabled {
+      background-color: #f0f0f0;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    /* ----- FILTROS (categorías) ----- */
     .filters-wrapper {
       border-top: 1px solid #eee;
       padding-top: 12px;
@@ -461,7 +521,7 @@
       box-shadow: 0 4px 12px rgba(229,9,20,.15);
     }
 
-    /* ----- PRODUCTOS (grid y tarjetas) ----- */
+    /* ----- PRODUCTOS ----- */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -576,7 +636,6 @@
       gap: 3px;
     }
 
-    /* Botón WhatsApp en tarjetas */
     .card-product .footer-card {
       margin-top: auto;
       padding-top: 8px;
@@ -616,7 +675,6 @@
       line-height: 1;
     }
 
-    /* ----- CORRECCIÓN DESKTOP: Botón WhatsApp sin desbordamiento ----- */
     @media (min-width: 1024px) {
       .card-product .btn-whatsapp-card {
         padding: 10px 10px;
@@ -637,7 +695,6 @@
       }
     }
 
-    /* badges en imagen */
     .tech-badge {
       position: absolute;
       top: 8px;
@@ -684,7 +741,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ----- REFERENCIAS (pestaña desplegable) ----- */
+    /* ----- REFERENCIAS ----- */
     .referencias-toggle {
       display: inline-flex;
       align-items: center;
@@ -816,7 +873,6 @@
     .footer-brand span {
       color: #e50914;
     }
-    /* Texto actualizado: solo piezas nuevas */
     .footer-text {
       margin-top: 14px;
       max-width: 470px;
@@ -825,7 +881,6 @@
       line-height: 1.75;
     }
 
-    /* --- Redes sociales: nuevo diseño con texto y enlaces actualizados --- */
     .social-wrapper {
       margin-top: 20px;
     }
@@ -901,7 +956,7 @@
       letter-spacing: .04em;
     }
 
-    /* ----- MODALES (producto) ----- */
+    /* ----- MODALES ----- */
     .product-modal {
       display: none;
       position: fixed;
@@ -1117,7 +1172,6 @@
       transform: scale(.97);
     }
 
-    /* Modal de zoom (imagen) - z-index mayor */
     .modal {
       display: none;
       position: fixed;
@@ -1307,6 +1361,9 @@
       .referencias-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      .vehicle-selector {
+        grid-template-columns: 1fr;
+      }
     }
     @media (max-width: 760px) {
       :root {
@@ -1362,6 +1419,14 @@
       }
       .search-count {
         align-self: flex-start;
+      }
+      .vehicle-selector {
+        padding: 12px;
+        gap: 8px;
+      }
+      .vehicle-selector select {
+        min-height: 38px;
+        font-size: 13px;
       }
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1521,6 +1586,29 @@
               </div>
               <span id="resultsCount" class="search-count">0 productos</span>
             </div>
+
+            <!-- NUEVA SECCIÓN: SELECTOR DE VEHÍCULO -->
+            <div class="vehicle-selector" id="vehicleSelector">
+              <div class="select-group">
+                <label for="brandSelect"><i class="fas fa-car"></i> Marca</label>
+                <select id="brandSelect" disabled>
+                  <option value="">Todas las marcas</option>
+                </select>
+              </div>
+              <div class="select-group">
+                <label for="modelSelect"><i class="fas fa-tag"></i> Modelo</label>
+                <select id="modelSelect" disabled>
+                  <option value="">Todos los modelos</option>
+                </select>
+              </div>
+              <div class="select-group">
+                <label for="yearSelect"><i class="fas fa-calendar-alt"></i> Año</label>
+                <select id="yearSelect" disabled>
+                  <option value="">Todos los años</option>
+                </select>
+              </div>
+            </div>
+
             <div class="filters-wrapper" id="filtersWrapper">
               <div class="categories-scroll" id="categoriesScroll"></div>
               <div class="subcategories-scroll" id="subcategoriesScroll"></div>
@@ -1532,7 +1620,7 @@
         </div>
       </section>
 
-      <!-- REFERENCIAS (pestaña desplegable) -->
+      <!-- REFERENCIAS -->
       <section class="section" id="referencias">
         <div class="container">
           <div class="section-head reveal">
@@ -1564,15 +1652,12 @@
             <div class="footer-brand"><span>REYES</span> PERFORMANCE</div>
             <p class="footer-text">Venta de autopartes nuevas, partes de colisión y accesorios para todo vehículo.</p>
 
-            <!-- Redes sociales: texto + botones actualizados -->
             <div class="social-wrapper">
               <div class="social-text">¡Visita nuestras redes sociales!</div>
               <div class="social">
-                <!-- Facebook -->
                 <a href="https://www.facebook.com/profile.php?id=61558342396278" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                   <i class="fab fa-facebook"></i>
                 </a>
-                <!-- TikTok -->
                 <a href="https://www.tiktok.com/@reyes_performance0" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                   <i class="fab fa-tiktok"></i>
                 </a>
@@ -1587,19 +1672,16 @@
               <li class="contact-item"><i class="fas fa-phone-alt"></i><span>(866) 277 91 03</span></li>
               <li class="contact-item"><i class="fab fa-facebook"></i><span>Reyes Performance</span></li>
               <li class="contact-item"><i class="fab fa-tiktok"></i><span>@reyes_performance0</span></li>
-              <!-- Nueva dirección -->
-             
             </ul>
           </div>
 
           <div>
             <h3 class="footer-heading">SERVICIO</h3>
             <ul class="contact-list">
-              <!-- Horarios actualizados -->
               <li class="contact-item"><i class="far fa-clock"></i><span>Lun - Vie: 9:00 a.m. - 7:30 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Sábados: 9:00 a.m. - 4:00 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Domingos: Cerrado</span></li>
-               <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
+              <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
             </ul>
           </div>
         </div>
@@ -1607,7 +1689,7 @@
       </div>
     </footer>
 
-    <!-- ========== BURBUJAS FLOTANTES ========== -->
+    <!-- BURBUJAS FLOTANTES -->
     <div id="floatingButtons">
       <a href="#contacto" id="contactBtn" class="float-btn btn-whatsapp-float" aria-label="Contacto">
         <i class="fas fa-comment-dots"></i>
@@ -1617,9 +1699,7 @@
       </button>
     </div>
 
-    <!-- ========== MODALES ========== -->
-
-    <!-- Modal de zoom (imagen) - z-index 200000 -->
+    <!-- MODALES -->
     <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-label="Vista de imagen">
       <div class="modal-content">
         <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
@@ -1638,7 +1718,6 @@
       </div>
     </div>
 
-    <!-- Modal de producto -->
     <div id="productModal" class="product-modal" role="dialog" aria-modal="true" aria-label="Detalle del producto">
       <div class="product-modal-content" id="productModalContent">
         <button class="product-modal-close" id="productModalClose" aria-label="Cerrar">&times;</button>
@@ -1655,15 +1734,12 @@
     </div>
 
   </div>
-  <!-- fin main-wrapper -->
 
   <script>
     (function() {
       "use strict";
 
-      // ============================================
-      // SCROLL AL INICIO
-      // ============================================
+      // Scroll al inicio
       if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
       if (window.location.hash) { history.replaceState(null, null, window.location.pathname + window.location.search); }
 
@@ -1688,9 +1764,7 @@
         passive: true
       });
 
-      // ============================================
-      // ANIMACIONES DE ENTRADA (scroll reveal)
-      // ============================================
+      // Animaciones de entrada
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const revealObserver = ('IntersectionObserver' in window && !prefersReducedMotion) ?
         new IntersectionObserver((entries) => {
@@ -1720,17 +1794,13 @@
       }
       document.querySelectorAll('.reveal').forEach(observeReveal);
 
-      // ============================================
-      // CONFIGURACIÓN
-      // ============================================
+      // Configuración
       const WHATSAPP_NUMBER = "528661760344";
       const SUPABASE_URL = "https://frpycdvqavqsbzbqmugr.supabase.co";
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
-      // ============================================
-      // CATEGORÍAS Y SUBCATEGORÍAS (actualizado 2026)
-      // ============================================
+      // Categorías y subcategorías (sin cambios)
       const categoryGroups = [
         { name: "TODOS", subcategories: [{ id: "all", label: "Todos" }] },
         { 
@@ -1787,11 +1857,14 @@
       let currentSearchTerm = "";
       let activeCategoryIndex = 0;
 
+      // Nuevas variables para filtro de vehículo
+      let currentBrand = "";
+      let currentModel = "";
+      let currentYear = "";
+
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // ============================================
-      // FILTROS
-      // ============================================
+      // Render de filtros de categorías (sin cambios)
       function renderFilters() {
         const categoriesContainer = document.getElementById("categoriesScroll");
         const subcategoriesContainer = document.getElementById("subcategoriesScroll");
@@ -1851,6 +1924,129 @@
       }
 
       // ============================================
+      // NUEVA FUNCIONALIDAD: SELECTOR DE VEHÍCULO
+      // ============================================
+      function populateVehicleSelectors() {
+        const brandSelect = document.getElementById('brandSelect');
+        const modelSelect = document.getElementById('modelSelect');
+        const yearSelect = document.getElementById('yearSelect');
+
+        // Resetear selectores
+        brandSelect.innerHTML = '<option value="">Todas las marcas</option>';
+        modelSelect.innerHTML = '<option value="">Todos los modelos</option>';
+        yearSelect.innerHTML = '<option value="">Todos los años</option>';
+        brandSelect.disabled = true;
+        modelSelect.disabled = true;
+        yearSelect.disabled = true;
+
+        if (allProducts.length === 0) return;
+
+        // Obtener marcas únicas (campo "brand" o "make", si no existe usar "Sin marca")
+        const brands = new Set();
+        allProducts.forEach(p => {
+          const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
+          if (brand && brand.trim() !== '') brands.add(brand.trim());
+        });
+
+        if (brands.size === 0) return;
+
+        // Llenar marcas
+        const sortedBrands = Array.from(brands).sort();
+        sortedBrands.forEach(brand => {
+          const option = document.createElement('option');
+          option.value = brand;
+          option.textContent = brand;
+          brandSelect.appendChild(option);
+        });
+
+        brandSelect.disabled = false;
+
+        // Función para poblar modelos según marca seleccionada
+        function populateModels(brand) {
+          modelSelect.innerHTML = '<option value="">Todos los modelos</option>';
+          modelSelect.disabled = true;
+          yearSelect.innerHTML = '<option value="">Todos los años</option>';
+          yearSelect.disabled = true;
+          currentModel = "";
+          currentYear = "";
+
+          if (!brand) return;
+
+          const models = new Set();
+          allProducts.forEach(p => {
+            const pBrand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
+            if ((pBrand || '').trim() === brand) {
+              const model = p.model || p.car_model || '';
+              if (model.trim() !== '') models.add(model.trim());
+            }
+          });
+
+          if (models.size === 0) return;
+
+          const sortedModels = Array.from(models).sort();
+          sortedModels.forEach(model => {
+            const option = document.createElement('option');
+            option.value = model;
+            option.textContent = model;
+            modelSelect.appendChild(option);
+          });
+          modelSelect.disabled = false;
+        }
+
+        // Función para poblar años según marca y modelo
+        function populateYears(brand, model) {
+          yearSelect.innerHTML = '<option value="">Todos los años</option>';
+          yearSelect.disabled = true;
+          currentYear = "";
+
+          if (!brand || !model) return;
+
+          const years = new Set();
+          allProducts.forEach(p => {
+            const pBrand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
+            const pModel = p.model || p.car_model || '';
+            if ((pBrand || '').trim() === brand && pModel.trim() === model && p.year) {
+              years.add(p.year.toString());
+            }
+          });
+
+          if (years.size === 0) return;
+
+          const sortedYears = Array.from(years).sort((a, b) => b - a); // descendente
+          sortedYears.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+          });
+          yearSelect.disabled = false;
+        }
+
+        // Evento cambio de marca
+        brandSelect.addEventListener('change', function() {
+          currentBrand = this.value;
+          populateModels(currentBrand);
+          applyFilters();
+        });
+
+        // Evento cambio de modelo
+        modelSelect.addEventListener('change', function() {
+          currentModel = this.value;
+          populateYears(currentBrand, currentModel);
+          applyFilters();
+        });
+
+        // Evento cambio de año
+        yearSelect.addEventListener('change', function() {
+          currentYear = this.value;
+          applyFilters();
+        });
+
+        // Inicialmente deshabilitados hasta que se carguen datos
+        // Ya se llenaron las marcas, los demás quedan deshabilitados
+      }
+
+      // ============================================
       // CARGAR PRODUCTOS
       // ============================================
       async function loadProducts() {
@@ -1863,6 +2059,7 @@
 
           if (error) throw error;
           allProducts = data || [];
+          populateVehicleSelectors(); // Llenar selectores de vehículo
           applyFilters();
           updateResultsCount();
         } catch (error) {
@@ -1878,7 +2075,7 @@
       }
 
       // ============================================
-      // RENDER PRODUCTOS
+      // RENDER PRODUCTOS (actualizado para incluir marca/modelo/año)
       // ============================================
       function renderProductCards(containerId, data) {
         const container = document.getElementById(containerId);
@@ -1920,6 +2117,7 @@
 
           const year = p.year || '';
           const model = p.model || p.car_model || '';
+          const brand = p.brand || p.make || '';
 
           card.innerHTML = `
                 <div class="product-img-wrap" style="position:relative;">
@@ -1938,8 +2136,9 @@
                 <div class="product-info">
                     <h4>${p.name || "Sin nombre"}</h4>
                     <div class="year-model">
+                        ${brand ? `<span><i class="fas fa-car"></i> ${brand}</span>` : ''}
+                        ${model ? `<span><i class="fas fa-tag"></i> ${model}</span>` : ''}
                         ${year ? `<span><i class="far fa-calendar-alt"></i> ${year}</span>` : ''}
-                        ${model ? `<span><i class="fas fa-car"></i> ${model}</span>` : ''}
                     </div>
                     <div class="price">${formattedPrice}</div>
                     <div class="meta-tags">
@@ -1973,7 +2172,7 @@
                   maximumFractionDigits: 2
                 }).format(product.price) : "$0.00";
                 const message =
-                  `Hola, me interesa la pieza: ${product.name} para ${product.model || product.car_model || ""} (${product.year || ""}) - Condicion: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+                  `Hola, me interesa la pieza: ${product.name} para ${product.brand || ''} ${product.model || product.car_model || ""} (${product.year || ""}) - Condicion: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
                 window.open(
                   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
                   "_blank");
@@ -1989,7 +2188,7 @@
       }
 
       // ============================================
-      // MODAL DE PRODUCTO
+      // MODAL DE PRODUCTO (sin cambios, salvo incluir marca en mensaje)
       // ============================================
       let currentProduct = null;
       let currentProductImageIndex = 0;
@@ -2052,6 +2251,7 @@
           maximumFractionDigits: 2
         }).format(currentProduct.price) : "$0.00";
         const description = currentProduct.description || 'Sin descripción disponible.';
+        const brand = currentProduct.brand || currentProduct.make || '';
 
         productModalInfo.innerHTML = `
                 <h2>${currentProduct.name || 'Sin nombre'}</h2>
@@ -2061,7 +2261,8 @@
                     <span class="badge" style="background:#f0f0f0;color:#555;margin-left:6px;">${categoryDisplayNames[currentProduct.category] || currentProduct.category || 'Categoría'}</span>
                 </div>
                 <div class="meta">
-                    <span><i class="fas fa-car"></i> ${currentProduct.model || currentProduct.car_model || 'N/A'}</span>
+                    ${brand ? `<span><i class="fas fa-car"></i> ${brand}</span>` : ''}
+                    <span><i class="fas fa-tag"></i> ${currentProduct.model || currentProduct.car_model || 'N/A'}</span>
                     <span><i class="far fa-calendar-alt"></i> ${currentProduct.year || 'N/A'}</span>
                     ${currentProduct.zone ? `<span><i class="fas fa-map-pin"></i> ${currentProduct.zone}</span>` : ''}
                 </div>
@@ -2083,7 +2284,7 @@
               maximumFractionDigits: 2
             }).format(currentProduct.price) : "$0.00";
             const message =
-              `Hola, me interesa la pieza: ${currentProduct.name} para ${currentProduct.model || currentProduct.car_model || ""} (${currentProduct.year || ""}) - Condicion: ${currentProduct.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+              `Hola, me interesa la pieza: ${currentProduct.name} para ${brand} ${currentProduct.model || currentProduct.car_model || ""} (${currentProduct.year || ""}) - Condicion: ${currentProduct.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
             window.open(
               `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
               "_blank");
@@ -2091,7 +2292,7 @@
         }
       }
 
-      // Abrir zoom desde la galería del producto
+      // Eventos del modal de producto (sin cambios)
       productGallery.addEventListener('click', function(e) {
         if (!currentProduct) return;
         const images = currentProduct.images || [];
@@ -2123,7 +2324,7 @@
       });
 
       // ============================================
-      // MODAL DE ZOOM (imagen)
+      // MODAL DE ZOOM (sin cambios)
       // ============================================
       let currentModalImages = [];
       let currentModalIndex = 0;
@@ -2325,7 +2526,7 @@
       modal.addEventListener("click", function(e) { if (e.target === this) closeModal(); });
 
       // ============================================
-      // TECLA ESC
+      // TECLA ESC (sin cambios)
       // ============================================
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
@@ -2346,7 +2547,7 @@
       });
 
       // ============================================
-      // APLICAR FILTROS
+      // APLICAR FILTROS (actualizado con marca, modelo, año)
       // ============================================
       function applyFilters() {
         let filtered = [...allProducts];
@@ -2359,7 +2560,27 @@
             const carModel = (p.car_model || "").toLowerCase();
             const model = (p.model || "").toLowerCase();
             const name = (p.name || "").toLowerCase();
-            return carModel.includes(term) || model.includes(term) || name.includes(term);
+            const brand = (p.brand || p.make || "").toLowerCase();
+            return carModel.includes(term) || model.includes(term) || name.includes(term) || brand.includes(
+              term);
+          });
+        }
+        // Filtros de vehículo
+        if (currentBrand) {
+          filtered = filtered.filter((p) => {
+            const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
+            return brand.trim() === currentBrand;
+          });
+        }
+        if (currentModel) {
+          filtered = filtered.filter((p) => {
+            const model = p.model || p.car_model || '';
+            return model.trim() === currentModel;
+          });
+        }
+        if (currentYear) {
+          filtered = filtered.filter((p) => {
+            return p.year && p.year.toString() === currentYear;
           });
         }
         renderProductCards("catalogGrid", filtered);
@@ -2375,7 +2596,7 @@
       }
 
       // ============================================
-      // PESTAÑA DE REFERENCIAS
+      // PESTAÑA DE REFERENCIAS (sin cambios)
       // ============================================
       const toggleBtn = document.getElementById('referenciasToggle');
       const wrapperRef = document.getElementById('referenciasWrapper');
@@ -2391,9 +2612,6 @@
         }
       });
 
-      // ============================================
-      // CARGAR REFERENCIAS (bajo demanda)
-      // ============================================
       async function loadReferencias() {
         const container = document.getElementById("referenciasGrid");
         try {
@@ -2460,7 +2678,7 @@
       }
 
       // ============================================
-      // BURBUJAS FLOTANTES
+      // BURBUJAS FLOTANTES (sin cambios)
       // ============================================
       const floating = document.getElementById('floatingButtons');
       const scrollTopBtn = document.getElementById('scrollTopBtn');
