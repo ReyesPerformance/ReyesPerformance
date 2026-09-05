@@ -742,6 +742,40 @@
       to { transform: rotate(360deg); }
     }
 
+    /* ----- NUEVO: BOTÓN CARGAR MÁS ----- */
+    .load-more-wrapper {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .load-more-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .3s ease, transform .3s ease;
+      min-width: 160px;
+    }
+    .load-more-btn:hover {
+      background: #e50914;
+      transform: translateY(-2px);
+    }
+    .load-more-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .load-more-btn i {
+      animation: spin 1s linear infinite;
+    }
+
     /* ----- REFERENCIAS ----- */
     .referencias-toggle {
       display: inline-flex;
@@ -1516,6 +1550,11 @@
         height: 48px;
         font-size: 20px;
       }
+      .load-more-btn {
+        width: 100%;
+        max-width: 280px;
+        font-size: 12px;
+      }
     }
     @media (max-width: 390px) {
       .products-grid {
@@ -1563,7 +1602,7 @@
     <header class="header-modern" id="inicio">
       <div class="header-glow" aria-hidden="true"></div>
       <div class="hero-inner">
-        <div class="logo-wrapper"><img src="logo.jpg" alt="REYES PERFORMANCE" /></div>
+        <div class="logo-wrapper"><img src="logo.jpg" alt="REYES PERFORMANCE" fetchpriority="high" /></div>
         <div class="hero-kicker"><span>AUTOPARTES · BODY KIT</span></div>
         <h1 class="hero-title"><span class="reyes">REYES</span><span class="performance">PERFORMANCE</span></h1>
         <p class="hero-sub"><strong>HECHO PARA DOMINAR EN LAS CALLES</strong><br>BODY KIT</p>
@@ -1624,6 +1663,12 @@
             </div>
             <div class="products-grid" id="catalogGrid">
               <div class="loading-spinner"><i class="fas fa-spinner"></i> Cargando productos...</div>
+            </div>
+            <!-- NUEVO: Botón Cargar más -->
+            <div class="load-more-wrapper" id="loadMoreWrapper" style="display:none;">
+              <button class="load-more-btn" id="loadMoreBtn">
+                <i class="fas fa-chevron-down"></i> Cargar más
+              </button>
             </div>
           </div>
         </div>
@@ -1876,15 +1921,29 @@
         });
       });
 
-      let allProducts = [];
+      // Estado global
+      let allProducts = [];        // Productos cargados hasta el momento
+      let filteredProducts = [];   // Productos que cumplen filtros actuales
       let currentCategoryFilter = "all";
       let currentSearchTerm = "";
       let activeCategoryIndex = 0;
       let currentBrand = "";
       let currentModel = "";
       let currentYear = "";
+      
+      // Paginación
+      const PAGE_SIZE = 20;
+      let offset = 0;
+      let hasMore = true;
+      let isLoading = false;
 
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // Elementos DOM
+      const catalogGrid = document.getElementById("catalogGrid");
+      const loadMoreWrapper = document.getElementById("loadMoreWrapper");
+      const loadMoreBtn = document.getElementById("loadMoreBtn");
+      const resultsCount = document.getElementById("resultsCount");
 
       function renderFilters() {
         const categoriesContainer = document.getElementById("categoriesScroll");
@@ -2053,49 +2112,171 @@
         });
       }
 
+      // Carga inicial de productos (primer bloque)
       async function loadProducts() {
-        const container = document.getElementById("catalogGrid");
+        if (isLoading) return;
+        isLoading = true;
         try {
           const { data, error } = await supabase
             .from("products")
             .select("*")
-            .order("id", { ascending: false });
+            .order("id", { ascending: false })
+            .range(offset, offset + PAGE_SIZE - 1);
 
           if (error) throw error;
-          allProducts = data || [];
+          
+          const newProducts = data || [];
+          allProducts = allProducts.concat(newProducts);
+          if (newProducts.length < PAGE_SIZE) {
+            hasMore = false;
+          } else {
+            hasMore = true;
+          }
+          offset += newProducts.length;
+
+          // Actualizar selectores de vehículo con los productos cargados
           populateVehicleSelectors();
+          // Aplicar filtros a todos los productos cargados
           applyFilters();
-          updateResultsCount();
+          // Actualizar visibilidad del botón
+          updateLoadMoreButton();
         } catch (error) {
           console.error("Error cargando productos:", error);
-          container.innerHTML = `
+          catalogGrid.innerHTML = `
                 <div class="col-span-full text-center text-gray-400 py-8">
                     <i class="fas fa-exclamation-triangle text-3xl mb-3"></i>
                     <p class="text-sm">Error al cargar productos</p>
                     <p class="text-xs text-gray-500 mt-1">Verifica la conexión con Supabase</p>
                 </div>
             `;
+          loadMoreWrapper.style.display = 'none';
+        } finally {
+          isLoading = false;
         }
       }
 
-      function renderProductCards(containerId, data) {
-        const container = document.getElementById(containerId);
+      // Cargar más productos (siguiente bloque)
+      async function loadMoreProducts() {
+        if (isLoading || !hasMore) return;
+        isLoading = true;
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.innerHTML = '<i class="fas fa-spinner"></i> Cargando...';
+
+        try {
+          const { data, error } = await supabase
+            .from("products")
+            .select("*")
+            .order("id", { ascending: false })
+            .range(offset, offset + PAGE_SIZE - 1);
+
+          if (error) throw error;
+
+          const newProducts = data || [];
+          if (newProducts.length === 0) {
+            hasMore = false;
+            updateLoadMoreButton();
+            return;
+          }
+
+          allProducts = allProducts.concat(newProducts);
+          if (newProducts.length < PAGE_SIZE) {
+            hasMore = false;
+          }
+          offset += newProducts.length;
+
+          // Actualizar selectores de vehículo
+          populateVehicleSelectors();
+          // Filtrar solo los nuevos productos y agregarlos al DOM
+          appendFilteredProducts(newProducts);
+          updateResultsCount(filteredProducts.length);
+          updateLoadMoreButton();
+        } catch (error) {
+          console.error("Error cargando más productos:", error);
+        } finally {
+          isLoading = false;
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Cargar más';
+        }
+      }
+
+      // Función para agregar productos filtrados al DOM (sin re-renderizar todo)
+      function appendFilteredProducts(newProducts) {
+        const filtered = filterProducts(newProducts);
+        if (filtered.length === 0) return;
+        renderProductCardsToContainer(catalogGrid, filtered, true);
+      }
+
+      // Filtra un array de productos según los filtros actuales
+      function filterProducts(products) {
+        let filtered = products;
+        if (currentCategoryFilter !== "all") {
+          filtered = filtered.filter((p) => p.category === currentCategoryFilter);
+        }
+        if (currentSearchTerm.trim() !== "") {
+          const term = currentSearchTerm.toLowerCase().trim();
+          filtered = filtered.filter((p) => {
+            const carModel = (p.car_model || "").toLowerCase();
+            const model = (p.model || "").toLowerCase();
+            const name = (p.name || "").toLowerCase();
+            const brand = (p.brand || p.make || "").toLowerCase();
+            return carModel.includes(term) || model.includes(term) || name.includes(term) || brand.includes(term);
+          });
+        }
+        if (currentBrand) {
+          filtered = filtered.filter((p) => {
+            const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
+            return brand.trim() === currentBrand;
+          });
+        }
+        if (currentModel) {
+          filtered = filtered.filter((p) => {
+            const model = p.model || p.car_model || '';
+            return model.trim() === currentModel;
+          });
+        }
+        if (currentYear) {
+          filtered = filtered.filter((p) => {
+            return p.year && p.year.toString() === currentYear;
+          });
+        }
+        return filtered;
+      }
+
+      // Aplica filtros a todos los productos cargados y re-renderiza el grid
+      function applyFilters() {
+        const filtered = filterProducts(allProducts);
+        filteredProducts = filtered;
+        renderProductCardsToContainer(catalogGrid, filtered, false);
+        updateResultsCount(filtered.length);
+        updateLoadMoreButton();
+      }
+
+      // Renderiza productos en un contenedor (append si es true, replace si es false)
+      function renderProductCardsToContainer(container, data, append = false) {
         if (!container) return;
-        container.innerHTML = "";
+        if (!append) {
+          container.innerHTML = "";
+        }
 
         if (!data || data.length === 0) {
-          container.innerHTML = `
+          if (!append) {
+            container.innerHTML = `
                 <div class="col-span-full text-center text-gray-400 py-6">
                     <i class="fas fa-box-open text-2xl mb-2"></i>
                     <p class="text-sm">No hay productos disponibles</p>
                     <p class="text-xs text-gray-500 mt-1">${currentSearchTerm ? `No se encontraron resultados para "${currentSearchTerm}"` : "Agrega productos en Supabase"}</p>
                 </div>
             `;
+          }
           return;
         }
 
         const fragment = document.createDocumentFragment();
-        data.forEach((p) => {
+        // Determinar el índice base para asignar fetchpriority a las primeras imágenes
+        const baseIndex = append ? container.children.length : 0;
+
+        data.forEach((p, index) => {
+          const globalIndex = baseIndex + index;
           const card = document.createElement("div");
           card.className = "card-product";
 
@@ -2120,11 +2301,16 @@
           const model = p.model || p.car_model || '';
           const brand = p.brand || p.make || '';
 
+          // Optimización de imágenes: primeras 6 imágenes con fetchpriority="high" y loading="eager"
+          const isPriority = globalIndex < 6;
+          const loadingAttr = isPriority ? 'eager' : 'lazy';
+          const fetchPriorityAttr = isPriority ? 'fetchpriority="high"' : '';
+
           card.innerHTML = `
                 <div class="product-img-wrap" style="position:relative;">
                     ${firstImage ? `
                         <img src="${firstImage}" alt="${p.name}" class="product-img" 
-                             loading="lazy"
+                             loading="${loadingAttr}" ${fetchPriorityAttr}
                              onerror="this.src='https://via.placeholder.com/400x400/f5f5f5/999?text=${encodeURIComponent(p.name)}'">
                     ` : `
                         <div class="product-img flex items-center justify-center bg-gray-100">
@@ -2185,7 +2371,30 @@
         });
 
         container.appendChild(fragment);
-        primeRevealGroup(container, '.card-product');
+        if (!append) {
+          primeRevealGroup(container, '.card-product');
+        } else {
+          // Solo observar los nuevos elementos
+          const newItems = container.querySelectorAll('.card-product:not(.is-visible)');
+          newItems.forEach((el, i) => {
+            el.classList.add('reveal', 'reveal-stagger');
+            el.style.setProperty('--stagger-i', Math.min(i, 8));
+            observeReveal(el);
+          });
+        }
+      }
+
+      function updateResultsCount(count) {
+        const total = count !== undefined ? count : filteredProducts.length;
+        resultsCount.textContent = `${total} producto${total !== 1 ? "s" : ""}`;
+      }
+
+      function updateLoadMoreButton() {
+        if (hasMore) {
+          loadMoreWrapper.style.display = 'block';
+        } else {
+          loadMoreWrapper.style.display = 'none';
+        }
       }
 
       // Modal de producto (sin cambios mayores)
@@ -2540,52 +2749,6 @@
         }
       });
 
-      // Aplicar filtros (incluye marca, modelo, año)
-      function applyFilters() {
-        let filtered = [...allProducts];
-        if (currentCategoryFilter !== "all") {
-          filtered = filtered.filter((p) => p.category === currentCategoryFilter);
-        }
-        if (currentSearchTerm.trim() !== "") {
-          const term = currentSearchTerm.toLowerCase().trim();
-          filtered = filtered.filter((p) => {
-            const carModel = (p.car_model || "").toLowerCase();
-            const model = (p.model || "").toLowerCase();
-            const name = (p.name || "").toLowerCase();
-            const brand = (p.brand || p.make || "").toLowerCase();
-            return carModel.includes(term) || model.includes(term) || name.includes(term) || brand.includes(
-              term);
-          });
-        }
-        if (currentBrand) {
-          filtered = filtered.filter((p) => {
-            const brand = p.brand || p.make || (p.car_model ? p.car_model.split(' ')[0] : '');
-            return brand.trim() === currentBrand;
-          });
-        }
-        if (currentModel) {
-          filtered = filtered.filter((p) => {
-            const model = p.model || p.car_model || '';
-            return model.trim() === currentModel;
-          });
-        }
-        if (currentYear) {
-          filtered = filtered.filter((p) => {
-            return p.year && p.year.toString() === currentYear;
-          });
-        }
-        renderProductCards("catalogGrid", filtered);
-        updateResultsCount(filtered.length);
-      }
-
-      function updateResultsCount(count) {
-        const el = document.getElementById("resultsCount");
-        if (el) {
-          const total = count !== undefined ? count : allProducts.length;
-          el.textContent = `${total} producto${total !== 1 ? "s" : ""}`;
-        }
-      }
-
       // Referencias
       const toggleBtn = document.getElementById('referenciasToggle');
       const wrapperRef = document.getElementById('referenciasWrapper');
@@ -2705,6 +2868,9 @@
         }
       });
 
+      // Evento para el botón "Cargar más"
+      loadMoreBtn.addEventListener('click', loadMoreProducts);
+
       // Inicio
       async function init() {
         renderFilters();
@@ -2718,12 +2884,14 @@
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", function() {
           currentSearchTerm = this.value;
+          // Al cambiar búsqueda, re-aplicar filtros sobre todos los productos cargados
           applyFilters();
         });
 
+        // Cargar el primer bloque de productos
         await loadProducts();
         console.log("REYES PERFORMANCE · Conectado a Supabase");
-        console.log(`${allProducts.length} productos cargados`);
+        console.log(`${allProducts.length} productos cargados inicialmente`);
       }
 
       init();
