@@ -1588,7 +1588,7 @@
               <li class="contact-item"><i class="fab fa-facebook"></i><span>Reyes Performance</span></li>
               <li class="contact-item"><i class="fab fa-tiktok"></i><span>@reyes_performance0</span></li>
               <!-- Nueva dirección -->
-              <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
+             
             </ul>
           </div>
 
@@ -1599,7 +1599,7 @@
               <li class="contact-item"><i class="far fa-clock"></i><span>Lun - Vie: 9:00 a.m. - 7:30 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Sábados: 9:00 a.m. - 4:00 p.m.</span></li>
               <li class="contact-item"><i class="far fa-clock"></i><span>Domingos: Cerrado</span></li>
-              <li class="contact-item"><i class="fas fa-shield-alt"></i><span>Garantía en todas las piezas</span></li>
+               <li class="contact-item"><i class="fas fa-map-marker-alt"></i><span>Calle Maclovio Herrera #789, Zona Centro, San Buenaventura, C.P. 25500.</span></li>
             </ul>
           </div>
         </div>
@@ -1728,14 +1728,16 @@
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
+      // ============================================
+      // CATEGORÍAS ACTUALIZADAS (ELIMINADO "LATERALES")
+      // ============================================
       const categoryGroups = [
         { name: "TODOS", subcategories: [{ id: "all", label: "Todos" }] },
         { name: "EXTERIOR", subcategories: [{ id: "defensa-frontal", label: "Frontales" }, { id: "parrillas",
             label: "Parrillas" }, { id: "cofres", label: "Cofres" }, { id: "salpicaderas-delanteras",
             label: "Salpicaderas" }, { id: "defensa-trasera", label: "Traseras" }, { id: "tapa-cajuela",
             label: "Cajuelas" }, { id: "difusores", label: "Difusores" }] },
-        { name: "LATERALES", subcategories: [{ id: "laterales", label: "Faldones" }, { id: "puertas",
-            label: "Puertas" }, { id: "espejos", label: "Espejos" }, { id: "vidrios", label: "Vidrios" }] },
+        // LATERALES ELIMINADO COMPLETAMENTE
         { name: "LUCES", subcategories: [{ id: "iluminacion", label: "Iluminacion" }, { id: "enfriamiento",
             label: "Radiadores" }] },
         { name: "INTERIORES", subcategories: [{ id: "tablero-y-consola", label: "Tableros" }, { id: "bolsas-de-aire",
