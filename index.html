@@ -34,6 +34,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-top: 40px; /* espacio para el banner fijo */
+      transition: padding-top 0.3s ease;
+    }
+    body.banner-hidden {
+      padding-top: 0;
     }
     .main-wrapper {
       width: 100%;
@@ -62,6 +67,76 @@
       --ease-fluid: cubic-bezier(.22, 1, .36, 1);
       --ease-soft: cubic-bezier(.16, .8, .28, 1);
       --edge: clamp(16px, 4vw, 64px);
+    }
+
+    /* ----- TOP BANNER (NUEVO) ----- */
+    #top-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      z-index: 100000;
+      background: #1a0406;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      /* gradiente animado en rojos */
+      background: linear-gradient(135deg, #2a0a0d, #4d0f15, #2a0a0d);
+      background-size: 300% 300%;
+      animation: gradientShift 6s ease-in-out infinite alternate;
+      transform: translateY(0);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 1;
+    }
+    #top-banner.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    #top-banner .banner-track {
+      display: flex;
+      white-space: nowrap;
+      will-change: transform;
+      animation: marquee 28s linear infinite;
+    }
+    #top-banner .banner-track span {
+      display: inline-block;
+      padding: 0 2rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      font-family: Inter, sans-serif;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      line-height: 40px;
+    }
+    #top-banner .banner-track span i {
+      color: #25d366;
+      margin-right: 8px;
+    }
+    /* Efecto de destello sutil en el texto */
+    #top-banner .banner-track span em {
+      font-style: normal;
+      color: #ff7a82;
+      font-weight: 600;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Ajuste para que el header no quede tapado */
+    .header-modern {
+      margin-top: 0;
+      padding-top: clamp(32px, 6vw, 72px);
     }
 
     /* ----- utilidades ----- */
@@ -1407,6 +1482,17 @@
       .container {
         padding: 0 var(--edge);
       }
+      body {
+        padding-top: 36px; /* banner más pequeño en móviles */
+      }
+      #top-banner {
+        height: 36px;
+      }
+      #top-banner .banner-track span {
+        font-size: 0.7rem;
+        padding: 0 1.2rem;
+        line-height: 36px;
+      }
       .header-modern {
         min-height: 60svh;
         padding: 24px var(--edge);
@@ -1597,6 +1683,15 @@
   </style>
 </head>
 <body>
+  <!-- ========== TOP BANNER (NUEVO) ========== -->
+  <div id="top-banner" role="banner" aria-label="Anuncio promocional">
+    <div class="banner-track">
+      <span><i class="fas fa-truck"></i> Realizamos envíos a toda la república. <em>Cotice con nosotros por WhatsApp.</em></span>
+      <span><i class="fas fa-truck"></i> Realizamos envíos a toda la república. <em>Cotice con nosotros por WhatsApp.</em></span>
+      <!-- duplicado para efecto continuo -->
+    </div>
+  </div>
+
   <div class="main-wrapper">
     <!-- ========== HEADER ========== -->
     <header class="header-modern" id="inicio">
@@ -1820,13 +1915,11 @@
       if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
         document.addEventListener('focusout', function(e) {
           if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
-            // Pequeño retraso para asegurar que el viewport se restablezca
             setTimeout(function() {
               const viewport = document.querySelector('meta[name=viewport]');
               if (viewport) {
                 viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
               }
-              // Forzar scroll a la posición actual para evitar desajustes
               window.scrollTo(0, window.scrollY);
             }, 100);
           }
@@ -1862,6 +1955,34 @@
         });
       }
       document.querySelectorAll('.reveal').forEach(observeReveal);
+
+      // ====== Ocultar/mostrar banner al hacer scroll ======
+      const topBanner = document.getElementById('top-banner');
+      let lastScrollY = 0;
+      let ticking = false;
+
+      function handleScroll() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        // Umbral: ocultar si scroll > 100px, mostrar si scroll < 50px (con histéresis)
+        if (scrollY > 100 && !topBanner.classList.contains('hidden')) {
+          topBanner.classList.add('hidden');
+          document.body.classList.add('banner-hidden');
+        } else if (scrollY < 50 && topBanner.classList.contains('hidden')) {
+          topBanner.classList.remove('hidden');
+          document.body.classList.remove('banner-hidden');
+        }
+        lastScrollY = scrollY;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
 
       // Configuración
       const WHATSAPP_NUMBER = "528661760344";
