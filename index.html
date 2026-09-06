@@ -46,6 +46,13 @@
       max-width: 1440px;
       margin: 0 auto;
       background: #f5f5f5;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .main-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     .container {
       width: 100%;
@@ -200,11 +207,66 @@
       font-weight: 700;
     }
 
+    /* ----- SPLASH SCREEN (Pantalla de carga épica) ----- */
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    .splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-logo {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 40px rgba(229, 9, 20, 0.5));
+      animation: splashPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes splashPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 40px rgba(229, 9, 20, 0.5)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 60px rgba(229, 9, 20, 0.8)); }
+    }
+    .splash-loader {
+      margin-top: 40px;
+      width: 200px;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .splash-loader-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #e50914, #ff2633);
+      border-radius: 999px;
+      animation: loadBar 1.2s ease-in-out forwards;
+    }
+    @keyframes loadBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    .splash-text {
+      margin-top: 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+
     /* ----- HEADER CON IMAGEN DE FONDO ÉPICA ----- */
     .header-modern {
       position: relative;
       isolation: isolate;
-      min-height: clamp(420px, 70svh, 680px);
+      min-height: 100svh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -299,6 +361,13 @@
       margin-bottom: clamp(20px, 3.4vw, 32px);
       z-index: 2;
       will-change: transform, opacity;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .logo-wrapper.animate {
+      opacity: 1;
+      transform: scale(1);
     }
     .logo-wrapper img {
       display: block;
@@ -325,10 +394,17 @@
       text-transform: uppercase;
       margin-bottom: 16px;
       will-change: transform, opacity;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .hero-kicker.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
     .hero-title {
       font-family: "Hauser Bold", Orbitron, sans-serif;
-      font-size: clamp(2.2rem, 5.5vw, 4.8rem); /* Ajuste para evitar desborde en PC */
+      font-size: clamp(2.2rem, 5.5vw, 4.8rem);
       line-height: .95;
       letter-spacing: .045em;
       text-transform: uppercase;
@@ -342,9 +418,25 @@
     .hero-title .reyes {
       color: var(--red2);
       text-shadow: 0 0 35px rgba(229, 9, 20, .32);
+      display: block;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .hero-title .reyes.animate {
+      opacity: 1;
+      transform: translateX(0);
     }
     .hero-title .performance {
       display: block;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .hero-title .performance.animate {
+      opacity: 1;
+      transform: translateX(0);
+    }
       color: #fff;
       word-break: keep-all;
       /* Se eliminaron: white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
@@ -360,6 +452,13 @@
       text-transform: uppercase;
       max-width: 780px;
       will-change: transform, opacity;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .hero-sub.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
     .hero-sub strong {
       color: #ff5159;
@@ -373,10 +472,29 @@
       margin-top: 32px;
       width: 100%;
       will-change: transform, opacity;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .hero-actions.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .scroll-hint {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .scroll-hint.animate {
+      opacity: 1;
+      animation: bob 2.6s ease-in-out infinite;
     }
     @keyframes heroRise {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
     }
     @media (prefers-reduced-motion: no-preference) {
       .logo-wrapper { opacity: 0; animation: heroRise .9s var(--ease-fluid) .05s forwards; }
@@ -1786,6 +1904,15 @@
   </style>
 </head>
 <body>
+  <!-- ========== SPLASH SCREEN ========== -->
+  <div class="splash-screen" id="splashScreen">
+    <img src="logo.jpg" alt="REYES PERFORMANCE" class="splash-logo" />
+    <div class="splash-loader">
+      <div class="splash-loader-bar"></div>
+    </div>
+    <div class="splash-text">Loading...</div>
+  </div>
+
   <!-- ========== TOP BANNER (Ticker infinito) ========== -->
   <div id="top-banner" role="banner" aria-label="Información de contacto y envíos">
     <div class="banner-ticker-wrapper">
@@ -2031,6 +2158,35 @@
         passive: true
       });
 
+      // ====== SPLASH SCREEN & HERO ANIMATION ======
+      (function initSplashAnimation() {
+        const splash = document.getElementById('splashScreen');
+        const logo = document.querySelector('.logo-wrapper');
+        const kicker = document.querySelector('.hero-kicker');
+        const title = document.querySelector('.hero-title .reyes');
+        const performance = document.querySelector('.hero-title .performance');
+        const sub = document.querySelector('.hero-sub');
+        const actions = document.querySelector('.hero-actions');
+        const scrollHint = document.querySelector('.scroll-hint');
+        const mainWrapper = document.querySelector('.main-wrapper');
+
+        // Esconder splash y mostrar hero rápidamente (1.5s)
+        setTimeout(() => {
+          splash.classList.add('hidden');
+
+          // Animar elementos del hero con delay mínimo
+          if (logo) logo.classList.add('animate');
+          if (kicker) kicker.classList.add('animate');
+          if (title) title.classList.add('animate');
+          if (performance) performance.classList.add('animate');
+          if (sub) sub.classList.add('animate');
+          if (actions) actions.classList.add('animate');
+          if (scrollHint) scrollHint.classList.add('animate');
+          if (mainWrapper) mainWrapper.classList.add('visible');
+
+        }, 1500);
+      })();
+
       // Parche adicional para iOS: restablecer zoom al perder foco
       if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
         document.addEventListener('focusout', function(e) {
@@ -2075,6 +2231,28 @@
         });
       }
       document.querySelectorAll('.reveal').forEach(observeReveal);
+
+      // ====== Scroll reveal para contenido principal ======
+      (function initScrollReveal() {
+        const mainWrapper = document.querySelector('.main-wrapper');
+        let contentRevealed = false;
+
+        function revealContent() {
+          if (!contentRevealed) {
+            contentRevealed = true;
+            if (mainWrapper) {
+              mainWrapper.classList.add('visible');
+            }
+          }
+        }
+
+        // Revelar contenido al hacer scroll
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            revealContent();
+          }
+        }, { passive: true });
+      })();
 
       // ====== Ticker continuo (scroll infinito sin saltos) ======
       (function initBannerTicker() {
