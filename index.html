@@ -142,7 +142,7 @@
       text-align: center;
       overflow: hidden;
       padding: clamp(32px, 6vw, 72px) var(--edge);
-      background: #050505; /* fondo de respaldo oscuro */
+      background: #050505;
     }
 
     .hero-backdrop {
@@ -259,7 +259,7 @@
     }
     .hero-title {
       font-family: "Hauser Bold", Orbitron, sans-serif;
-      font-size: clamp(2.45rem, 7.5vw, 6.4rem);
+      font-size: clamp(2.2rem, 5.5vw, 4.8rem); /* Ajuste para evitar desborde en PC */
       line-height: .95;
       letter-spacing: .045em;
       text-transform: uppercase;
@@ -278,9 +278,7 @@
       display: block;
       color: #fff;
       word-break: keep-all;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      /* Se eliminaron: white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
     }
     .hero-sub {
       margin-top: 20px;
@@ -1505,8 +1503,7 @@
         font-size: clamp(1.8rem, 12vw, 3.2rem);
       }
       .hero-title .performance {
-        white-space: nowrap;
-        word-break: keep-all;
+        white-space: normal; /* se ajusta a varias líneas si es necesario */
         font-size: clamp(1.2rem, 8vw, 2.2rem);
       }
       .hero-sub {
