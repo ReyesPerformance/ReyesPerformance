@@ -208,7 +208,102 @@
         }
       }
 
-      /* ----- HEADER CON IMAGEN DE FONDO ÉPICA ----- */
+      /* ----- PAGE INTRO (animación al abrir la página) ----- */
+      .page-intro {
+        position: fixed;
+        inset: 0;
+        z-index: 300000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at 50% 45%, #1a0609, #0a0203 75%);
+        transition:
+          transform 0.7s var(--ease-fluid),
+          visibility 0.7s;
+      }
+      .page-intro.intro-exit {
+        transform: translateY(-100%);
+        visibility: hidden;
+      }
+      .page-intro .intro-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .page-intro .intro-logo {
+        width: clamp(96px, 20vw, 160px);
+        height: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 0 34px rgba(229, 9, 20, 0.45));
+      }
+      .page-intro .intro-line {
+        display: block;
+        height: 2px;
+        width: min(200px, 56vw);
+        border-radius: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--red2),
+          transparent
+        );
+      }
+      .page-intro .intro-title {
+        font-family: "Hauser Bold", Orbitron, sans-serif;
+        color: #fff;
+        font-size: clamp(1rem, 3.6vw, 1.6rem);
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .page-intro .intro-title b {
+        color: var(--red2);
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .page-intro .intro-logo {
+          animation: introLogo 0.7s var(--ease-fluid) 0.1s forwards;
+        }
+        .page-intro .intro-line {
+          width: 0;
+          animation: introLine 0.6s var(--ease-fluid) 0.5s forwards;
+        }
+        .page-intro .intro-title {
+          animation: introTitle 0.6s var(--ease-fluid) 0.65s forwards;
+        }
+      }
+      @keyframes introLogo {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes introLine {
+        from {
+          width: 0;
+        }
+        to {
+          width: min(200px, 56vw);
+        }
+      }
+      @keyframes introTitle {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      body.intro-active {
+        overflow: hidden;
+      }
       .header-modern {
         position: relative;
         isolation: isolate;
@@ -444,27 +539,27 @@
         }
       }
       @media (prefers-reduced-motion: no-preference) {
-        .logo-wrapper {
+        body.page-loaded .logo-wrapper {
           opacity: 0;
           animation: heroRise 0.9s var(--ease-fluid) 0.05s forwards;
         }
-        .hero-kicker {
+        body.page-loaded .hero-kicker {
           opacity: 0;
           animation: heroRise 0.9s var(--ease-fluid) 0.18s forwards;
         }
-        .hero-title {
+        body.page-loaded .hero-title {
           opacity: 0;
           animation: heroRise 1s var(--ease-fluid) 0.3s forwards;
         }
-        .hero-sub {
+        body.page-loaded .hero-sub {
           opacity: 0;
           animation: heroRise 0.9s var(--ease-fluid) 0.46s forwards;
         }
-        .hero-actions {
+        body.page-loaded .hero-actions {
           opacity: 0;
           animation: heroRise 0.9s var(--ease-fluid) 0.6s forwards;
         }
-        .scroll-hint {
+        body.page-loaded .scroll-hint {
           opacity: 0;
           animation:
             heroRise 0.9s var(--ease-fluid) 0.75s forwards,
@@ -1947,6 +2042,15 @@
     </style>
   </head>
   <body>
+    <!-- ========== INTRO / ANIMACIÓN AL ABRIR ========== -->
+    <div class="page-intro" id="pageIntro" aria-hidden="true">
+      <div class="intro-inner">
+        <img class="intro-logo" src="logo.jpg" alt="" width="160" height="160" />
+        <span class="intro-line" aria-hidden="true"></span>
+        <span class="intro-title">REYES <b>PERFORMANCE</b></span>
+      </div>
+    </div>
+
     <!-- ========== TOP BANNER ========== -->
     <div id="top-banner" role="banner" aria-label="Anuncio promocional">
       <div class="banner-track" id="bannerTrack">
@@ -2324,6 +2428,37 @@
     <script>
       (function () {
         "use strict";
+
+        // ====== Animación de entrada al abrir la página ======
+        const pageIntro = document.getElementById("pageIntro");
+        const introReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        function revealPage() {
+          document.body.classList.add("page-loaded");
+          document.body.classList.remove("intro-active");
+          if (pageIntro) {
+            pageIntro.classList.add("intro-exit");
+            window.setTimeout(() => {
+              if (pageIntro && pageIntro.parentNode) {
+                pageIntro.parentNode.removeChild(pageIntro);
+              }
+            }, 750);
+          }
+        }
+
+        if (pageIntro) {
+          document.body.classList.add("intro-active");
+          if (introReducedMotion) {
+            // Usuario con "reducir movimiento": mostrar la página de inmediato
+            revealPage();
+          } else {
+            window.setTimeout(revealPage, 2150);
+          }
+        } else {
+          revealPage();
+        }
 
         // Scroll al inicio
         if ("scrollRestoration" in history) {
