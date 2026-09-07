@@ -1278,14 +1278,10 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* El modal siempre mantiene el mismo tamaño en pantalla.
-       Se usa height (no solo max-height) para que no se encoja ni se
-       estire al cambiar de imagen o según la longitud de la descripción.
-       Si el contenido excede, el body hace scroll interno. */
     .product-modal-content {
       width: min(1000px, 100%);
-      height: 90vh;
-      height: min(720px, 90svh);
+      max-height: 90vh;
+      max-height: min(90svh, 860px);
       overflow: hidden;
       background: #fff;
       border-radius: 20px;
@@ -1346,14 +1342,10 @@
       margin-top: -45px;
       padding-bottom: 10px;
     }
-    /* La imagen llena el área fija de la galería y se escala con
-       object-fit: contain, así el alto de la galería (y del modal) no
-       depende de la resolución de cada foto. */
     .product-modal-gallery img {
       width: 100%;
-      height: 100%;
+      max-height: 55vh;
       object-fit: contain;
-      object-position: center;
       display: block;
       margin: 0 auto;
     }
@@ -1825,8 +1817,7 @@
         margin-top: -40px;
       }
       .product-modal-gallery img {
-        height: auto;
-        max-height: 38vh;
+        max-height: 40vh;
       }
       .product-modal-close {
         top: 10px;
