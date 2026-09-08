@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* ===== (Estilos sin cambios) ===== */
         :root {
             --sidebar-width: 280px;
             --sidebar-mobile-width: 85vw;
@@ -960,6 +959,7 @@
             <i class="fas fa-plus"></i> Nuevo Producto
         </button>
         <div class="search-box">
+            
             <input type="text" id="inputBuscador" placeholder="Buscar por título, modelo o ID..." oninput="filtrarPorBusqueda()" autocomplete="off">
         </div>
         <button class="btn-actualizar" onclick="cargarProductos()">
@@ -992,20 +992,12 @@
                     <input type="text" id="inputTitulo" placeholder="Ej. Defensa Frontal Mustang GT 2015">
                 </div>
                 <div>
-                    <label>Marca <span style="color:var(--accent);">*</span></label>
-                    <input type="text" id="inputBrand" placeholder="Ej. Ford, Chevrolet">
-                </div>
-                <div>
-                    <label>Modelo del vehículo <span style="color:var(--accent);">*</span></label>
+                    <label>Modelo <span style="color:var(--accent);">*</span></label>
                     <input type="text" id="inputModelo" placeholder="Ej. Mustang GT">
                 </div>
                 <div>
-                    <label>Año inicio <span style="color:var(--accent);">*</span></label>
-                    <input type="number" id="inputYearStart" placeholder="2015" min="1900" max="2100">
-                </div>
-                <div>
-                    <label>Año fin <span style="color:var(--accent);">*</span></label>
-                    <input type="number" id="inputYearEnd" placeholder="2023" min="1900" max="2100">
+                    <label>Año</label>
+                    <input type="text" id="inputYear" placeholder="Ej. 2015-2023">
                 </div>
             </div>
 
@@ -1199,7 +1191,6 @@
                 (p.name && p.name.toLowerCase().includes(textoBusqueda)) ||
                 (p.model && p.model.toLowerCase().includes(textoBusqueda)) ||
                 (p.car_model && p.car_model.toLowerCase().includes(textoBusqueda)) ||
-                (p.brand && p.brand.toLowerCase().includes(textoBusqueda)) ||
                 (p.id && p.id.toString().includes(textoBusqueda))
             );
         }
@@ -1242,16 +1233,9 @@
             const badgeLabel = prod.condition === 'nuevo' ? 'Nuevo' : (prod.condition === 'usado' ? 'Usado' : 'Agotado');
 
             const displayName = prod.name || 'Sin título';
-            const displayBrand = prod.brand || '';
             const displayModel = prod.model || prod.car_model || '';
+            const displayYear = prod.year || '';
             const displayCategory = prod.category || 'Sin categoría';
-
-            let yearRange = '';
-            if (prod.year_start && prod.year_end) {
-                yearRange = prod.year_start === prod.year_end ? prod.year_start : `${prod.year_start} - ${prod.year_end}`;
-            } else if (prod.year) {
-                yearRange = prod.year;
-            }
 
             html += `
                 <div class="product-card">
@@ -1262,7 +1246,7 @@
                     </div>
                     <div class="product-card-body">
                         <h3>${displayName}</h3>
-                        <span class="card-categoria">${displayCategory} ${displayBrand ? '· ' + displayBrand : ''} ${displayModel ? '· ' + displayModel : ''} ${yearRange ? '· ' + yearRange : ''}</span>
+                        <span class="card-categoria">${displayCategory} ${displayModel ? '· ' + displayModel : ''} ${displayYear ? '· ' + displayYear : ''}</span>
                         <div class="card-precio">$${prod.price ? Number(prod.price).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'}</div>
                         <div class="card-actions">
                             <button class="btn-action btn-edit" onclick="abrirModalEditar(${prod.id})"><i class="fas fa-edit"></i> Editar</button>
@@ -1283,10 +1267,8 @@
         document.getElementById('modalTitulo').innerHTML = '<span class="highlight">Nuevo</span> Producto';
         document.getElementById('productoIdOriginal').value = '';
         document.getElementById('inputTitulo').value = '';
-        document.getElementById('inputBrand').value = '';
         document.getElementById('inputModelo').value = '';
-        document.getElementById('inputYearStart').value = '';
-        document.getElementById('inputYearEnd').value = '';
+        document.getElementById('inputYear').value = '';
         document.getElementById('inputCategoria').value = 'defensa-frontal';
         document.getElementById('inputCondicion').value = 'nuevo';
         document.getElementById('inputDescripcion').value = '';
@@ -1303,10 +1285,8 @@
         document.getElementById('modalTitulo').innerHTML = '<span class="highlight">Editar</span> Producto';
         document.getElementById('productoIdOriginal').value = prod.id;
         document.getElementById('inputTitulo').value = prod.name || '';
-        document.getElementById('inputBrand').value = prod.brand || '';
         document.getElementById('inputModelo').value = prod.model || prod.car_model || '';
-        document.getElementById('inputYearStart').value = prod.year_start || '';
-        document.getElementById('inputYearEnd').value = prod.year_end || '';
+        document.getElementById('inputYear').value = prod.year || '';
         document.getElementById('inputCategoria').value = prod.category || 'defensa-frontal';
         document.getElementById('inputCondicion').value = prod.condition || 'nuevo';
         document.getElementById('inputDescripcion').value = prod.description || '';
@@ -1380,35 +1360,39 @@
         renderizarPreviews();
     }
 
-    async function eliminarImagenLocal(index) {
-        const url = imagenesActuales[index];
+    // ============================================
+    // ELIMINAR IMAGEN LOCAL (CORREGIDO CON AWAIT)
+    // ============================================
+   async function eliminarImagenLocal(index) {
+    const url = imagenesActuales[index];
 
-        if (url && url.includes('supabase')) {
-            try {
-                const nombreArchivo = url.split('/').pop().split('?')[0];
-                console.log(`🗑️ Intentando eliminar: ${nombreArchivo}`);
+    if (url && url.includes('supabase')) {
+        try {
+            const nombreArchivo = url.split('/').pop().split('?')[0];
+            console.log(`🗑️ Intentando eliminar: ${nombreArchivo}`);
 
-                const { error } = await supabaseClient.storage
-                    .from('productos')
-                    .remove([nombreArchivo]);
+            const { error } = await supabaseClient.storage
+                .from('productos')
+                .remove([nombreArchivo]);
 
-                if (error) {
-                    console.error('❌ Error al eliminar del storage:', error);
-                    alert('Error al eliminar la imagen: ' + error.message);
-                    return;
-                } else {
-                    console.log('✅ Imagen eliminada del storage');
-                }
-            } catch (e) {
-                console.error('❌ Excepción al eliminar imagen:', e);
-                alert('Excepción: ' + e.message);
-                return;
+            if (error) {
+                console.error('❌ Error al eliminar del storage:', error);
+                alert('Error al eliminar la imagen: ' + error.message);
+                return; // No eliminar de la lista local si falla
+            } else {
+                console.log('✅ Imagen eliminada del storage');
             }
+        } catch (e) {
+            console.error('❌ Excepción al eliminar imagen:', e);
+            alert('Excepción: ' + e.message);
+            return;
         }
-
-        imagenesActuales.splice(index, 1);
-        renderizarPreviews();
     }
+
+    // Solo eliminar de la lista local si la operación en storage fue exitosa
+    imagenesActuales.splice(index, 1);
+    renderizarPreviews();
+}
 
     function moverImagen(index, direccion) {
         const nuevoIndex = index + direccion;
@@ -1447,15 +1431,13 @@
     }
 
     // ============================================
-    // GUARDAR PRODUCTO CON CAMPOS NUEVOS
+    // GUARDAR PRODUCTO CON LOGS DE DEPURACIÓN
     // ============================================
     async function guardarProducto() {
         const idOriginal = document.getElementById('productoIdOriginal').value;
         const name = document.getElementById('inputTitulo').value.trim();
-        const brand = document.getElementById('inputBrand').value.trim();
         const model = document.getElementById('inputModelo').value.trim();
-        const yearStart = parseInt(document.getElementById('inputYearStart').value);
-        const yearEnd = parseInt(document.getElementById('inputYearEnd').value);
+        const year = document.getElementById('inputYear').value.trim();
         const category = document.getElementById('inputCategoria').value;
         const condition = document.getElementById('inputCondicion').value;
         const description = document.getElementById('inputDescripcion').value.trim();
@@ -1465,34 +1447,28 @@
             alert('El título del producto es obligatorio.');
             return;
         }
-        if (!brand) {
-            alert('La marca es obligatoria.');
-            return;
-        }
+
         if (!model) {
-            alert('El modelo del vehículo es obligatorio.');
+            alert('El modelo del producto es obligatorio.');
             return;
         }
-        if (!yearStart || !yearEnd || yearStart > yearEnd) {
-            alert('Ingresa un rango de años válido (inicio ≤ fin).');
+
+        if (!category) {
+            alert('La categoría es obligatoria.');
             return;
         }
+
         if (price <= 0) {
             alert('El precio debe ser mayor a 0.');
             return;
         }
 
-        // Construir campo year como texto (ej. "2015 a 2023")
-        const yearText = yearStart === yearEnd ? yearStart.toString() : `${yearStart} a ${yearEnd}`;
-
+        // Datos a enviar (sin updated_at)
         const datos = {
             name: name,
-            brand: brand,
             model: model,
             car_model: model,  // para compatibilidad con búsquedas
-            year: yearText,
-            year_start: yearStart,
-            year_end: yearEnd,
+            year: year,
             category: category,
             condition: condition,
             description: description,
@@ -1542,7 +1518,7 @@
     }
 
     // ============================================
-    // ELIMINAR PRODUCTO
+    // ELIMINAR PRODUCTO (YA INCLUYE AWAIT)
     // ============================================
     async function eliminarProducto(id) {
         if (!confirm('¿Estás seguro de eliminar este producto y todas sus imágenes asociadas?')) return;
