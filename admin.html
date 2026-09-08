@@ -1195,7 +1195,6 @@
                 (p.name && p.name.toLowerCase().includes(textoBusqueda)) ||
                 (p.brand && p.brand.toLowerCase().includes(textoBusqueda)) ||
                 (p.car_model && p.car_model.toLowerCase().includes(textoBusqueda)) ||
-                (p.model && p.model.toLowerCase().includes(textoBusqueda)) ||
                 (p.id && p.id.toString().includes(textoBusqueda))
             );
         }
@@ -1239,7 +1238,7 @@
 
             const displayName = prod.name || 'Sin título';
             const displayBrand = prod.brand || '';
-            const displayModel = prod.car_model || prod.model || '';
+            const displayModel = prod.car_model || '';
             let displayYear = prod.year || '';
             if (!displayYear && prod.year_start && prod.year_end) {
                 displayYear = prod.year_start === prod.year_end
@@ -1298,7 +1297,7 @@
         document.getElementById('productoIdOriginal').value = prod.id;
         document.getElementById('inputTitulo').value = prod.name || '';
         document.getElementById('inputMarca').value = prod.brand || '';
-        document.getElementById('inputModelo').value = prod.car_model || prod.model || '';
+        document.getElementById('inputModelo').value = prod.car_model || '';
         document.getElementById('inputYear').value = prod.year || '';
         document.getElementById('inputCategoria').value = prod.category || 'defensa-frontal';
         document.getElementById('inputCondicion').value = prod.condition || 'nuevo';
@@ -1486,8 +1485,7 @@
         const datos = {
             name: name,
             brand: brand,
-            model: model,
-            car_model: model,  // el catálogo lee principalmente car_model
+            car_model: model,
             year: year,
             category: category,
             condition: condition,
