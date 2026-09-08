@@ -1396,6 +1396,7 @@
         z-index: 100000;
         align-items: center;
         justify-content: center;
+        overscroll-behavior: contain;
       }
       .product-modal.active {
         display: flex;
@@ -1426,7 +1427,9 @@
       .product-modal-content {
         width: min(1000px, 100%);
         max-height: min(90svh, 860px);
-        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         background: #fff;
         border-radius: 20px;
         box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
@@ -1466,11 +1469,15 @@
         grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
         gap: 24px;
         padding: 48px 24px 24px;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
       }
 
       .product-modal-gallery {
         position: relative;
         min-width: 0;
+        min-height: 0;
         background: #fafafa;
         border-radius: 12px;
         overflow: hidden;
@@ -1538,7 +1545,50 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        padding: 0 4px 10px;
+        padding: 0 4px 16px;
+        overflow-y: auto;
+        min-height: 0;
+        overscroll-behavior: contain;
+      }
+
+      .product-modal-footer {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        padding: 10px 24px 18px;
+        border-top: 1px solid #f0f0f0;
+        background: #fff;
+        border-radius: 0 0 20px 20px;
+      }
+      .product-modal-footer .whatsapp-btn {
+        min-height: 52px;
+        padding: 0 30px;
+        border: 0;
+        border-radius: 50px;
+        background: #25d366;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition:
+          transform 0.35s var(--ease-fluid),
+          background 0.3s ease;
+        max-width: 300px;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .product-modal-footer .whatsapp-btn:hover {
+          background: #128c7e;
+          transform: translateY(-2px);
+        }
+      }
+      .product-modal-footer .whatsapp-btn:active {
+        transform: scale(0.97);
       }
       .product-modal-info h2 {
         font-size: clamp(20px, 3vw, 28px);
@@ -1590,44 +1640,10 @@
         color: #444;
         font-size: 13px;
         line-height: 1.65;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
-      .product-modal-info .whatsapp-btn-wrapper {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-top: 8px;
-      }
-      .product-modal-info .whatsapp-btn {
-        min-height: 52px;
-        padding: 0 30px;
-        border: 0;
-        border-radius: 50px;
-        background: #25d366;
-        color: #fff;
-        font-size: 16px;
-        font-weight: 700;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        cursor: pointer;
-        transition:
-          transform 0.35s var(--ease-fluid),
-          background 0.3s ease;
-        max-width: 300px;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-      }
-      @media (hover: hover) and (pointer: fine) {
-        .product-modal-info .whatsapp-btn:hover {
-          background: #128c7e;
-          transform: translateY(-2px);
-        }
-      }
-      .product-modal-info .whatsapp-btn:active {
-        transform: scale(0.97);
-      }
 
       .modal {
         display: none;
@@ -1984,16 +2000,36 @@
           font-size: 12px;
         }
         .product-modal-body {
-          grid-template-columns: 1fr;
-          gap: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
           padding: 40px 16px 16px;
+          overflow: hidden;
         }
         .product-modal-gallery {
           padding-top: 40px;
           margin-top: -40px;
+          flex: 0 0 auto;
+          max-height: 40vh;
         }
         .product-modal-gallery img {
-          max-height: 40vh;
+          max-height: 38vh;
+        }
+        .product-modal-info {
+          flex: 1;
+          min-height: 0;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          padding-bottom: 8px;
+        }
+        .product-modal-footer {
+          padding: 8px 16px 14px;
+          border-radius: 0 0 20px 20px;
+        }
+        .product-modal-footer .whatsapp-btn {
+          font-size: 14px;
+          padding: 0 20px;
+          min-height: 46px;
         }
         .product-modal-close {
           top: 10px;
@@ -3168,6 +3204,11 @@
             </div>
             <div class="product-modal-info" id="productModalInfo"></div>
           </div>
+          <div class="product-modal-footer" id="productModalFooter">
+            <button class="whatsapp-btn" id="productModalWhatsapp">
+              <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -4060,31 +4101,10 @@
                     ${currentProduct.zone ? `<span><i class="fas fa-map-pin"></i> ${currentProduct.zone}</span>` : ""}
                 </div>
                 <div class="description">${description}</div>
-                <div class="whatsapp-btn-wrapper">
-                    <button class="whatsapp-btn" id="productModalWhatsapp">
-                        <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-                    </button>
-                </div>
             `;
 
-          const waBtn = document.getElementById("productModalWhatsapp");
-          if (waBtn) {
-            waBtn.addEventListener("click", function () {
-              const formattedPriceMsg = currentProduct.price
-                ? new Intl.NumberFormat("es-MX", {
-                    style: "currency",
-                    currency: "MXN",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }).format(currentProduct.price)
-                : "$0.00";
-              const message = `Hola, me interesa la pieza: ${currentProduct.name} para ${brand} ${carModel} (${yearDisplay}) - Condicion: ${conditionLabel} - Precio: ${formattedPriceMsg}`;
-              window.open(
-                `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
-                "_blank",
-              );
-            });
-          }
+          /* Reset scroll to top when opening a new product */
+          productModalInfo.scrollTop = 0;
         }
 
         productGallery.addEventListener("click", function (e) {
@@ -4118,6 +4138,46 @@
         productModal.addEventListener("click", function (e) {
           if (e.target === this) closeProductModal();
         });
+
+        /* WhatsApp button — static in footer, listener attached once */
+        const productModalWhatsapp = document.getElementById(
+          "productModalWhatsapp",
+        );
+        if (productModalWhatsapp) {
+          productModalWhatsapp.addEventListener("click", function () {
+            if (!currentProduct) return;
+            const brand = currentProduct.brand || "";
+            const carModel = currentProduct.car_model || "";
+            let yearDisplay = "";
+            if (currentProduct.year_start && currentProduct.year_end) {
+              yearDisplay =
+                currentProduct.year_start === currentProduct.year_end
+                  ? currentProduct.year_start.toString()
+                  : `${currentProduct.year_start} - ${currentProduct.year_end}`;
+            } else if (currentProduct.year) {
+              yearDisplay = currentProduct.year;
+            }
+            const conditionLabel =
+              currentProduct.condition === "nuevo"
+                ? "Nuevo"
+                : currentProduct.condition === "usado"
+                  ? "Usado"
+                  : "Agotado";
+            const formattedPriceMsg = currentProduct.price
+              ? new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }).format(currentProduct.price)
+              : "$0.00";
+            const message = `Hola, me interesa la pieza: ${currentProduct.name} para ${brand} ${carModel} (${yearDisplay}) - Condicion: ${conditionLabel} - Precio: ${formattedPriceMsg}`;
+            window.open(
+              `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
+              "_blank",
+            );
+          });
+        }
 
         // ====== MODAL DE ZOOM (sin cambios) ======
         let currentModalImages = [];
