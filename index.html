@@ -482,7 +482,7 @@
           2.2rem,
           5.5vw,
           4.8rem
-        ); /* Ajuste para evitar desborde en PC */
+        );
         line-height: 0.95;
         letter-spacing: 0.045em;
         text-transform: uppercase;
@@ -501,7 +501,6 @@
         display: block;
         color: #fff;
         word-break: keep-all;
-        /* Se eliminaron: white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
       }
       .hero-sub {
         margin-top: 20px;
@@ -983,6 +982,7 @@
         display: flex;
         gap: 8px;
         margin-top: 2px;
+        flex-wrap: wrap;
       }
       .year-model span {
         display: inline-flex;
@@ -1860,7 +1860,7 @@
           font-size: clamp(1.8rem, 12vw, 3.2rem);
         }
         .hero-title .performance {
-          white-space: normal; /* se ajusta a varias líneas si es necesario */
+          white-space: normal;
           font-size: clamp(1.2rem, 8vw, 2.2rem);
         }
         .hero-sub {
@@ -2091,9 +2091,7 @@
     <div class="main-wrapper">
       <!-- ========== HEADER CON IMAGEN DE FONDO (fondo.jpg) ========== -->
       <header class="header-modern" id="inicio">
-        <!-- Contenedor de la imagen de fondo con fade -->
         <div class="hero-backdrop">
-          <!-- La imagen se carga desde la raíz del proyecto (junto al index.html) -->
           <img
             src="fondo.webp"
             alt="Fondo épico de autopartes"
@@ -2424,7 +2422,7 @@
       </div>
     </div>
 
-    <!-- ========== SCRIPT (sin cambios) ========== -->
+    <!-- ========== SCRIPT ACTUALIZADO ========== -->
     <script>
       (function () {
         "use strict";
@@ -2451,7 +2449,6 @@
         if (pageIntro) {
           document.body.classList.add("intro-active");
           if (introReducedMotion) {
-            // Usuario con "reducir movimiento": mostrar la página de inmediato
             revealPage();
           } else {
             window.setTimeout(revealPage, 2150);
@@ -2604,13 +2601,13 @@
           { passive: true },
         );
 
-        // Configuración
+        // ====== CONFIGURACIÓN ======
         const WHATSAPP_NUMBER = "528661760344";
         const SUPABASE_URL = "https://frpycdvqavqsbzbqmugr.supabase.co";
         const SUPABASE_ANON_KEY =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycHljZHZxYXZxc2J6YnFtdWdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzMDk2OTksImV4cCI6MjEwMzg4NTY5OX0.wUXeldEnZLoj6ceuwGaaNg-dZwvoLCelkZEV_lk9sDQ";
 
-        // Categorías y subcategorías
+        // ====== CATEGORÍAS ======
         const categoryGroups = [
           { name: "TODOS", subcategories: [{ id: "all", label: "Todos" }] },
           {
@@ -2658,9 +2655,9 @@
           });
         });
 
-        // Estado global
-        let allProducts = []; // Productos cargados hasta el momento
-        let filteredProducts = []; // Productos que cumplen filtros actuales
+        // ====== ESTADO GLOBAL ======
+        let allProducts = [];
+        let filteredProducts = [];
         let currentCategoryFilter = "all";
         let currentSearchTerm = "";
         let activeCategoryIndex = 0;
@@ -2668,7 +2665,6 @@
         let currentModel = "";
         let currentYear = "";
 
-        // Paginación
         const PAGE_SIZE = 20;
         let offset = 0;
         let hasMore = true;
@@ -2685,6 +2681,7 @@
         const loadMoreBtn = document.getElementById("loadMoreBtn");
         const resultsCount = document.getElementById("resultsCount");
 
+        // ====== FILTROS (renderizado) ======
         function renderFilters() {
           const categoriesContainer =
             document.getElementById("categoriesScroll");
@@ -2753,6 +2750,7 @@
           });
         }
 
+        // ====== SELECTORES DE VEHÍCULO ======
         function populateVehicleSelectors() {
           const brandSelect = document.getElementById("brandSelect");
           const modelSelect = document.getElementById("modelSelect");
@@ -2767,13 +2765,10 @@
 
           if (allProducts.length === 0) return;
 
+          // Extraer marcas únicas de la columna 'brand'
           const brands = new Set();
           allProducts.forEach((p) => {
-            const brand =
-              p.brand ||
-              p.make ||
-              (p.car_model ? p.car_model.split(" ")[0] : "");
-            if (brand && brand.trim() !== "") brands.add(brand.trim());
+            if (p.brand && p.brand.trim() !== "") brands.add(p.brand.trim());
           });
 
           if (brands.size === 0) return;
@@ -2785,7 +2780,6 @@
             option.textContent = brand;
             brandSelect.appendChild(option);
           });
-
           brandSelect.disabled = false;
 
           function populateModels(brand) {
@@ -2801,13 +2795,13 @@
 
             const models = new Set();
             allProducts.forEach((p) => {
-              const pBrand =
-                p.brand ||
-                p.make ||
-                (p.car_model ? p.car_model.split(" ")[0] : "");
-              if ((pBrand || "").trim() === brand) {
-                const model = p.model || p.car_model || "";
-                if (model.trim() !== "") models.add(model.trim());
+              if (
+                p.brand &&
+                p.brand.trim() === brand &&
+                p.car_model &&
+                p.car_model.trim() !== ""
+              ) {
+                models.add(p.car_model.trim());
               }
             });
 
@@ -2823,6 +2817,7 @@
             modelSelect.disabled = false;
           }
 
+          // --- NUEVA FUNCIÓN populateYears (años individuales con contador) ---
           function populateYears(brand, model) {
             yearSelect.innerHTML = '<option value="">Todos los años</option>';
             yearSelect.disabled = true;
@@ -2830,29 +2825,33 @@
 
             if (!brand || !model) return;
 
-            const years = new Set();
+            const yearMap = new Map(); // año → cantidad de productos
+
             allProducts.forEach((p) => {
-              const pBrand =
-                p.brand ||
-                p.make ||
-                (p.car_model ? p.car_model.split(" ")[0] : "");
-              const pModel = p.model || p.car_model || "";
               if (
-                (pBrand || "").trim() === brand &&
-                pModel.trim() === model &&
-                p.year
+                p.brand &&
+                p.brand.trim() === brand &&
+                p.car_model &&
+                p.car_model.trim() === model
               ) {
-                years.add(p.year.toString());
+                if (p.year_start && p.year_end) {
+                  // Contar todos los años dentro del rango
+                  for (let year = p.year_start; year <= p.year_end; year++) {
+                    yearMap.set(year, (yearMap.get(year) || 0) + 1);
+                  }
+                }
               }
             });
 
-            if (years.size === 0) return;
+            if (yearMap.size === 0) return;
 
-            const sortedYears = Array.from(years).sort((a, b) => b - a);
+            // Ordenar descendente (más reciente primero)
+            const sortedYears = Array.from(yearMap.keys()).sort((a, b) => b - a);
             sortedYears.forEach((year) => {
+              const count = yearMap.get(year);
               const option = document.createElement("option");
               option.value = year;
-              option.textContent = year;
+              option.textContent = `${year} (${count} ${count === 1 ? 'producto' : 'productos'})`;
               yearSelect.appendChild(option);
             });
             yearSelect.disabled = false;
@@ -2876,7 +2875,7 @@
           });
         }
 
-        // Carga inicial de productos (primer bloque)
+        // ====== CARGA DE PRODUCTOS ======
         async function loadProducts() {
           if (isLoading) return;
           isLoading = true;
@@ -2916,7 +2915,6 @@
           }
         }
 
-        // Cargar más productos (siguiente bloque)
         async function loadMoreProducts() {
           if (isLoading || !hasMore) return;
           isLoading = true;
@@ -2965,51 +2963,61 @@
           renderProductCardsToContainer(catalogGrid, filtered, true);
         }
 
+        // ====== FILTRADO PRINCIPAL (usando brand, car_model, year_start/end) ======
         function filterProducts(products) {
           let filtered = products;
+
+          // Filtro por categoría
           if (currentCategoryFilter !== "all") {
             filtered = filtered.filter(
               (p) => p.category === currentCategoryFilter,
             );
           }
+
+          // Filtro por búsqueda (texto)
           if (currentSearchTerm.trim() !== "") {
             const term = currentSearchTerm.toLowerCase().trim();
             filtered = filtered.filter((p) => {
+              const brand = (p.brand || "").toLowerCase();
               const carModel = (p.car_model || "").toLowerCase();
-              const model = (p.model || "").toLowerCase();
               const name = (p.name || "").toLowerCase();
-              const brand = (p.brand || p.make || "").toLowerCase();
+              const description = (p.description || "").toLowerCase();
               return (
+                brand.includes(term) ||
                 carModel.includes(term) ||
-                model.includes(term) ||
                 name.includes(term) ||
-                brand.includes(term)
+                description.includes(term)
               );
             });
           }
+
+          // Filtro por marca
           if (currentBrand) {
-            filtered = filtered.filter((p) => {
-              const brand =
-                p.brand ||
-                p.make ||
-                (p.car_model ? p.car_model.split(" ")[0] : "");
-              return brand.trim() === currentBrand;
-            });
+            filtered = filtered.filter((p) => p.brand === currentBrand);
           }
+
+          // Filtro por modelo de vehículo (car_model)
           if (currentModel) {
-            filtered = filtered.filter((p) => {
-              const model = p.model || p.car_model || "";
-              return model.trim() === currentModel;
-            });
+            filtered = filtered.filter((p) => p.car_model === currentModel);
           }
+
+          // Filtro por año (intersección de rangos)
           if (currentYear) {
+            const selectedYear = parseInt(currentYear, 10);
             filtered = filtered.filter((p) => {
-              return p.year && p.year.toString() === currentYear;
+              return (
+                p.year_start !== null &&
+                p.year_end !== null &&
+                p.year_start <= selectedYear &&
+                p.year_end >= selectedYear
+              );
             });
           }
+
           return filtered;
         }
 
+        // ====== APLICAR FILTROS ======
         function applyFilters() {
           const filtered = filterProducts(allProducts);
           filteredProducts = filtered;
@@ -3018,6 +3026,7 @@
           updateLoadMoreButton();
         }
 
+        // ====== RENDER DE TARJETAS ======
         function renderProductCardsToContainer(
           container,
           data,
@@ -3077,9 +3086,19 @@
                   ? "Usado"
                   : "Agotado";
 
-            const year = p.year || "";
-            const model = p.model || p.car_model || "";
-            const brand = p.brand || p.make || "";
+            // Mostrar el año como rango o año único
+            let yearDisplay = "";
+            if (p.year_start && p.year_end) {
+              yearDisplay = p.year_start === p.year_end
+                ? p.year_start.toString()
+                : `${p.year_start} - ${p.year_end}`;
+            } else if (p.year) {
+              // fallback al campo year original si existe
+              yearDisplay = p.year;
+            }
+
+            const brand = p.brand || "";
+            const carModel = p.car_model || "";
 
             const isPriority = globalIndex < 6;
             const loadingAttr = isPriority ? "eager" : "lazy";
@@ -3107,8 +3126,8 @@
                     <h4>${p.name || "Sin nombre"}</h4>
                     <div class="year-model">
                         ${brand ? `<span><i class="fas fa-car"></i> ${brand}</span>` : ""}
-                        ${model ? `<span><i class="fas fa-tag"></i> ${model}</span>` : ""}
-                        ${year ? `<span><i class="far fa-calendar-alt"></i> ${year}</span>` : ""}
+                        ${carModel ? `<span><i class="fas fa-tag"></i> ${carModel}</span>` : ""}
+                        ${yearDisplay ? `<span><i class="far fa-calendar-alt"></i> ${yearDisplay}</span>` : ""}
                     </div>
                     <div class="price">${formattedPrice}</div>
                     <div class="meta-tags">
@@ -3143,7 +3162,7 @@
                         maximumFractionDigits: 2,
                       }).format(product.price)
                     : "$0.00";
-                  const message = `Hola, me interesa la pieza: ${product.name} para ${product.brand || ""} ${product.model || product.car_model || ""} (${product.year || ""}) - Condicion: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+                  const message = `Hola, me interesa la pieza: ${product.name} para ${product.brand || ""} ${product.car_model || ""} (${product.year_start && product.year_end ? (product.year_start === product.year_end ? product.year_start : `${product.year_start} - ${product.year_end}`) : product.year || ""}) - Condicion: ${product.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
                   window.open(
                     `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
                     "_blank",
@@ -3183,7 +3202,7 @@
           }
         }
 
-        // Modal de producto (sin cambios)
+        // ====== MODAL DE PRODUCTO ======
         let currentProduct = null;
         let currentProductImageIndex = 0;
         let productScrollPosition = 0;
@@ -3265,7 +3284,17 @@
             : "$0.00";
           const description =
             currentProduct.description || "Sin descripción disponible.";
-          const brand = currentProduct.brand || currentProduct.make || "";
+          const brand = currentProduct.brand || "";
+          const carModel = currentProduct.car_model || "";
+          let yearDisplay = "";
+          if (currentProduct.year_start && currentProduct.year_end) {
+            yearDisplay =
+              currentProduct.year_start === currentProduct.year_end
+                ? currentProduct.year_start.toString()
+                : `${currentProduct.year_start} - ${currentProduct.year_end}`;
+          } else if (currentProduct.year) {
+            yearDisplay = currentProduct.year;
+          }
 
           productModalInfo.innerHTML = `
                 <h2>${currentProduct.name || "Sin nombre"}</h2>
@@ -3276,8 +3305,8 @@
                 </div>
                 <div class="meta">
                     ${brand ? `<span><i class="fas fa-car"></i> ${brand}</span>` : ""}
-                    <span><i class="fas fa-tag"></i> ${currentProduct.model || currentProduct.car_model || "N/A"}</span>
-                    <span><i class="far fa-calendar-alt"></i> ${currentProduct.year || "N/A"}</span>
+                    ${carModel ? `<span><i class="fas fa-tag"></i> ${carModel}</span>` : ""}
+                    ${yearDisplay ? `<span><i class="far fa-calendar-alt"></i> ${yearDisplay}</span>` : ""}
                     ${currentProduct.zone ? `<span><i class="fas fa-map-pin"></i> ${currentProduct.zone}</span>` : ""}
                 </div>
                 <div class="description">${description}</div>
@@ -3299,7 +3328,7 @@
                     maximumFractionDigits: 2,
                   }).format(currentProduct.price)
                 : "$0.00";
-              const message = `Hola, me interesa la pieza: ${currentProduct.name} para ${brand} ${currentProduct.model || currentProduct.car_model || ""} (${currentProduct.year || ""}) - Condicion: ${currentProduct.condition === "nuevo" ? "Nuevo" : "Usado"} - Precio: ${formattedPriceMsg}`;
+              const message = `Hola, me interesa la pieza: ${currentProduct.name} para ${brand} ${carModel} (${yearDisplay}) - Condicion: ${conditionLabel} - Precio: ${formattedPriceMsg}`;
               window.open(
                 `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`,
                 "_blank",
@@ -3340,7 +3369,7 @@
           if (e.target === this) closeProductModal();
         });
 
-        // Modal de zoom (sin cambios)
+        // ====== MODAL DE ZOOM (sin cambios) ======
         let currentModalImages = [];
         let currentModalIndex = 0;
         let currentZoom = 1;
@@ -3637,7 +3666,7 @@
           }
         });
 
-        // Referencias
+        // ====== REFERENCIAS ======
         const toggleBtn = document.getElementById("referenciasToggle");
         const wrapperRef = document.getElementById("referenciasWrapper");
         let referenciasCargadas = false;
@@ -3732,7 +3761,7 @@
           }
         }
 
-        // Burbujas flotantes
+        // ====== BURBUJAS FLOTANTES ======
         const floating = document.getElementById("floatingButtons");
         const scrollTopBtn = document.getElementById("scrollTopBtn");
         const contactBtn = document.getElementById("contactBtn");
@@ -3778,6 +3807,7 @@
 
         loadMoreBtn.addEventListener("click", loadMoreProducts);
 
+        // ====== INICIALIZACIÓN ======
         async function init() {
           renderFilters();
           const initialActiveSub = document.querySelector(".subcat-btn.active");
