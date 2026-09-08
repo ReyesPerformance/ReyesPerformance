@@ -980,14 +980,31 @@
         font-size: 11px;
         color: #888;
         display: flex;
-        gap: 8px;
-        margin-top: 2px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 3px;
+        margin-top: 4px;
+        margin-bottom: 2px;
+        min-width: 0;
       }
       .year-model span {
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        gap: 3px;
+        gap: 5px;
+        min-width: 0;
+        line-height: 1.3;
+      }
+      .year-model span i {
+        flex-shrink: 0;
+        width: 12px;
+        text-align: center;
+        color: #b0b0b0;
+      }
+      .year-model span .vm-value {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 500;
+        color: #666;
       }
 
       .card-product .footer-card {
@@ -3125,9 +3142,9 @@
                 <div class="product-info">
                     <h4>${p.name || "Sin nombre"}</h4>
                     <div class="year-model">
-                        ${brand ? `<span><i class="fas fa-car"></i> ${brand}</span>` : ""}
-                        ${carModel ? `<span><i class="fas fa-tag"></i> ${carModel}</span>` : ""}
-                        ${yearDisplay ? `<span><i class="far fa-calendar-alt"></i> ${yearDisplay}</span>` : ""}
+                        ${brand ? `<span><i class="fas fa-car"></i><span class="vm-value">${brand}</span></span>` : ""}
+                        ${carModel ? `<span><i class="fas fa-tag"></i><span class="vm-value">${carModel}</span></span>` : ""}
+                        ${yearDisplay ? `<span><i class="far fa-calendar-alt"></i><span class="vm-value">${yearDisplay}</span></span>` : ""}
                     </div>
                     <div class="price">${formattedPrice}</div>
                     <div class="meta-tags">
